@@ -30,27 +30,32 @@ import photoRoutes from './routes/photoRoutes';
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:5173';
+// 👇 CHANGE 1: Define multiple allowed origins (Vite default + fallback)
+const allowedOrigins = [
+  'http://localhost:5173', 
+  'http://localhost:5174', 
+  process.env.CLIENT_URL
+].filter((origin): origin is string => !!origin); // Cleanup undefined values
 
 const httpServer = http.createServer(app);
 
 // SOCKET.IO setup
 const io = new Server(httpServer, {
-  cors: {
-    origin: CLIENT_URL, // 🎯 Use the environment variable
-    methods: ['GET', 'POST'],
-    credentials: true,
-  },
+  cors: {
+    origin: allowedOrigins, // 🎯 Pass the array here
+    methods: ['GET', 'POST'],
+    credentials: true,
+  },
 });
 initializeSocketIO(io);
 
 // 🔑 CORS & Middleware
 app.use(
-  cors({
-    origin: CLIENT_URL, // 🎯 Use the environment variable
-    credentials: true,
-    allowedHeaders: ['Content-Type', 'Authorization'], 
-  })
+  cors({
+    origin: allowedOrigins, // 🎯 Pass the array here too
+    credentials: true,
+    allowedHeaders: ['Content-Type', 'Authorization'], 
+  })
 );
 
 app.use(express.json());
