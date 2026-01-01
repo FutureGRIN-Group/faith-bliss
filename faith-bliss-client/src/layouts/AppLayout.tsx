@@ -6,7 +6,7 @@ function AppLayout() {
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
       <Header />
-      <main className="flex-grow container mx-auto p-4 max-w-lg">
+      <main className="grow container mx-auto p-4 max-w-lg">
         {/* This is where Login, SignUp, etc. will render */}
         <Outlet />
       </main>

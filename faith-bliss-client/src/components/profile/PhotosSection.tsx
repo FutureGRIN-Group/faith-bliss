@@ -19,7 +19,7 @@ const PhotosSection = ({ profileData, handlePhotoUpload, removePhoto }: PhotosSe
 
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                     {profileData.photos.map((photo, index) => (
-                        <div key={index} className="relative group aspect-[3/4] bg-gray-700 rounded-2xl overflow-hidden">
+                        <div key={index} className="relative group aspect-3/4 bg-gray-700 rounded-2xl overflow-hidden">
                             
                             {/* 💡 Vite/React Change: Replaced Next.js Image with standard img */}
                             <img
@@ -38,7 +38,7 @@ const PhotosSection = ({ profileData, handlePhotoUpload, removePhoto }: PhotosSe
                                 </button>
                             </div>
                             {index === 0 && (
-                                <div className="absolute top-3 left-3 bg-gradient-to-r from-pink-500 to-purple-600 text-white px-3 py-1 rounded-full text-xs font-bold">
+                                <div className="absolute top-3 left-3 bg-linear-to-r from-pink-500 to-purple-600 text-white px-3 py-1 rounded-full text-xs font-bold">
                                     MAIN
                                 </div>
                             )}
@@ -48,7 +48,7 @@ const PhotosSection = ({ profileData, handlePhotoUpload, removePhoto }: PhotosSe
                     {/* Add Photo Upload Slot */}
                     {/* The original code supports up to 3 photos, but the loop suggests 9. I'll keep the logic up to 9. */}
                     {profileData.photos.length < 9 && (
-                        <label className="aspect-[3/4] bg-gray-700/50 border-2 border-dashed border-gray-600 rounded-2xl flex flex-col items-center justify-center cursor-pointer hover:border-pink-500 hover:bg-gray-700 transition-all group">
+                        <label className="aspect-3/4 bg-gray-700/50 border-2 border-dashed border-gray-600 rounded-2xl flex flex-col items-center justify-center cursor-pointer hover:border-pink-500 hover:bg-gray-700 transition-all group">
                             <Upload className="w-8 h-8 text-gray-400 group-hover:text-pink-500 mb-2" />
                             <span className="text-sm font-medium text-gray-400 group-hover:text-pink-500">Add Photo</span>
                             <input
@@ -62,7 +62,7 @@ const PhotosSection = ({ profileData, handlePhotoUpload, removePhoto }: PhotosSe
                 </div>
 
                 {/* Photo Tips Section */}
-                <div className="mt-8 p-6 bg-gradient-to-r from-pink-500/10 to-purple-500/10 rounded-2xl border border-pink-500/20">
+                <div className="mt-8 p-6 bg-linear-to-r from-pink-500/10 to-purple-500/10 rounded-2xl border border-pink-500/20">
                     <div className="flex items-start space-x-3">
                         <Sparkles className="w-5 h-5 text-pink-400 mt-1" />
                         <div>

@@ -26,7 +26,7 @@ export const DesktopLayout = ({
 }: DesktopLayoutProps) => {
   return (
     <div className="hidden lg:flex min-h-screen">
-      <div className="w-80 flex-shrink-0">
+      <div className="w-80 shrink-0">
         <SidePanel userName={userName} userImage={userImage} user={user} onClose={() => {}} />
       </div>
       

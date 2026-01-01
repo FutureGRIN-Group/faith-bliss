@@ -28,7 +28,7 @@ export const OverlayPanels = ({
       {/* Filter Panel Backdrop */}
       {showFilters && (
         <div
-          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
+          className="fixed inset-0 bg-black/50 backdrop-blur-xs z-40"
           onClick={onCloseFilters}
         />
       )}
@@ -44,7 +44,7 @@ export const OverlayPanels = ({
       {showSidePanel && (
         <>
           <div 
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 lg:hidden"
+            className="fixed inset-0 bg-black/50 backdrop-blur-xs z-40 lg:hidden"
             onClick={onCloseSidePanel}
           />
           

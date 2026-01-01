@@ -54,7 +54,7 @@ const MatchesPage = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-50 to-pink-50">
+      <div className="min-h-screen bg-linear-to-br from-purple-50 to-pink-50">
         <TopBar
           userName="User"
           title="Matches"
@@ -137,7 +137,7 @@ const MatchesPage = () => {
 
         <div className="flex gap-3 mt-4">
           <Link to={`/messages/${match.id}`} className="flex-1">
-            <button className="w-full bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-400 hover:to-purple-500 text-white py-3 rounded-2xl font-medium transition-all duration-300 hover:shadow-lg hover:shadow-pink-500/25 flex items-center justify-center gap-2 group">
+            <button className="w-full bg-linear-to-r from-pink-500 to-purple-600 hover:from-pink-400 hover:to-purple-500 text-white py-3 rounded-2xl font-medium transition-all duration-300 hover:shadow-lg hover:shadow-pink-500/25 flex items-center justify-center gap-2 group">
               <MessageCircle className="w-4 h-4 group-hover:scale-110 transition-transform duration-300" />
               Message
             </button>
@@ -155,7 +155,7 @@ const MatchesPage = () => {
 
   const renderEmpty = (Icon: any, title: string, subtitle: string) => (
     <div className="text-center py-16">
-      <div className="bg-gradient-to-r from-pink-500/20 to-purple-600/20 backdrop-blur-xl border border-pink-500/30 rounded-3xl p-8 max-w-md mx-auto">
+      <div className="bg-linear-to-r from-pink-500/20 to-purple-600/20 backdrop-blur-xl border border-pink-500/30 rounded-3xl p-8 max-w-md mx-auto">
         <Icon className="w-16 h-16 text-pink-400 mx-auto mb-4" />
         <h3 className="text-xl font-semibold text-white mb-2">{title}</h3>
         <p className="text-gray-400">{subtitle}</p>
@@ -171,14 +171,14 @@ const MatchesPage = () => {
       : receivedRequests;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-900 to-gray-800 text-white dashboard-main">
+    <div className="min-h-screen bg-linear-to-br from-gray-900 via-gray-900 to-gray-800 text-white dashboard-main">
       <TopBar userName="Believer" showBackButton onBack={() => navigate(-1)} />
 
       <div className="pt-20 pb-8 px-4">
         <div className="max-w-4xl mx-auto">
           {/* Header */}
           <div className="text-center mb-8">
-            <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
+            <h1 className="text-4xl font-bold mb-2 bg-linear-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
               Your Matches
             </h1>
             <p className="text-gray-400 text-lg">
@@ -199,7 +199,7 @@ const MatchesPage = () => {
                   onClick={() => setActiveTab(tab.key as any)}
                   className={`relative py-4 px-6 rounded-2xl transition-all duration-300 ${
                     activeTab === tab.key
-                      ? "bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-lg shadow-pink-500/25"
+                      ? "bg-linear-to-r from-pink-500 to-purple-600 text-white shadow-lg shadow-pink-500/25"
                       : "text-gray-400 hover:text-white hover:bg-white/10"
                   }`}
                 >

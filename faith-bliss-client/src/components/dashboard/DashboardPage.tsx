@@ -87,7 +87,7 @@ export const DashboardPage = ({ user: activeUser }: { user: User }) => {
 
   if (matchesError || allUsersError) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-900 to-gray-800 text-white flex items-center justify-center">
+      <div className="min-h-screen bg-linear-to-br from-gray-900 via-gray-900 to-gray-800 text-white flex items-center justify-center">
                        {" "}
         <div className="text-center p-8">
                              {" "}
@@ -110,7 +110,7 @@ export const DashboardPage = ({ user: activeUser }: { user: User }) => {
 
   if (!activeProfiles || activeProfiles.length === 0) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-900 to-gray-800 text-white flex items-center justify-center">
+      <div className="min-h-screen bg-linear-to-br from-gray-900 via-gray-900 to-gray-800 text-white flex items-center justify-center">
                        {" "}
         <div className="text-center p-8">
                              {" "}
@@ -217,7 +217,7 @@ export const DashboardPage = ({ user: activeUser }: { user: User }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-900 to-gray-800 text-white pb-20 no-horizontal-scroll dashboard-main">
+    <div className=" bg-linear-to-br flex-1 flex flex-col  from-gray-900 via-gray-900 to-gray-800 text-white  no-horizontal-scroll  dashboard-main">
                  {" "}
       {isLoadingFilters && <HeartBeatLoader message="Applying filters..." />}   
                           {/* Desktop Layout */}           {" "}

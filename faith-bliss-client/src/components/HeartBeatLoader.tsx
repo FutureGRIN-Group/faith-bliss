@@ -7,7 +7,7 @@ interface HeartBeatLoaderProps {
 
 export const HeartBeatLoader = ({ message = "Finding your perfect match..." }: HeartBeatLoaderProps) => {
   return (
-    <div className="fixed inset-0 bg-gradient-to-br from-gray-900 via-gray-900 to-gray-800 flex items-center justify-center z-50">
+    <div className="fixed inset-0 bg-linear-to-br from-gray-900 via-gray-900 to-gray-800 flex items-center justify-center z-50">
       {/* REMOVED: The <style jsx global> block */}
       <div className="text-center">
         <div className="relative flex items-center justify-center">

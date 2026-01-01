@@ -59,21 +59,28 @@ export const HingeStyleProfileCard = ({
       {profiles.map((profile) => (
         <TinderCard
           key={profile.id}
-          className="border bg-[#111827] border-white h-[75vh] rounded-2xl inset-0 absolute flex flex-col items-center justify-around "
+          className=" bg-primary-900 h-[75vh] rounded-2xl inset-0 absolute flex flex-col items-center justify-around "
           onSwipe={onSwipe}
           onCardLeftScreen={() => onCardLeftScreen(profile.id)}
           preventSwipe={["up", "down"]}
         >
-          <div className="bg-orange-400 w-full h-5/6">hello</div>
+          <div className=" w-full h-5/6">
+            <img
+              src={profile.profilePhoto1}
+              loading="lazy"
+              alt={profile.name}
+              className="size-full object-cover rounded-2xl"
+            />
+          </div>
           <div className="flex   w-full items-center justify-evenly  h-1/6">
-            <div>
-              <X size={30} />
+            <div className="bg-white text-warning-500 rounded-full size-16 grid place-items-center">
+              <X size={40} />
             </div>
-            <div className="bg-error rounded-full size-20 grid place-items-center">
-              <Heart size={40} />
+            <div className="bg-error-500 rounded-full size-20 grid place-items-center">
+              <Heart size={40} className="fill-white" />
             </div>
-            <div>
-              <Star size={30} />
+            <div className="bg-white  rounded-full size-16 grid place-items-center">
+              <Star size={40} className="fill-favorite-500" />
             </div>
           </div>
         </TinderCard>

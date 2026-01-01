@@ -18,7 +18,7 @@ const ProfileHeader = () => {
                     <span className="text-sm">Back</span>
                 </button>
                 
-                <h1 className="text-xl font-bold bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
+                <h1 className="text-xl font-bold bg-linear-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
                     My Profile
                 </h1>
                 

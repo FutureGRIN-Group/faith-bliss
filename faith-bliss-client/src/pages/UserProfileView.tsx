@@ -82,7 +82,7 @@ const ProfilePage = () => {
 
   if (!profile) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-900 to-gray-800 flex items-center justify-center">
+      <div className="min-h-screen bg-linear-to-br from-gray-900 via-gray-900 to-gray-800 flex items-center justify-center">
         <div className="text-white text-center">
           <h1 className="text-2xl font-bold mb-4">Profile Not Found</h1>
           <p className="text-gray-400 mb-6">
@@ -104,7 +104,7 @@ const ProfilePage = () => {
     photos[currentPhotoIndex] || photos[0] || "/default-avatar.png";
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-900 to-gray-800 text-white overflow-x-hidden">
+    <div className="min-h-screen bg-linear-to-br from-gray-900 via-gray-900 to-gray-800 text-white overflow-x-hidden">
       {/* Header */}
       <div className="sticky top-0 z-40 bg-gray-900/90 backdrop-blur-xl border-b border-gray-700/50">
         <div className="flex items-center justify-between p-4">
@@ -125,7 +125,7 @@ const ProfilePage = () => {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Photo Gallery */}
         <div className="relative overflow-hidden">
-          <div className="aspect-[4/5] md:aspect-[16/10] relative overflow-hidden">
+          <div className="aspect-4/5 md:aspect-16/10 relative overflow-hidden">
             <img
               src={currentPhotoUrl}
               alt={`${profile.name} photo`}
@@ -229,7 +229,7 @@ const ProfilePage = () => {
                 {profile.hobbies.map((hobby, index) => (
                   <div
                     key={index}
-                    className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/30 text-purple-300 px-4 py-2 rounded-full text-sm font-medium"
+                    className="bg-linear-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/30 text-purple-300 px-4 py-2 rounded-full text-sm font-medium"
                   >
                     {hobby}
                   </div>

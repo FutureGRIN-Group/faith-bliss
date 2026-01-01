@@ -99,7 +99,7 @@ export const ToastItem: React.FC<ToastItemProps> = ({ toast, onRemove }) => {
         flex items-start gap-3
       `}>
         {/* Icon */}
-        <div className={`${iconColor} flex-shrink-0 mt-0.5`}>
+        <div className={`${iconColor} shrink-0 mt-0.5`}>
           {icon}
         </div>
 
@@ -110,7 +110,7 @@ export const ToastItem: React.FC<ToastItemProps> = ({ toast, onRemove }) => {
               {toast.title}
             </h4>
           )}
-          <p className="text-white/90 text-sm leading-relaxed break-words">
+          <p className="text-white/90 text-sm leading-relaxed wrap-break-word">
             {toast.message}
           </p>
         </div>
@@ -118,7 +118,7 @@ export const ToastItem: React.FC<ToastItemProps> = ({ toast, onRemove }) => {
         {/* Close button */}
         <button
           onClick={handleRemove}
-          className="flex-shrink-0 text-white/70 hover:text-white transition-colors p-1 -m-1 rounded-md hover:bg-white/10"
+          className="shrink-0 text-white/70 hover:text-white transition-colors p-1 -m-1 rounded-md hover:bg-white/10"
           aria-label="Close notification"
         >
           <X className="w-4 h-4" />

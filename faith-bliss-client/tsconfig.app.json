@@ -7,10 +7,10 @@
     "useDefineForClassFields": true,
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "module": "ESNext",
-    
+
     // ❌ REMOVE "react/index.d.ts"
     "types": ["vite/client"],
-    
+
     "skipLibCheck": true,
 
     /* Bundler mode */
@@ -20,11 +20,11 @@
     "moduleDetection": "force",
     "noEmit": true,
     "jsx": "react-jsx",
-    
+
     /* PATH ALIASING FIXES: These are correct */
-    "baseUrl": "./src", 
+    "baseUrl": "./src",
     "paths": {
-      "@/*": ["*"]      
+      "@/*": ["*"]
     },
 
     /* Linting */

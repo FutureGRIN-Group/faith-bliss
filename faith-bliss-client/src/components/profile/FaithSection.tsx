@@ -16,7 +16,7 @@ const FaithSection = ({ profileData, setProfileData }: FaithSectionProps) => (
           <select
             value={profileData.denomination}
             onChange={(e) => setProfileData(prev => prev ? ({...prev, denomination: e.target.value as 'BAPTIST' | 'METHODIST' | 'PRESBYTERIAN' | 'PENTECOSTAL' | 'CATHOLIC' | 'ORTHODOX' | 'ANGLICAN' | 'LUTHERAN' | 'ASSEMBLIES_OF_GOD' | 'SEVENTH_DAY_ADVENTIST' | 'OTHER'}) : null)}
-            className="w-full p-4 bg-gray-700/50 border border-gray-600/50 rounded-2xl text-white focus:border-pink-500 focus:outline-none transition-colors"
+            className="w-full p-4 bg-gray-700/50 border border-gray-600/50 rounded-2xl text-white focus:border-pink-500 focus:outline-hidden transition-colors"
           >
             <option value="BAPTIST">Baptist</option>
             <option value="METHODIST">Methodist</option>
@@ -45,7 +45,7 @@ const FaithSection = ({ profileData, setProfileData }: FaithSectionProps) => (
                 onClick={() => setProfileData(prev => prev ? ({...prev, faithJourney: stage as 'GROWING' | 'ESTABLISHED' | 'SEEKING'}) : null)}
                 className={`p-4 rounded-2xl font-medium transition-all ${
                   profileData.faithJourney && profileData.faithJourney === stage
-                    ? 'bg-gradient-to-r from-pink-500 to-purple-600 text-white'
+                    ? 'bg-linear-to-r from-pink-500 to-purple-600 text-white'
                     : 'bg-gray-700/50 text-gray-300 hover:bg-gray-600/50'
                 }`}
               >
@@ -63,7 +63,7 @@ const FaithSection = ({ profileData, setProfileData }: FaithSectionProps) => (
             value={profileData.favoriteVerse}
             onChange={(e) => setProfileData(prev => prev ? ({...prev, favoriteVerse: e.target.value}) : null)}
             rows={3}
-            className="w-full p-4 bg-gray-700/50 border border-gray-600/50 rounded-2xl text-white placeholder-gray-400 resize-none focus:border-pink-500 focus:outline-none transition-colors"
+            className="w-full p-4 bg-gray-700/50 border border-gray-600/50 rounded-2xl text-white placeholder-gray-400 resize-none focus:border-pink-500 focus:outline-hidden transition-colors"
             placeholder="Share a verse that speaks to your heart..."
           />
         </div>
@@ -88,7 +88,7 @@ const FaithSection = ({ profileData, setProfileData }: FaithSectionProps) => (
                 })}
                 className={`p-4 rounded-2xl font-medium transition-all ${
                   profileData.lookingFor?.includes(goal)
-                    ? 'bg-gradient-to-r from-pink-500 to-purple-600 text-white'
+                    ? 'bg-linear-to-r from-pink-500 to-purple-600 text-white'
                     : 'bg-gray-700/50 text-gray-300 hover:bg-gray-600/50'
                 }`}
               >

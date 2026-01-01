@@ -208,8 +208,8 @@ export default function Home() {
         
         <div className="absolute inset-0">
           {/* Lighter overlay for better image visibility */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/40 to-black/50"></div>
-          <div className="absolute inset-0 bg-gradient-to-r from-black/10 to-black/10"></div>
+          <div className="absolute inset-0 bg-linear-to-b from-black/30 via-black/40 to-black/50"></div>
+          <div className="absolute inset-0 bg-linear-to-r from-black/10 to-black/10"></div>
         </div>
         
         {/* Content Layer - Faster movement with fade */}
@@ -231,7 +231,7 @@ export default function Home() {
             >
               <h1 className="text-3xl md:text-6xl font-bold mb-6 leading-tight text-center">
                 Believers Across
-                <span className="block bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
+                <span className="block bg-linear-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
                   Africa Are Finding Love
                 </span>
                 <span className="block text-white" style={{ fontFamily: "'Dancing Script', cursive" }}>on FaithBliss</span>
@@ -243,7 +243,7 @@ export default function Home() {
               {/* CTA Button - Simple & Responsive */}
               <div className="flex justify-center">
                 <Link to="/signup">
-                  <button className="bg-pink-500 text-white px-6 py-3 md:px-8 md:py-4 rounded-full text-base md:text-lg font-semibold hover:bg-pink-600 transition-all transform hover:scale-105 shadow-2xl backdrop-blur-sm border border-pink-400/20">
+                  <button className="bg-pink-500 text-white px-6 py-3 md:px-8 md:py-4 rounded-full text-base md:text-lg font-semibold hover:bg-pink-600 transition-all transform hover:scale-105 shadow-2xl backdrop-blur-xs border border-pink-400/20">
                     Start My Love Journey
                   </button>
                 </Link>
@@ -254,11 +254,11 @@ export default function Home() {
       </section>
 
       {/* Features Section */}
-      <section id="features" className="py-20 px-6 bg-gradient-to-b from-gray-900 to-gray-800 relative overflow-hidden">
+      <section id="features" className="py-20 px-6 bg-linear-to-b from-gray-900 to-gray-800 relative overflow-hidden">
         <div className="max-w-7xl mx-auto relative z-10">
           <FadeIn>
             <div className="text-center mb-16">
-              <h2 className="text-4xl md:text-6xl font-black mb-6 bg-gradient-to-r from-pink-400 via-purple-400 to-blue-400 bg-clip-text text-transparent">
+              <h2 className="text-4xl md:text-6xl font-black mb-6 bg-linear-to-r from-pink-400 via-purple-400 to-blue-400 bg-clip-text text-transparent">
                 Why FaithBliss?
               </h2>
               <p className="text-md text-gray-300 max-w-3xl mx-auto leading-relaxed">
@@ -271,9 +271,9 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             {/* First Row */}
             <FadeIn delay={200}>
-              <div className="group bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700 hover:border-pink-500/50 transition-all duration-500 hover:transform hover:scale-105 h-full">
+              <div className="group bg-gray-800/50 backdrop-blur-xs rounded-2xl p-6 border border-gray-700 hover:border-pink-500/50 transition-all duration-500 hover:transform hover:scale-105 h-full">
                 <div className="flex flex-col items-center text-center space-y-4">
-                  <div className="w-16 h-16 bg-gradient-to-r from-pink-500 to-rose-500 rounded-full flex items-center justify-center">
+                  <div className="w-16 h-16 bg-linear-to-r from-pink-500 to-rose-500 rounded-full flex items-center justify-center">
                     <Heart className="h-8 w-8 text-white" />
                   </div>
                   <h3 className="text-lg md:text-xl font-bold text-white">Marriage, Not Casual Dating</h3>
@@ -285,9 +285,9 @@ export default function Home() {
             </FadeIn>
 
             <FadeIn delay={300}>
-              <div className="group bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700 hover:border-green-500/50 transition-all duration-500 hover:transform hover:scale-105 h-full">
+              <div className="group bg-gray-800/50 backdrop-blur-xs rounded-2xl p-6 border border-gray-700 hover:border-green-500/50 transition-all duration-500 hover:transform hover:scale-105 h-full">
                 <div className="flex flex-col items-center text-center space-y-4">
-                  <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center">
+                  <div className="w-16 h-16 bg-linear-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center">
                     <Globe className="h-8 w-8 text-white" />
                   </div>
                   <h3 className="text-lg md:text-xl font-bold text-white">Built for African Christians</h3>
@@ -299,9 +299,9 @@ export default function Home() {
             </FadeIn>
 
             <FadeIn delay={400}>
-              <div className="group bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700 hover:border-blue-500/50 transition-all duration-500 hover:transform hover:scale-105 h-full">
+              <div className="group bg-gray-800/50 backdrop-blur-xs rounded-2xl p-6 border border-gray-700 hover:border-blue-500/50 transition-all duration-500 hover:transform hover:scale-105 h-full">
                 <div className="flex flex-col items-center text-center space-y-4">
-                  <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center">
+                  <div className="w-16 h-16 bg-linear-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center">
                     <Users className="h-8 w-8 text-white" />
                   </div>
                   <h3 className="text-lg md:text-xl font-bold text-white">Diverse & Interdenominational</h3>
@@ -314,9 +314,9 @@ export default function Home() {
 
             {/* Second Row */}
             <FadeIn delay={500}>
-              <div className="group bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700 hover:border-purple-500/50 transition-all duration-500 hover:transform hover:scale-105 h-full">
+              <div className="group bg-gray-800/50 backdrop-blur-xs rounded-2xl p-6 border border-gray-700 hover:border-purple-500/50 transition-all duration-500 hover:transform hover:scale-105 h-full">
                 <div className="flex flex-col items-center text-center space-y-4">
-                  <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-violet-500 rounded-full flex items-center justify-center">
+                  <div className="w-16 h-16 bg-linear-to-r from-purple-500 to-violet-500 rounded-full flex items-center justify-center">
                     <Target className="h-8 w-8 text-white" />
                   </div>
                   <h3 className="text-lg md:text-xl font-bold text-white">Smart Filters for Selective Search</h3>
@@ -328,9 +328,9 @@ export default function Home() {
             </FadeIn>
 
             <FadeIn delay={600}>
-              <div className="group bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700 hover:border-orange-500/50 transition-all duration-500 hover:transform hover:scale-105 h-full">
+              <div className="group bg-gray-800/50 backdrop-blur-xs rounded-2xl p-6 border border-gray-700 hover:border-orange-500/50 transition-all duration-500 hover:transform hover:scale-105 h-full">
                 <div className="flex flex-col items-center text-center space-y-4">
-                  <div className="w-16 h-16 bg-gradient-to-r from-orange-500 to-red-500 rounded-full flex items-center justify-center">
+                  <div className="w-16 h-16 bg-linear-to-r from-orange-500 to-red-500 rounded-full flex items-center justify-center">
                     <Shield className="h-8 w-8 text-white" />
                   </div>
                   <h3 className="text-lg md:text-xl font-bold text-white">Safe & Decent</h3>
@@ -342,9 +342,9 @@ export default function Home() {
             </FadeIn>
 
             <FadeIn delay={700}>
-              <div className="group bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700 hover:border-teal-500/50 transition-all duration-500 hover:transform hover:scale-105 h-full">
+              <div className="group bg-gray-800/50 backdrop-blur-xs rounded-2xl p-6 border border-gray-700 hover:border-teal-500/50 transition-all duration-500 hover:transform hover:scale-105 h-full">
                 <div className="flex flex-col items-center text-center space-y-4">
-                  <div className="w-16 h-16 bg-gradient-to-r from-teal-500 to-cyan-500 rounded-full flex items-center justify-center">
+                  <div className="w-16 h-16 bg-linear-to-r from-teal-500 to-cyan-500 rounded-full flex items-center justify-center">
                     <Handshake className="h-8 w-8 text-white" />
                   </div>
                   <h3 className="text-lg md:text-xl font-bold text-white">Community & Meetups</h3>
@@ -358,9 +358,9 @@ export default function Home() {
 
           {/* Faith & Love Resources - Full Width */}
           <FadeIn delay={800}>
-            <div className="mt-12 bg-gradient-to-r from-gray-800/50 to-gray-700/50 rounded-2xl p-8 border border-gray-600 backdrop-blur-sm">
+            <div className="mt-12 bg-linear-to-r from-gray-800/50 to-gray-700/50 rounded-2xl p-8 border border-gray-600 backdrop-blur-xs">
               <div className="flex items-center justify-center space-x-4 mb-1">
-                <div className="w-16 h-16 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full flex items-center justify-center">
+                <div className="w-16 h-16 bg-linear-to-r from-indigo-500 to-purple-500 rounded-full flex items-center justify-center">
                   <BookOpen className="h-8 w-8 text-white" />
                 </div>
                 <h3 className="text-xl md:text-3xl font-bold text-white">Faith & Love Resources</h3>
@@ -374,11 +374,11 @@ export default function Home() {
       </section>
 
       {/* Success Stories Section */}
-      <section id="stories" className="py-20 px-6 bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 relative overflow-hidden">
+      <section id="stories" className="py-20 px-6 bg-linear-to-b from-gray-900 via-gray-800 to-gray-900 relative overflow-hidden">
         <div className="max-w-7xl mx-auto relative z-10">
           <FadeIn>
             <div className="text-center mb-20">
-              <h2 className="text-5xl md:text-7xl font-black mb-6 bg-gradient-to-r from-pink-400 via-purple-400 to-blue-400 bg-clip-text text-transparent">
+              <h2 className="text-5xl md:text-7xl font-black mb-6 bg-linear-to-r from-pink-400 via-purple-400 to-blue-400 bg-clip-text text-transparent">
                 Love Stories
               </h2>
               <p className="text-md md:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
@@ -403,14 +403,14 @@ export default function Home() {
               {loveStories.map((story, index) => (
                 <div 
                   key={story.id}
-                  className="w-1/3 flex-shrink-0 px-3" // This forces 3-wide
+                  className="w-1/3 shrink-0 px-3" // This forces 3-wide
                 >
                   <FadeIn delay={300 + (index * 100)}>
-                    <div className={`group bg-gray-800/50 backdrop-blur-sm rounded-2xl p-4 md:p-6 border border-gray-700 hover:border-${story.borderColor}/50 transition-all duration-500 hover:transform hover:scale-105 hover:shadow-2xl hover:shadow-${story.borderColor}/20 h-full`}>
+                    <div className={`group bg-gray-800/50 backdrop-blur-xs rounded-2xl p-4 md:p-6 border border-gray-700 hover:border-${story.borderColor}/50 transition-all duration-500 hover:transform hover:scale-105 hover:shadow-2xl hover:shadow-${story.borderColor}/20 h-full`}>
                       <div className="space-y-4">
                         <div className="flex items-center justify-between">
                           <div className="flex items-center space-x-3">
-                            <div className={`w-10 h-10 md:w-12 md:h-12 bg-gradient-to-r ${story.gradient} rounded-full flex items-center justify-center text-white font-bold text-sm md:text-base`}>
+                            <div className={`w-10 h-10 md:w-12 md:h-12 bg-linear-to-r ${story.gradient} rounded-full flex items-center justify-center text-white font-bold text-sm md:text-base`}>
                               {story.initials}
                             </div>
                             <div>
@@ -450,7 +450,7 @@ export default function Home() {
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col md:flex-row  md:justify-between items-center">
             <div className="mb-8 md:mb-0 text-center md:text-left">
-              <h3 className="text-2xl font-bold  bg-gradient-to-r from-pink-400 to-blue-400 bg-clip-text text-transparent">
+              <h3 className="text-2xl font-bold  bg-linear-to-r from-pink-400 to-blue-400 bg-clip-text text-transparent">
                 FaithBliss 
               </h3>
               <p className="text-gray-400 mt-2">Building faithful connections</p>

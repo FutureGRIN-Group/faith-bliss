@@ -5,7 +5,7 @@ interface SaveButtonProps {
 }
 
 const SaveButton = ({ isSaving, saveMessage, handleSave }: SaveButtonProps) => (
-  <div className="fixed bottom-0 left-0 right-0 bg-gradient-to-t from-gray-900 via-gray-900/95 to-transparent p-6 backdrop-blur-xl border-t border-gray-700/30">
+  <div className="fixed bottom-0 left-0 right-0 bg-linear-to-t from-gray-900 via-gray-900/95 to-transparent p-6 backdrop-blur-xl border-t border-gray-700/30">
     <div className="max-w-6xl mx-auto">
       {saveMessage && (
         <div className={`mb-4 p-3 rounded-xl text-center font-medium ${
@@ -19,7 +19,7 @@ const SaveButton = ({ isSaving, saveMessage, handleSave }: SaveButtonProps) => (
       <button
         onClick={handleSave}
         disabled={isSaving}
-        className="w-full bg-gradient-to-r from-pink-500 to-purple-600 text-white font-semibold py-4 px-6 rounded-2xl hover:from-pink-600 hover:to-purple-700 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl transform hover:scale-105"
+        className="w-full bg-linear-to-r from-pink-500 to-purple-600 text-white font-semibold py-4 px-6 rounded-2xl hover:from-pink-600 hover:to-purple-700 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl transform hover:scale-105"
       >
         {isSaving ? (
           <div className="flex items-center justify-center">

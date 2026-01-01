@@ -336,14 +336,14 @@ const MessagesContent = () => {
   // Show no conversations state
   if (realConversations.length === 0 && !profileIdParam) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-900 to-gray-800 text-white flex items-center justify-center">
+      <div className="min-h-screen bg-linear-to-br from-gray-900 via-gray-900 to-gray-800 text-white flex items-center justify-center">
         <div className="text-center p-8">
           <MessageCircle className="w-20 h-20 text-pink-500 mx-auto mb-4" />
           <h2 className="text-2xl font-bold mb-2">No Conversations Yet</h2>
           <p className="text-gray-400 mb-4">Start matching with people to begin new conversations!</p>
           <Link
             to="/dashboard"
-            className="px-6 py-3 bg-gradient-to-r from-pink-500 to-purple-600 text-white rounded-full text-lg font-semibold hover:from-pink-600 hover:to-purple-700 transition-all duration-300 shadow-lg"
+            className="px-6 py-3 bg-linear-to-r from-pink-500 to-purple-600 text-white rounded-full text-lg font-semibold hover:from-pink-600 hover:to-purple-700 transition-all duration-300 shadow-lg"
           >
             Find Matches
           </Link>
@@ -363,11 +363,11 @@ const MessagesContent = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-900 to-gray-800 text-white overflow-x-hidden pb-20 no-horizontal-scroll dashboard-main">
+    <div className="min-h-screen bg-linear-to-br from-gray-900 via-gray-900 to-gray-800 text-white overflow-x-hidden pb-20 no-horizontal-scroll dashboard-main">
       {/* Header */}
       <div className="sticky top-0 bg-gray-900/95 backdrop-blur-xl border-b border-gray-700/50 z-30 px-4 py-4">
         <div className="flex items-center justify-between">
-          <h1 className="text-xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
+          <h1 className="text-xl font-bold bg-linear-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
             Messages
           </h1>
           <div className="flex gap-3">
@@ -380,7 +380,7 @@ const MessagesContent = () => {
         {/* Tabs */}
         <div className="flex justify-center mt-4">
           <div className="bg-gray-800/50 rounded-2xl p-1 flex gap-1">
-            <button className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium bg-gradient-to-r from-blue-500 to-cyan-500 text-white">
+            <button className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium bg-linear-to-r from-blue-500 to-cyan-500 text-white">
               <MessageCircle className="w-4 h-4" />
               Connections
             </button>
@@ -398,7 +398,7 @@ const MessagesContent = () => {
 
       <div className="pt-20 h-screen flex flex-col md:flex-row overflow-hidden max-w-full">
         {/* Conversations List */}
-        <div className={`${selectedChat ? 'hidden md:flex' : 'flex'} w-full md:w-96 flex-shrink-0 bg-gray-900/50 backdrop-blur-xl border-r border-gray-700/50 overflow-hidden min-w-0 flex-col`}>
+        <div className={`${selectedChat ? 'hidden md:flex' : 'flex'} w-full md:w-96 shrink-0 bg-gray-900/50 backdrop-blur-xl border-r border-gray-700/50 overflow-hidden min-w-0 flex-col`}>
           {/* Header */}
           <div className="p-4 border-b border-gray-700/50">
             <div className="flex items-center justify-between mb-4">
@@ -408,7 +408,7 @@ const MessagesContent = () => {
                 </button>
               </Link>
 
-              <h1 className="text-xl font-bold bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
+              <h1 className="text-xl font-bold bg-linear-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
                 Messages
               </h1>
 
@@ -425,7 +425,7 @@ const MessagesContent = () => {
                 placeholder="Search conversations..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl pl-12 pr-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-pink-500/50 transition-all duration-300"
+                className="w-full bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl pl-12 pr-4 py-3 text-white placeholder-gray-400 focus:outline-hidden focus:border-pink-500/50 transition-all duration-300"
               />
             </div>
           </div>
@@ -440,12 +440,12 @@ const MessagesContent = () => {
                   onClick={() => handleSelectChat(conversation.id)}
                   className={`w-full p-4 rounded-2xl transition-all duration-300 hover:bg-white/10 min-w-0 text-left ${
                     selectedChat === conversation.id
-                      ? 'bg-gradient-to-r from-pink-500/20 to-purple-600/20 border border-pink-500/30'
+                      ? 'bg-linear-to-r from-pink-500/20 to-purple-600/20 border border-pink-500/30'
                       : 'hover:bg-white/5'
                     }`}
                 >
                   <div className="flex items-center space-x-3 min-w-0">
-                    <div className="relative flex-shrink-0">
+                    <div className="relative shrink-0">
                       <OptimizedImage
                         src={matchedUser?.profilePhoto1 || '/default-avatar.png'}
                         alt={matchedUser?.name || 'User'}
@@ -464,7 +464,7 @@ const MessagesContent = () => {
                     <div className="flex-1 text-left min-w-0 overflow-hidden">
                       <div className="flex items-center justify-between">
                         <h3 className="font-semibold text-white truncate hover:text-pink-300 transition-colors cursor-pointer">{matchedUser?.name}</h3>
-                        <span className="text-xs text-gray-400 flex-shrink-0 ml-2">
+                        <span className="text-xs text-gray-400 shrink-0 ml-2">
                           {conversation.lastMessage ? new Date(conversation.lastMessage.createdAt).toLocaleDateString() : 'New'}
                         </span>
                       </div>
@@ -485,7 +485,7 @@ const MessagesContent = () => {
         {selectedChat && currentConversation ? (
           <div className={`${selectedChat ? 'flex' : 'hidden md:flex'} flex-1 flex-col min-w-0 overflow-hidden`}>
             {/* Chat Header */}
-            <div className="bg-gray-900/80 backdrop-blur-xl border-b border-gray-700/50 p-4 flex-shrink-0">
+            <div className="bg-gray-900/80 backdrop-blur-xl border-b border-gray-700/50 p-4 shrink-0">
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-3">
                   <button
@@ -542,7 +542,7 @@ const MessagesContent = () => {
                   >
                     <div className={`max-w-xs lg:max-w-md px-4 py-3 rounded-2xl ${
                       message.senderId === currentUserId
-                        ? 'bg-gradient-to-r from-pink-500 to-purple-600 text-white rounded-br-md'
+                        ? 'bg-linear-to-r from-pink-500 to-purple-600 text-white rounded-br-md'
                         : 'bg-white/10 backdrop-blur-xl border border-white/20 text-white rounded-bl-md'
                       }`}>
                       <p className="text-sm">{message.content}</p>
@@ -573,9 +573,9 @@ const MessagesContent = () => {
             </div>
 
             {/* Message Input */}
-            <div className="bg-gray-900/80 backdrop-blur-xl border-t border-gray-700/50 p-4 flex-shrink-0">
+            <div className="bg-gray-900/80 backdrop-blur-xl border-t border-gray-700/50 p-4 shrink-0">
               <div className="flex items-center space-x-3 min-w-0">
-                <button className="p-3 bg-white/10 hover:bg-white/20 backdrop-blur-xl border border-white/20 hover:border-white/30 rounded-2xl transition-all duration-300 hover:scale-105 group flex-shrink-0">
+                <button className="p-3 bg-white/10 hover:bg-white/20 backdrop-blur-xl border border-white/20 hover:border-white/30 rounded-2xl transition-all duration-300 hover:scale-105 group shrink-0">
                   <Paperclip className="w-5 h-5 text-white group-hover:scale-110 transition-transform duration-300" />
                 </button>
 
@@ -586,7 +586,7 @@ const MessagesContent = () => {
                     value={newMessage}
                     onChange={(e) => setNewMessage(e.target.value)}
                     onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
-                    className="w-full bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl px-4 py-3 pr-12 text-white placeholder-gray-400 focus:outline-none focus:border-pink-500/50 transition-all duration-300 min-w-0"
+                    className="w-full bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl px-4 py-3 pr-12 text-white placeholder-gray-400 focus:outline-hidden focus:border-pink-500/50 transition-all duration-300 min-w-0"
                   />
                   <button className="absolute right-2 top-1/2 transform -translate-y-1/2 p-2 hover:bg-white/10 rounded-xl transition-all duration-300">
                     <Smile className="w-5 h-5 text-gray-400 hover:text-white" />
@@ -597,9 +597,9 @@ const MessagesContent = () => {
                 <button
                   onClick={handleSendMessage}
                   disabled={!newMessage.trim() || !webSocketService?.connected} 
-                  className={`p-3 rounded-2xl transition-all duration-300 hover:scale-105 flex-shrink-0 ${
+                  className={`p-3 rounded-2xl transition-all duration-300 hover:scale-105 shrink-0 ${
                     newMessage.trim() && webSocketService?.connected
-                      ? 'bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-400 hover:to-purple-500 text-white shadow-lg shadow-pink-500/25'
+                      ? 'bg-linear-to-r from-pink-500 to-purple-600 hover:from-pink-400 hover:to-purple-500 text-white shadow-lg shadow-pink-500/25'
                       : 'bg-white/10 text-gray-400 cursor-not-allowed'
                     }`}
                 >
@@ -611,7 +611,7 @@ const MessagesContent = () => {
         ) : (
           <div className="hidden md:flex flex-1 items-center justify-center">
             <div className="text-center">
-              <div className="bg-gradient-to-r from-pink-500/20 to-purple-600/20 backdrop-blur-xl border border-pink-500/30 rounded-3xl p-8 max-w-md">
+              <div className="bg-linear-to-r from-pink-500/20 to-purple-600/20 backdrop-blur-xl border border-pink-500/30 rounded-3xl p-8 max-w-md">
                 <MessageCircle className="w-16 h-16 text-pink-400 mx-auto mb-4" />
                 <h3 className="text-xl font-semibold text-white mb-2">Select a Conversation</h3>
                 <p className="text-gray-400">Choose a conversation from the sidebar to start messaging</p>
@@ -627,7 +627,7 @@ const MessagesContent = () => {
 const MessagesPage = () => {
   return (
     <Suspense fallback={
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-900 to-gray-800 flex items-center justify-center">
+      <div className="min-h-screen bg-linear-to-br from-gray-900 via-gray-900 to-gray-800 flex items-center justify-center">
         <div className="text-white">Loading messages...</div>
       </div>
     }>

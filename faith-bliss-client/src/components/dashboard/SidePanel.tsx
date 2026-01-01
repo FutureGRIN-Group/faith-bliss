@@ -38,12 +38,12 @@ export const SidePanel = ({ userName, userImage, user, onClose }: SidePanelProps
   const faithJourney = user?.faithJourney || 'Passionate Believer';
 
   return (
-    <div className="h-screen flex flex-col bg-gray-900 lg:bg-gray-800/50 lg:backdrop-blur-sm lg:border-r lg:border-gray-700/30">
+    <div className="h-screen flex flex-col bg-gray-900 lg:bg-gray-800/50 lg:backdrop-blur-xs lg:border-r lg:border-gray-700/30">
       {/* Header */}
-      <div className="flex-shrink-0 p-6 border-b border-gray-700/50">
+      <div className="shrink-0 p-6 border-b border-gray-700/50">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <div className="w-12 h-12 bg-gradient-to-r from-pink-500 to-purple-600 rounded-full flex items-center justify-center">
+            <div className="w-12 h-12 bg-linear-to-r from-pink-500 to-purple-600 rounded-full flex items-center justify-center">
               {displayImage ? (
                 // 🌟 VITE FIX 4: Replace Next.js <Image> with standard <img>
                 <img
@@ -194,7 +194,7 @@ export const SidePanel = ({ userName, userImage, user, onClose }: SidePanelProps
       </div>
 
       {/* Footer */}
-      <div className="flex-shrink-0 p-6 border-t border-gray-700/50">
+      <div className="shrink-0 p-6 border-t border-gray-700/50">
         <button 
           onClick={handleLogout}
           disabled={isLoggingOut}

@@ -210,7 +210,7 @@ const PreferenceSlide: React.FC<PreferenceSlideProps> = ({
             id="minAge"
             value={onboardingData.minAge || ''}
             onChange={(e) => setOnboardingData(prev => ({ ...prev, minAge: parseInt(e.target.value, 10) || null }))}
-            className="mt-2 block w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg shadow-sm text-white placeholder-gray-400 focus:outline-none focus:ring-pink-500 focus:border-pink-500 sm:text-md"
+            className="mt-2 block w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg shadow-xs text-white placeholder-gray-400 focus:outline-hidden focus:ring-pink-500 focus:border-pink-500 sm:text-md"
             placeholder="18"
           />
         </div>
@@ -223,7 +223,7 @@ const PreferenceSlide: React.FC<PreferenceSlideProps> = ({
             id="maxAge"
             value={onboardingData.maxAge || ''}
             onChange={(e) => setOnboardingData(prev => ({ ...prev, maxAge: parseInt(e.target.value, 10) || null }))}
-            className="mt-2 block w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg shadow-sm text-white placeholder-gray-400 focus:outline-none focus:ring-pink-500 focus:border-pink-500 sm:text-md"
+            className="mt-2 block w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg shadow-xs text-white placeholder-gray-400 focus:outline-hidden focus:ring-pink-500 focus:border-pink-500 sm:text-md"
             placeholder="99"
           />
         </div>

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { ReactNode } from 'react';
-import { TopBar } from './TopBar';
+import type { ReactNode } from "react";
+import { TopBar } from "./TopBar";
 
 interface MobileLayoutProps {
   userName: string;
@@ -21,10 +21,10 @@ export const MobileLayout = ({
   showSidePanel,
   onToggleFilters,
   onToggleSidePanel,
-  children
+  children,
 }: MobileLayoutProps) => {
   return (
-    <div className="lg:hidden min-h-screen no-horizontal-scroll dashboard-main">
+    <div className="lg:hidden flex flex-1 flex-col h-full  gap-5 no-horizontal-scroll dashboard-main">
       {/* Mobile Top Bar */}
       <TopBar
         userName={userName}
@@ -35,13 +35,9 @@ export const MobileLayout = ({
         onToggleFilters={onToggleFilters}
         onToggleSidePanel={onToggleSidePanel}
       />
-      
+
       {/* Mobile Profile Display */}
-      <div className="px-2 py-3 h-[calc(100vh-80px)] flex flex-col">
-        <div className="flex-1 relative">
-          {children}
-        </div>
-      </div>
+      <div className=" ">{children}</div>
     </div>
   );
 };

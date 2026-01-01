@@ -18,7 +18,7 @@ const BasicInfoSection = ({ profileData, setProfileData }: BasicInfoSectionProps
               type="text"
               value={profileData.name || ''}
               onChange={(e) => setProfileData(prev => prev ? ({...prev, name: e.target.value}) : null)}
-              className="w-full p-4 bg-gray-700/50 border border-gray-600/50 rounded-2xl text-white placeholder-gray-400 focus:border-pink-500 focus:outline-none transition-colors"
+              className="w-full p-4 bg-gray-700/50 border border-gray-600/50 rounded-2xl text-white placeholder-gray-400 focus:border-pink-500 focus:outline-hidden transition-colors"
               placeholder="Enter your first name"
             />
           </div>
@@ -29,7 +29,7 @@ const BasicInfoSection = ({ profileData, setProfileData }: BasicInfoSectionProps
               type="number"
               value={profileData.age}
               onChange={(e) => setProfileData(prev => prev ? ({...prev, age: parseInt(e.target.value)}) : null)}
-              className="w-full p-4 bg-gray-700/50 border border-gray-600/50 rounded-2xl text-white placeholder-gray-400 focus:border-pink-500 focus:outline-none transition-colors"
+              className="w-full p-4 bg-gray-700/50 border border-gray-600/50 rounded-2xl text-white placeholder-gray-400 focus:border-pink-500 focus:outline-hidden transition-colors"
               placeholder="25"
             />
           </div>
@@ -40,7 +40,7 @@ const BasicInfoSection = ({ profileData, setProfileData }: BasicInfoSectionProps
               type="text"
               value={profileData.profession || ''}
               onChange={(e) => setProfileData(prev => prev ? ({...prev, profession: e.target.value}) : null)}
-              className="w-full p-4 bg-gray-700/50 border border-gray-600/50 rounded-2xl text-white placeholder-gray-400 focus:border-pink-500 focus:outline-none transition-colors"
+              className="w-full p-4 bg-gray-700/50 border border-gray-600/50 rounded-2xl text-white placeholder-gray-400 focus:border-pink-500 focus:outline-hidden transition-colors"
               placeholder="Product Designer"
             />
           </div>
@@ -52,7 +52,7 @@ const BasicInfoSection = ({ profileData, setProfileData }: BasicInfoSectionProps
             <select
               value={profileData.fieldOfStudy || ''}
               onChange={(e) => setProfileData(prev => prev ? ({...prev, fieldOfStudy: e.target.value}) : null)}
-              className="w-full p-4 bg-gray-700/50 border border-gray-600/50 rounded-2xl text-white focus:border-pink-500 focus:outline-none transition-colors"
+              className="w-full p-4 bg-gray-700/50 border border-gray-600/50 rounded-2xl text-white focus:border-pink-500 focus:outline-hidden transition-colors"
             >
               <option value="">Select education</option>
               <option value="High School">High School</option>
@@ -76,7 +76,7 @@ const BasicInfoSection = ({ profileData, setProfileData }: BasicInfoSectionProps
                   address: e.target.value
                 }
               }) : null)}
-              className="w-full p-4 pr-12 bg-gray-700/50 border border-gray-600/50 rounded-2xl text-white placeholder-gray-400 focus:border-pink-500 focus:outline-none transition-colors"
+              className="w-full p-4 pr-12 bg-gray-700/50 border border-gray-600/50 rounded-2xl text-white placeholder-gray-400 focus:border-pink-500 focus:outline-hidden transition-colors"
               placeholder="Lagos, Nigeria"
             />
             <button

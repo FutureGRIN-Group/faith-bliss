@@ -30,7 +30,7 @@ export const FloatingActionButtons = ({
             <ArrowLeft className="w-6 h-6 group-hover:scale-110 transition-transform duration-300" />
           </button>
           <div className="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
-            <div className="bg-gray-900/90 text-white text-sm px-3 py-1.5 rounded-lg backdrop-blur-sm border border-gray-700/50 whitespace-nowrap">
+            <div className="bg-gray-900/90 text-white text-sm px-3 py-1.5 rounded-lg backdrop-blur-xs border border-gray-700/50 whitespace-nowrap">
               Go Back
               <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900/90"></div>
             </div>
@@ -46,7 +46,7 @@ export const FloatingActionButtons = ({
             <X className="w-6 h-6 group-hover:scale-110 transition-transform duration-300" />
           </button>
           <div className="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
-            <div className="bg-gray-900/90 text-white text-sm px-3 py-1.5 rounded-lg backdrop-blur-sm border border-gray-700/50 whitespace-nowrap">
+            <div className="bg-gray-900/90 text-white text-sm px-3 py-1.5 rounded-lg backdrop-blur-xs border border-gray-700/50 whitespace-nowrap">
               Pass
               <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900/90"></div>
             </div>
@@ -62,7 +62,7 @@ export const FloatingActionButtons = ({
             <Heart className="w-6 h-6 group-hover:scale-110 group-hover:fill-current transition-all duration-300" />
           </button>
           <div className="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
-            <div className="bg-gray-900/90 text-white text-sm px-3 py-1.5 rounded-lg backdrop-blur-sm border border-gray-700/50 whitespace-nowrap">
+            <div className="bg-gray-900/90 text-white text-sm px-3 py-1.5 rounded-lg backdrop-blur-xs border border-gray-700/50 whitespace-nowrap">
               Like
               <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900/90"></div>
             </div>
@@ -78,7 +78,7 @@ export const FloatingActionButtons = ({
             <MessageCircle className="w-6 h-6 group-hover:scale-110 transition-transform duration-300" />
           </button>
           <div className="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
-            <div className="bg-gray-900/90 text-white text-sm px-3 py-1.5 rounded-lg backdrop-blur-sm border border-gray-700/50 whitespace-nowrap">
+            <div className="bg-gray-900/90 text-white text-sm px-3 py-1.5 rounded-lg backdrop-blur-xs border border-gray-700/50 whitespace-nowrap">
               Message
               <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900/90"></div>
             </div>

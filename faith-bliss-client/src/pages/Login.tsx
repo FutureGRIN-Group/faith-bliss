@@ -102,7 +102,7 @@ function LoginForm() {
             <Heart className="h-8 w-8 text-pink-500" />
             <span className="text-2xl font-bold text-white">FaithBliss</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent mb-2">
+          <h1 className="text-2xl sm:text-3xl font-bold bg-linear-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent mb-2">
             Welcome Back!
           </h1>
           <p className="text-gray-300 text-sm sm:text-base">Sign in to continue your faith journey</p>
@@ -117,7 +117,7 @@ function LoginForm() {
         <button
           onClick={handleGoogleSignIn}
           disabled={loading || isLoggingIn} // Check both loading states
-          className="w-full mb-6 flex items-center justify-center gap-3 bg-gray-700/50 border border-gray-600/50 hover:border-gray-500/50 text-white py-3 px-4 sm:px-6 rounded-xl font-medium hover:bg-gray-600/50 transition-all duration-200 shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full mb-6 flex items-center justify-center gap-3 bg-gray-700/50 border border-gray-600/50 hover:border-gray-500/50 text-white py-3 px-4 sm:px-6 rounded-xl font-medium hover:bg-gray-600/50 transition-all duration-200 shadow-xs disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <FcGoogle size={20} />
           <span className="text-sm sm:text-base">{loading ? 'Redirecting...' : 'Continue with Google'}</span>
@@ -179,7 +179,7 @@ function LoginForm() {
           <button
             type="submit"
             disabled={isLoggingIn || loading}
-            className="w-full bg-gradient-to-r from-pink-500 to-purple-600 text-white py-3 px-6 rounded-xl font-semibold hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-pink-500/25 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+            className="w-full bg-linear-to-r from-pink-500 to-purple-600 text-white py-3 px-6 rounded-xl font-semibold hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-pink-500/25 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
           >
             <span className="flex items-center justify-center gap-2">
               {isLoggingIn ? 'Signing In...' : <><LogIn className="w-5 h-5" /> Sign In</>}

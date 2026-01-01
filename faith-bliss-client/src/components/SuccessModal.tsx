@@ -41,9 +41,9 @@ export const SuccessModal = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-xs flex items-center justify-center z-50 p-4">
       <div className={`
-        bg-gradient-to-br from-gray-800 to-gray-900 
+        bg-linear-to-br from-gray-800 to-gray-900 
         rounded-2xl shadow-2xl border border-gray-700/50 
         p-8 max-w-md w-full text-center
         transform transition-all duration-300 ease-out
@@ -57,7 +57,7 @@ export const SuccessModal = ({
             <div className="absolute w-20 h-20 rounded-full border-2 border-green-400/20 animate-ping" style={{animationDelay: '0.5s'}}></div>
             
             {/* Success checkmark with heart */}
-            <div className="relative z-10 bg-gradient-to-br from-green-400 to-green-600 rounded-full p-4">
+            <div className="relative z-10 bg-linear-to-br from-green-400 to-green-600 rounded-full p-4">
               <CheckCircle className="w-12 h-12 text-white" />
             </div>
             
@@ -76,7 +76,7 @@ export const SuccessModal = ({
 
         {/* Content */}
         <div className="space-y-4">
-          <h2 className="text-2xl font-bold bg-gradient-to-r from-green-400 to-blue-400 bg-clip-text text-transparent">
+          <h2 className="text-2xl font-bold bg-linear-to-r from-green-400 to-blue-400 bg-clip-text text-transparent">
             {title}
           </h2>
           
@@ -99,7 +99,7 @@ export const SuccessModal = ({
               setIsVisible(false);
               setTimeout(onClose, 300);
             }}
-            className="mt-6 bg-gradient-to-r from-green-500 to-green-600 text-white px-6 py-2 rounded-full font-medium hover:from-green-600 hover:to-green-700 transition-all duration-200"
+            className="mt-6 bg-linear-to-r from-green-500 to-green-600 text-white px-6 py-2 rounded-full font-medium hover:from-green-600 hover:to-green-700 transition-all duration-200"
           >
             Continue
           </button>

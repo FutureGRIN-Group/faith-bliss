@@ -32,8 +32,8 @@ const ProfileTabs: React.FC<ProfileTabsProps> = ({ activeSection, setActiveSecti
               onClick={() => setActiveSection(tab.id)}
               className={`flex flex-col sm:flex-row items-center justify-center sm:justify-start space-y-1 sm:space-y-0 sm:space-x-2 px-2 sm:px-4 py-3 sm:py-4 rounded-2xl font-medium transition-all duration-300 group ${
                 activeSection === tab.id
-                  ? 'bg-gradient-to-r from-pink-500/20 to-purple-500/20 backdrop-blur-md text-pink-400 border border-pink-500/30 shadow-lg scale-105'
-                  : 'text-gray-400 hover:text-white hover:bg-white/10 backdrop-blur-sm border border-transparent hover:border-white/20 hover:scale-105'
+                  ? 'bg-linear-to-r from-pink-500/20 to-purple-500/20 backdrop-blur-md text-pink-400 border border-pink-500/30 shadow-lg scale-105'
+                  : 'text-gray-400 hover:text-white hover:bg-white/10 backdrop-blur-xs border border-transparent hover:border-white/20 hover:scale-105'
               }`}
             >
               <tab.icon className="w-4 h-4 group-hover:scale-110 transition-transform" />

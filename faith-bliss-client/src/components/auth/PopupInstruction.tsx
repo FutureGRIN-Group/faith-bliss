@@ -16,7 +16,7 @@ export const PopupInstruction = ({ show, onDismiss }: PopupInstructionProps) => 
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-2xl p-6 max-w-md w-full shadow-2xl">
         <div className="flex items-start gap-3 mb-4">
-          <AlertCircle className="w-6 h-6 text-amber-500 flex-shrink-0 mt-0.5" />
+          <AlertCircle className="w-6 h-6 text-amber-500 shrink-0 mt-0.5" />
           <div className="flex-1">
             <h3 className="font-semibold text-gray-900 mb-2">
               Allow Popups for Google Sign-In
