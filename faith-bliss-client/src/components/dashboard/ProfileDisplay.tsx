@@ -4,7 +4,7 @@ import { NoProfilesState } from "./NoProfilesState";
 import type { User } from "@/services/api";
 
 interface ProfileDisplayProps {
-  currentProfile: User | null | undefined;
+  activeProfiles: User[] | null | undefined;
   onStartOver: () => void;
   onGoBack: () => void;
   onLike: () => void;
@@ -13,19 +13,19 @@ interface ProfileDisplayProps {
 }
 
 export const ProfileDisplay = ({
-  currentProfile,
+  activeProfiles,
   onStartOver,
   onGoBack,
   onLike,
   onPass,
   onMessage,
 }: ProfileDisplayProps) => {
-  // Check if profile is null, undefined, or missing a critical ID
-  if (!currentProfile || (!currentProfile.id && !currentProfile.id)) {
+  // Check if active profiles array is empty or not
+  if (!activeProfiles || activeProfiles.length === 0) {
     // Log an error if the object exists but is malformed
-    if (currentProfile) {
+    if (activeProfiles) {
       console.error(
-        "ProfileDisplay: Profile object exists but is missing 'id' or '_id'. Skipping card render."
+        "ProfileDisplay: activeProfiles array exists but is empty. Skipping card render."
       );
     }
     // Fall back to the "No Profiles" state, which will eventually be replaced
@@ -37,7 +37,7 @@ export const ProfileDisplay = ({
     <>
            {" "}
       <HingeStyleProfileCard
-        profile={currentProfile}
+        profiles={activeProfiles}
         onGoBack={onGoBack}
         onLike={onLike}
         onPass={onPass}

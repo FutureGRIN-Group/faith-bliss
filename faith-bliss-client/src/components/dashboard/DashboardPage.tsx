@@ -139,6 +139,8 @@ export const DashboardPage = ({ user: activeUser }: { user: User }) => {
     ? activeProfiles[currentProfileIndex]
     : undefined;
 
+  console.log(activeProfiles);
+
   const goToNextProfile = () => {
     if (!activeProfiles) return;
     if (currentProfileIndex < activeProfiles.length - 1) {
@@ -230,7 +232,7 @@ export const DashboardPage = ({ user: activeUser }: { user: User }) => {
       >
                        {" "}
         <ProfileDisplay
-          currentProfile={currentProfile}
+          activeProfiles={activeProfiles}
           onStartOver={() => setCurrentProfileIndex(0)}
           onGoBack={() =>
             setCurrentProfileIndex(Math.max(0, currentProfileIndex - 1))
@@ -253,7 +255,7 @@ export const DashboardPage = ({ user: activeUser }: { user: User }) => {
       >
                        {" "}
         <ProfileDisplay
-          currentProfile={currentProfile}
+          activeProfiles={activeProfiles}
           onStartOver={() => setCurrentProfileIndex(0)}
           onGoBack={() =>
             setCurrentProfileIndex(Math.max(0, currentProfileIndex - 1))
@@ -264,8 +266,7 @@ export const DashboardPage = ({ user: activeUser }: { user: User }) => {
         />
                    {" "}
       </MobileLayout>
-                  {/* Overlay Panels */}
-                 {" "}
+                  {/* Overlay Panels */}           {" "}
       <OverlayPanels
         showFilters={showFilters}
         showSidePanel={showSidePanel}
