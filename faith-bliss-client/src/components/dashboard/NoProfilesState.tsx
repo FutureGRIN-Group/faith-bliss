@@ -1,5 +1,5 @@
 interface NoProfilesStateProps {
-  onStartOver: () => void;
+  onStartOver?: () => void;
 }
 
 export const NoProfilesState = ({ onStartOver }: NoProfilesStateProps) => {

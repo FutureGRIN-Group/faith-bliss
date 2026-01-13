@@ -18,9 +18,8 @@ function Dashboard() {
 
   return (
     <ProtectedRoute requireOnboarding={false}>
-             {" "}
       {/* Pass the authenticated user object to DashboardPage. The check above ensures user is not null. */}
-              <DashboardPage user={user} />     {" "}
+      <DashboardPage user={user} />{" "}
     </ProtectedRoute>
   );
 }

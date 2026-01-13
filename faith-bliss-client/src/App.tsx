@@ -17,11 +17,11 @@ function App() {
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-900 text-white">
-           {" "}
+      {" "}
       {isAuthRoute ? (
         // 🔐 AUTH LAYOUT: Centered content (Login, Signup)
         <div className="min-h-screen flex items-center justify-center p-4">
-                    <Outlet />       {" "}
+          <Outlet />{" "}
         </div>
       ) : isFullScreenRoute ? (
         // 📝 ONBOARDING LAYOUT: Full-screen, but usually left-aligned/scrolling
@@ -29,16 +29,14 @@ function App() {
         <Outlet />
       ) : (
         // 🌍 DEFAULT LAYOUT (For pages like Home, Dashboard, etc.)
-        <div className="flex-1 px-4  flex flex-col">
-                    {/* If you add Header, it goes here */}                   {" "}
-          {/* Apply a maximum width to the main content area for standard pages */}
-                   {" "}
+        <div className="flex-1   flex flex-col">
+          {/* If you add Header, it goes here */}{" "}
+          {/* Apply a maximum width to the main content area for standard pages */}{" "}
           {/* <main className="grow h-full container mx-auto p-2  max-w-7xl"> */}
-                      <Outlet />          {/* </main> */}                   {" "}
-          {/* If you add Footer, it goes here */}       {" "}
+          <Outlet />
+          {/* </main> */} {/* If you add Footer, it goes here */}{" "}
         </div>
-      )}
-         {" "}
+      )}{" "}
     </div>
   );
 }

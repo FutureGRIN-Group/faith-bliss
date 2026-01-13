@@ -35,7 +35,6 @@ export const ProfileDisplay = ({
 
   return (
     <>
-           {" "}
       <HingeStyleProfileCard
         profiles={activeProfiles}
         onGoBack={onGoBack}
@@ -43,7 +42,6 @@ export const ProfileDisplay = ({
         onPass={onPass}
         onMessage={onMessage}
       />
-         {" "}
     </>
   );
 };

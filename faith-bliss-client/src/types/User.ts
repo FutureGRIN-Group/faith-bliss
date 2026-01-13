@@ -49,19 +49,29 @@ export interface User {
   profilePhoto5?: string;
   profilePhoto6?: string;
   isActive?: boolean;
-
 }
 
-
-
-
 export interface UserPreferences {
-  preferredGender?: 'MALE' | 'FEMALE' | null;
-  preferredDenomination?: ('BAPTIST' | 'METHODIST' | 'PRESBYTERIAN' | 'PENTECOSTAL' | 'CATHOLIC' | 'ORTHODOX' | 'ANGLICAN' | 'LUTHERAN' | 'ASSEMBLIES_OF_GOD' | 'SEVENTH_DAY_ADVENTIST' | 'OTHER')[] | null;
-  minAge?: number | null;
-  maxAge?: number | null;
-  maxDistance?: number | null;
-  preferredFaithJourney?: string[] | null;
-  preferredChurchAttendance?: string[] | null;
-  preferredRelationshipGoals?: string[] | null;
+  preferredGender?: "MALE" | "FEMALE" | null;
+  preferredDenomination?:
+    | (
+        | "BAPTIST"
+        | "METHODIST"
+        | "PRESBYTERIAN"
+        | "PENTECOSTAL"
+        | "CATHOLIC"
+        | "ORTHODOX"
+        | "ANGLICAN"
+        | "LUTHERAN"
+        | "ASSEMBLIES_OF_GOD"
+        | "SEVENTH_DAY_ADVENTIST"
+        | "OTHER"
+      )[]
+    | null;
+  minAge?: number | null;
+  maxAge?: number | null;
+  maxDistance?: number | null;
+  preferredFaithJourney?: string[] | null;
+  preferredChurchAttendance?: string[] | null;
+  preferredRelationshipGoals?: string[] | null;
 }
