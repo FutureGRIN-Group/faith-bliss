@@ -21,6 +21,8 @@ import MatchPage from "./pages/MatchesPage.tsx";
 import { ToastProvider } from "./contexts/ToastContext.tsx";
 import { AuthProvider } from "./contexts/AuthContext.tsx";
 import { AuthGate, PublicOnlyRoute } from "./components/AuthGate.tsx";
+import Chat from "./pages/Chat.tsx";
+import ConversationInitializer from "./pages/ConversationInitializer.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
@@ -50,6 +52,11 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
 
                 {/* 💡 ADDED: Messages Route (Now protected by AuthGate) */}
                 <Route path="messages" element={<Messages />} />
+                <Route
+                  path="messages/:profileId"
+                  element={<ConversationInitializer />}
+                />
+                <Route path="messages/:conversationId" element={<Chat />} />
 
                 {/* 💡 CORRECTION: Use dynamic route path and the direct component */}
                 <Route path="profile/:id" element={<ProfilePage />} />

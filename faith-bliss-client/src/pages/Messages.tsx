@@ -10,7 +10,7 @@ import {
   useMemo,
   useCallback,
 } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 // 1. IMPORT TYPES
@@ -35,6 +35,7 @@ import {
   CheckCheck,
   Users,
   Heart,
+  ChevronLeft,
 } from "lucide-react";
 
 // Assuming these imports are correct for your Vite project structure
@@ -100,6 +101,7 @@ const MessagesContent = () => {
   const didAutoSelect = useRef(false);
   const profileIdParam = searchParams.get("profileId");
   const profileNameParam = searchParams.get("profileName");
+  const navigate = useNavigate();
 
   const [selectedChat, setSelectedChat] = useState<string | null>(
     profileIdParam || null
@@ -389,25 +391,25 @@ const MessagesContent = () => {
   }
 
   // Show no conversations state
-  if (realConversations.length === 0 && !profileIdParam) {
-    return (
-      <div className="min-h-screen bg-linear-to-br from-gray-900 via-gray-900 to-gray-800 text-white flex items-center justify-center">
-        <div className="text-center p-8">
-          <MessageCircle className="w-20 h-20 text-pink-500 mx-auto mb-4" />
-          <h2 className="text-2xl font-bold mb-2">No Conversations Yet</h2>
-          <p className="text-gray-400 mb-4">
-            Start matching with people to begin new conversations!
-          </p>
-          <Link
-            to="/dashboard"
-            className="px-6 py-3 bg-linear-to-r from-pink-500 to-purple-600 text-white rounded-full text-lg font-semibold hover:from-pink-600 hover:to-purple-700 transition-all duration-300 shadow-lg"
-          >
-            Find Matches
-          </Link>
-        </div>
-      </div>
-    );
-  }
+  // if (realConversations.length === 0 && !profileIdParam) {
+  //   return (
+  //     <div className="min-h-[87vh] bg-linear-to-br from-gray-900 via-gray-900 to-gray-800 text-white flex items-center justify-center">
+  //       <div className="text-center p-8 flex flex-col gap-3 items-center">
+  //         <MessageCircle className="w-20 h-20 text-pink-500 mx-auto mb-4" />
+  //         <h2 className="text-2xl font-bold mb-2">No Conversations Yet</h2>
+  //         <p className="text-gray-400 mb-4">
+  //           Start matching with people to begin new conversations!
+  //         </p>
+  //         <Link
+  //           to="/dashboard"
+  //           className="px-6 py-3 w-3/4 bg-linear-to-r from-pink-500 to-purple-600 text-white rounded-full text-lg font-semibold hover:from-pink-600 hover:to-purple-700 transition-all duration-300 shadow-lg"
+  //         >
+  //           Find Matches
+  //         </Link>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   const filteredConversations = realConversations.filter((conv) => {
     const matchedUser = conv.otherUser;
@@ -420,12 +422,20 @@ const MessagesContent = () => {
 
   return (
     <div className="px-7 py-3 bg-linear-to-br from-gray-900 flex flex-col gap-10 via-gray-900 to-gray-800 text-white overflow-x-hidden pb-20 no-horizontal-scroll dashboard-main">
-      <InputGroup className="h-14 rounded-xl">
-        <InputGroupInput placeholder="Search..." />
-        <InputGroupAddon>
-          <Search />
-        </InputGroupAddon>
-      </InputGroup>
+      <div className="flex items-center gap-5">
+        <div
+          className="cursor-pointer text-gray-400"
+          onClick={() => navigate(-1)}
+        >
+          <ChevronLeft size={25} />
+        </div>
+        <InputGroup className="h-14 rounded-xl">
+          <InputGroupInput placeholder="Search..." />
+          <InputGroupAddon>
+            <Search />
+          </InputGroupAddon>
+        </InputGroup>
+      </div>
       <div className="flex flex-col gap-7">
         <h3 className="text-xl font-semibold text-gray-400  tracking-wider">
           Activities
@@ -448,27 +458,31 @@ const MessagesContent = () => {
         </h3>
         <div className="flex flex-col gap-5">
           {Array.from({ length: 5 }).map((_, index) => (
-            <div
-              className="rounded-xl hover:bg-white/10 transition-colors duration-300 min-h-20 items-center flex gap-2"
-              key={index}
-            >
-              <Avatar className="size-16">
-                <AvatarImage src="https://github.com/shadcn.png" />
-                <AvatarFallback>CN</AvatarFallback>
-              </Avatar>
-              <div className=" gap-2  flex-1 p-2 flex flex-col justify-between">
-                <div className="flex justify-between items-center">
-                  <h4 className="font-semibold text-lg">Emelie</h4>
-                  <span className="text-xs text-gray-400">2 hours ago</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <p className="text-base text-gray-300">okay, see you then</p>
-                  <div className="rounded-full text-xs bg-[#C438CD] size-6 grid place-items-center">
-                    2
+            <Link key={index} to={`/messages/${index}`}>
+              <div
+                className="rounded-xl  hover:bg-white/10 transition-colors duration-300 min-h-20 items-center flex gap-2"
+                key={index}
+              >
+                <Avatar className="size-16">
+                  <AvatarImage src="https://github.com/shadcn.png" />
+                  <AvatarFallback>CN</AvatarFallback>
+                </Avatar>
+                <div className=" gap-2  flex-1 p-2 flex flex-col justify-between">
+                  <div className="flex justify-between items-center">
+                    <h4 className="font-semibold text-lg">Emelie</h4>
+                    <span className="text-xs text-gray-400">2 hours ago</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <p className="text-base text-gray-300">
+                      okay, see you then
+                    </p>
+                    <div className="rounded-full text-xs bg-accent-400 size-6 grid place-items-center">
+                      2
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>

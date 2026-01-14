@@ -88,42 +88,38 @@ export const DashboardPage = ({ user: activeUser }: { user: User }) => {
   if (matchesError || allUsersError) {
     return (
       <div className="min-h-screen bg-linear-to-br from-gray-900 via-gray-900 to-gray-800 text-white flex items-center justify-center">
-        {" "}
         <div className="text-center p-8">
-          {" "}
           <p className="text-red-400 mb-4">
             Failed to load profiles: {matchesError || allUsersError}
-          </p>{" "}
+          </p>
           <button
             onClick={() => refetch()}
             className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700"
           >
-            Try Again{" "}
-          </button>{" "}
-        </div>{" "}
+            Try Again
+          </button>
+        </div>
       </div>
     );
   } // Handle no profiles found
 
   if (!activeProfiles || activeProfiles.length === 0) {
     return (
-      <div className="min-h-screen bg-linear-to-br from-gray-900 via-gray-900 to-gray-800 text-white flex items-center justify-center">
-        {" "}
+      <div className="min-h-[87vh]  bg-linear-to-br from-gray-900 via-gray-900 to-gray-800 text-white flex items-center justify-center">
         <div className="text-center p-8">
-          {" "}
           <p className="text-gray-400 mb-4">
             No profiles found matching your criteria.
-          </p>{" "}
+          </p>
           <button
             onClick={() => {
               setFilteredProfiles(null);
               refetch();
             }}
-            className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700"
+            className="px-4 py-4 bg-purple-600 text-white rounded-lg hover:bg-purple-700"
           >
-            Reset Filters & Try Again{" "}
-          </button>{" "}
-        </div>{" "}
+            Reset Filters & Try Again
+          </button>
+        </div>
       </div>
     );
   } // Use a safe, non-asserted way to define the current profile
@@ -188,11 +184,7 @@ export const DashboardPage = ({ user: activeUser }: { user: User }) => {
     // 🚨 FIX: Safely check for required data using fallback
     const profileId = currentProfile?.id || currentProfile?._id;
     if (profileId && currentProfile?.name) {
-      navigate(
-        `/messages?profileId=${profileId}&profileName=${encodeURIComponent(
-          currentProfile.name
-        )}`
-      );
+      navigate(`/messages/${profileId}`);
     }
   };
 
@@ -211,9 +203,8 @@ export const DashboardPage = ({ user: activeUser }: { user: User }) => {
 
   return (
     <div className=" bg-linear-to-br flex-1 flex flex-col  from-gray-900 via-gray-900 to-gray-800 text-white  no-horizontal-scroll  dashboard-main">
-      {" "}
       {isLoadingFilters && <HeartBeatLoader message="Applying filters..." />}
-      {/* Desktop Layout */}{" "}
+      {/* Desktop Layout */}
       <DesktopLayout
         userName={userName}
         userImage={userImage}
@@ -223,7 +214,6 @@ export const DashboardPage = ({ user: activeUser }: { user: User }) => {
         onToggleFilters={() => setShowFilters(!showFilters)}
         onToggleSidePanel={() => setShowSidePanel(!showSidePanel)}
       >
-        {" "}
         <ProfileDisplay
           activeProfiles={activeProfiles}
           onStartOver={() => setCurrentProfileIndex(0)}
@@ -233,9 +223,9 @@ export const DashboardPage = ({ user: activeUser }: { user: User }) => {
           onLike={handleLike}
           onPass={handlePass}
           onMessage={handleMessage}
-        />{" "}
+        />
       </DesktopLayout>
-      {/* Mobile Layout */}{" "}
+      {/* Mobile Layout */}
       <MobileLayout>
         <ProfileDisplay
           activeProfiles={activeProfiles}
@@ -246,9 +236,9 @@ export const DashboardPage = ({ user: activeUser }: { user: User }) => {
           onLike={handleLike}
           onPass={handlePass}
           onMessage={handleMessage}
-        />{" "}
+        />
       </MobileLayout>
-      {/* Overlay Panels */}{" "}
+      {/* Overlay Panels */}
       <OverlayPanels
         showFilters={showFilters}
         showSidePanel={showSidePanel}

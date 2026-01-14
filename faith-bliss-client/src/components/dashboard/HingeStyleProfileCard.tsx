@@ -1,7 +1,5 @@
-import { Link } from "react-router-dom";
 import TinderCard from "react-tinder-card";
 import type { User } from "@/services/api";
-import { FloatingActionButtons } from "./FloatingActionButtons";
 import { Heart, MessageCircle, X } from "lucide-react";
 import { NoProfilesState } from "./NoProfilesState";
 import { createRef, useMemo, useRef, useState, type Ref } from "react";
@@ -60,14 +58,14 @@ export const HingeStyleProfileCard = ({
 
   if (profiles && profiles.length === 0) {
     return (
-      <div className="h-[80vh] flex items-center justify-center">
+      <div className="h-[80vh]  flex items-center justify-center">
         <NoProfilesState />
       </div>
     );
   }
 
   return (
-    <div className="h-[80vh] flex flex-col gap-3">
+    <div className="h-[80vh]  flex flex-col gap-3">
       <div className=" grid place-items-center">
         <span className="text-gray-500 border border-gray-500 rounded-full px-5 py-0.5 text-xs">
           Swipe right to like and left to pass
@@ -107,7 +105,7 @@ export const HingeStyleProfileCard = ({
         </div>
         <div
           onClick={handleMessage}
-          className="bg-white text-favorite-500 hover:scale-110 transition-transform duration-300  rounded-full size-20 grid place-items-center"
+          className="bg-white text-accent-500 hover:scale-110 transition-transform duration-300  rounded-full size-20 grid place-items-center"
         >
           <MessageCircle size={40} />
         </div>

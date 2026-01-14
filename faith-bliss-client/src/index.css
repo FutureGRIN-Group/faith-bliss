@@ -40,7 +40,8 @@ layer(base);
   --color-error-50: #fff8f7;
   --color-error-500: #f44336;
 
-  --color-favorite-500: #8a2387;
+  --color-accent-400: #c438cd;
+  --color-accent-500: #8a2387;
 }
 
 /*
