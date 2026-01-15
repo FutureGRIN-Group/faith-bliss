@@ -1,8 +1,36 @@
 // src/types/chat.ts (or src/types.ts, based on your project structure)
 
+import { Timestamp } from "firebase-admin/firestore";
+
 /**
  * Interface for a single message object.
  */
+// Updated ConversationSummary interface
+export interface ConversationSummary {
+  participants: string[];
+  membersKey: string;
+  type: "direct" | "group";
+
+  createdAt: Timestamp;
+  updatedAt: Timestamp;
+  lastMessage: {
+    id: string;
+    text: string;
+    senderId: string;
+    createdAt: Timestamp;
+  };
+  lastMessageAt: Timestamp;
+
+  readState: {
+    [userId: string]: {
+      lastReadAt: Timestamp;
+      unreadCount: number;
+      muted: boolean;
+      archived: boolean;
+    };
+  };
+}
+
 export interface Message {
   id: string;
   matchId: string;
@@ -23,31 +51,31 @@ export interface Message {
  */
 export interface ConversationMessagesResponse {
   messages: Message[];
-  match: { id: string } // Minimal match info needed for refetch logic
+  match: { id: string }; // Minimal match info needed for refetch logic
   // Add other properties from your API response if needed
 }
 
 /**
  * Interface for a summary of a conversation (used in the sidebar list).
  */
-export interface ConversationSummary {
-  id: string; // match ID
-  otherUser: {
-    id: string;
-    name: string;
-    avatarUrl?: string;
-    profilePhoto1?: string; // Used in the component logic
-  };
-  lastMessage: { content: string, createdAt: string } | null;
-  unreadCount: number;
-  updatedAt: string;
-}
+// export interface ConversationSummary {
+//   id: string; // match ID
+//   otherUser: {
+//     id: string;
+//     name: string;
+//     avatarUrl?: string;
+//     profilePhoto1?: string; // Used in the component logic
+//   };
+//   lastMessage: { content: string; createdAt: string } | null;
+//   unreadCount: number;
+//   updatedAt: string;
+// }
 
 /**
  * Interface for a generic Notification object.
  */
 export interface Notification {
-  type: 'profile_liked' | 'new_match' | 'other_types_as_they_are_added';
+  type: "profile_liked" | "new_match" | "other_types_as_they_are_added";
   message: string;
   senderId?: string;
   senderName?: string;

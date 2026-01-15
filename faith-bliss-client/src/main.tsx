@@ -23,54 +23,66 @@ import { AuthProvider } from "./contexts/AuthContext.tsx";
 import { AuthGate, PublicOnlyRoute } from "./components/AuthGate.tsx";
 import Chat from "./pages/Chat.tsx";
 import ConversationInitializer from "./pages/ConversationInitializer.tsx";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+// Create Query Client
+const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <ToastProvider>
-      <BrowserRouter>
-        <AuthProvider>
-          <Routes>
-            {/* Route 1: The Landing Page (No Auth required) */}
-            <Route path="/" element={<Home />} />
+    <QueryClientProvider client={queryClient}>
+      <ToastProvider>
+        <BrowserRouter>
+          <AuthProvider>
+            <Routes>
+              {/* Route 1: The Landing Page (No Auth required) */}
+              <Route path="/" element={<Home />} />
 
-            {/* Route 2: Public Routes (Login/Signup) */}
-            <Route element={<PublicOnlyRoute />}>
-              <Route element={<App />}>
-                <Route path="login" element={<Login />} />
-                <Route path="signup" element={<SignUp />} />
+              {/* Route 2: Public Routes (Login/Signup) */}
+              <Route element={<PublicOnlyRoute />}>
+                <Route element={<App />}>
+                  <Route path="login" element={<Login />} />
+                  <Route path="signup" element={<SignUp />} />
+                </Route>
               </Route>
-            </Route>
 
-            {/* 3. Protected Routes */}
-            <Route element={<AuthGate />}>
-              <Route element={<App />}>
-                {/* Onboarding Route (requires auth, enforces onboarding completion) */}
-                <Route path="onboarding" element={<OnboardingRouteWrapper />} />
+              {/* 3. Protected Routes */}
+              <Route element={<AuthGate />}>
+                <Route element={<App />}>
+                  {/* Onboarding Route (requires auth, enforces onboarding completion) */}
+                  <Route
+                    path="onboarding"
+                    element={<OnboardingRouteWrapper />}
+                  />
 
-                {/* Dashboard and other private routes */}
-                <Route path="dashboard" element={<Dashboard />} />
+                  {/* Dashboard and other private routes */}
+                  <Route path="dashboard" element={<Dashboard />} />
 
-                {/* 💡 ADDED: Messages Route (Now protected by AuthGate) */}
-                <Route path="messages" element={<Messages />} />
-                <Route
-                  path="messages/:profileId"
-                  element={<ConversationInitializer />}
-                />
-                <Route path="messages/:conversationId" element={<Chat />} />
+                  {/* 💡 ADDED: Messages Route (Now protected by AuthGate) */}
+                  <Route path="messages" element={<Messages />} />
+                  <Route
+                    path="messages/profile/:profileId"
+                    element={<ConversationInitializer />}
+                  />
+                  <Route
+                    path="messages/conversation/:conversationId"
+                    element={<Chat />}
+                  />
 
-                {/* 💡 CORRECTION: Use dynamic route path and the direct component */}
-                <Route path="profile/:id" element={<ProfilePage />} />
-                <Route path="profile" element={<Profile />} />
+                  {/* 💡 CORRECTION: Use dynamic route path and the direct component */}
+                  <Route path="profile/:id" element={<ProfilePage />} />
+                  <Route path="profile" element={<Profile />} />
 
-                <Route path="matches" element={<MatchPage />} />
+                  <Route path="matches" element={<MatchPage />} />
+                </Route>
               </Route>
-            </Route>
 
-            {/* Fallback 404 Route */}
-            <Route path="*" element={<div>404 Not Found</div>} />
-          </Routes>
-        </AuthProvider>
-      </BrowserRouter>
-    </ToastProvider>
+              {/* Fallback 404 Route */}
+              <Route path="*" element={<div>404 Not Found</div>} />
+            </Routes>
+          </AuthProvider>
+        </BrowserRouter>
+      </ToastProvider>
+    </QueryClientProvider>
   </React.StrictMode>
 );

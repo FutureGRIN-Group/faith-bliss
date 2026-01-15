@@ -372,23 +372,23 @@ const MessagesContent = () => {
   // }
 
   // Handle error state
-  if (error) {
-    return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
-        <div className="text-center p-8">
-          <p className="text-red-600 mb-4">
-            Failed to load conversations: {error.toString()}
-          </p>
-          <button
-            onClick={() => refetch()}
-            className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700"
-          >
-            Try Again
-          </button>
-        </div>
-      </div>
-    );
-  }
+  // if (error) {
+  //   return (
+  //     <div className="min-h-screen bg-white flex items-center justify-center">
+  //       <div className="text-center p-8">
+  //         <p className="text-red-600 mb-4">
+  //           Failed to load conversations: {error.toString()}
+  //         </p>
+  //         <button
+  //           onClick={() => refetch()}
+  //           className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700"
+  //         >
+  //           Try Again
+  //         </button>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   // Show no conversations state
   // if (realConversations.length === 0 && !profileIdParam) {
@@ -458,7 +458,7 @@ const MessagesContent = () => {
         </h3>
         <div className="flex flex-col gap-5">
           {Array.from({ length: 5 }).map((_, index) => (
-            <Link key={index} to={`/messages/${index}`}>
+            <Link key={index} to={`/messages/conversation/${index}`}>
               <div
                 className="rounded-xl  hover:bg-white/10 transition-colors duration-300 min-h-20 items-center flex gap-2"
                 key={index}

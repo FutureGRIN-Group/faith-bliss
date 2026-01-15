@@ -20,7 +20,7 @@ import { initializeSocketIO } from "./socket/socket";
 import authRoutes from "./routes/authRoutes";
 import userRoutes from "./routes/userRoutes";
 import matchRoutes from "./routes/matchRoutes";
-import messageRoutes from "./routes/messageRoutes";
+import conversationRoutes from "./routes/conversationRoutes";
 // 💡 NEW: Import the custom Firebase authentication middleware
 import { protect } from "./middleware/authMiddleware";
 import uploadRoutes from "./routes/uploadRoutes";
@@ -98,7 +98,7 @@ app.use("/api/auth", authRoutes);
 // Secure routes MUST use the 'protect' middleware
 app.use("/api/users", protect, userRoutes);
 app.use("/api/matches", protect, matchRoutes);
-app.use("/api/messages", protect, messageRoutes);
+app.use("/api/conversations", protect, conversationRoutes);
 app.use("/api/uploads", uploadRoutes);
 app.use("/api/users", photoRoutes);
 

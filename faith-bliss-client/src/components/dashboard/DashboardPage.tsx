@@ -184,7 +184,7 @@ export const DashboardPage = ({ user: activeUser }: { user: User }) => {
     // 🚨 FIX: Safely check for required data using fallback
     const profileId = currentProfile?.id || currentProfile?._id;
     if (profileId && currentProfile?.name) {
-      navigate(`/messages/${profileId}`);
+      navigate(`/messages/profile/${profileId}`);
     }
   };
 
