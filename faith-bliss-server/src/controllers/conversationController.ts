@@ -13,14 +13,30 @@ const getUserIdFromRequest = (req: Request): string => {
 // Create Conversation
 export const createConversation = async (req: Request, res: Response) => {
   try {
-    const otherUserId = req.body.profileId;
     // Check if user exists
     const userId = getUserIdFromRequest(req);
 
     const userDoc = await db.collection("users").doc(userId).get();
 
     if (!userDoc.exists) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({
+        status: "error",
+        message: "User not found",
+        data: { conversationId: null },
+      });
+    }
+
+    // Check if other exists
+    const otherUserId = req.body.profileId;
+
+    const otherUserDoc = await db.collection("users").doc(otherUserId).get();
+
+    if (!otherUserDoc.exists) {
+      return res.status(404).json({
+        status: "error",
+        message: "Other user not found",
+        data: { conversationId: null },
+      });
     }
 
     const conversationData: ConversationSummary = {
@@ -42,12 +58,16 @@ export const createConversation = async (req: Request, res: Response) => {
           unreadCount: 0,
           muted: false,
           archived: false,
+          avatarUrl: userDoc.data()?.profilePhoto1,
+          name: userDoc.data()?.name,
         },
         [otherUserId]: {
           lastReadAt: Timestamp.now(),
           unreadCount: 0,
           muted: false,
           archived: false,
+          avatarUrl: otherUserDoc.data()?.profilePhoto1,
+          name: otherUserDoc.data()?.name,
         },
       },
     };
@@ -57,8 +77,11 @@ export const createConversation = async (req: Request, res: Response) => {
       .add(conversationData);
 
     return res.status(201).json({
+      status: "success",
       message: "Conversation created successfully",
-      conversationId: newConversation.id,
+      data: {
+        conversationId: newConversation.id,
+      },
     });
   } catch (error) {
     console.error("Error creating conversation:", error);
@@ -79,7 +102,7 @@ export const getConversationIdByProfileId = async (
 
     if (!userDoc.exists) {
       return res.status(404).json({
-        status: "error",
+        status: "NOT_FOUND",
         message: "User not found",
         data: {
           conversationId: null,
@@ -95,7 +118,7 @@ export const getConversationIdByProfileId = async (
 
     if (!otherUserDoc.exists) {
       return res.status(404).json({
-        status: "error",
+        status: "NOT_FOUND",
         message: "User you are trying to chat with does not exist",
         data: {
           conversationId: null,
@@ -131,7 +154,40 @@ export const getConversationIdByProfileId = async (
     });
   } catch (error) {
     console.error("Error fetching conversation ID:", error);
-    return res.status(500).json({ message: "Internal server error" });
+    return res
+      .status(500)
+      .json({ message: "Internal server error", status: "ERROR", data: null });
+  }
+};
+
+// Get all chats for a user
+
+export const getConversationsForUser = async (req: Request, res: Response) => {
+  try {
+    const userId = getUserIdFromRequest(req);
+
+    //   Get All Conversations
+    const conversations = (
+      await db
+        .collection("conversations")
+        .where("participants", "array-contains", userId)
+        .get()
+    ).docs.map((doc) => doc.data());
+
+    console.log(conversations);
+
+    res.status(200).json({
+      status: "success",
+      message: "Conversations fetched successfully",
+      data: {
+        conversations,
+      },
+    });
+  } catch (err) {
+    console.error("Error fetching conversations:", err);
+    return res
+      .status(500)
+      .json({ message: "Internal server error", status: "ERROR", data: null });
   }
 };
 

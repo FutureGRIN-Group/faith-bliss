@@ -10,6 +10,7 @@ import {
 import {
   createConversation,
   getConversationIdByProfileId,
+  getConversationsForUser,
 } from "../controllers/conversationController";
 
 const router = Router();
@@ -23,7 +24,7 @@ router.use(protect);
 
 // Route to get the list of all match conversations
 // GET /api/conversations
-router.route("/").get(getMatchConversations);
+router.route("/").get(getConversationsForUser);
 router.route("/:profileId").get(getConversationIdByProfileId);
 router.route("/create").post(createConversation);
 

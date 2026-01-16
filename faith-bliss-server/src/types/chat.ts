@@ -27,6 +27,8 @@ export interface ConversationSummary {
       unreadCount: number;
       muted: boolean;
       archived: boolean;
+      avatarUrl: string;
+      name: string;
     };
   };
 }

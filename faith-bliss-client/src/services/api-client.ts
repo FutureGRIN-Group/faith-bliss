@@ -166,7 +166,7 @@ export const getApiClient = (accessToken: string | null) => ({
       ),
     getMatchConversations: () =>
       apiClientRequest<any[]>(
-        "/api/messages/conversations",
+        "/api/conversations",
         { method: "GET" },
         accessToken
       ),

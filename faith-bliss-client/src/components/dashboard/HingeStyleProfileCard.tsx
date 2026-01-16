@@ -63,31 +63,34 @@ export const HingeStyleProfileCard = ({
       </div>
     );
   }
+  console.log(profiles);
 
   return (
-    <div className="h-[80vh]  flex flex-col gap-3">
-      <div className=" grid place-items-center">
-        <span className="text-gray-500 border border-gray-500 rounded-full px-5 py-0.5 text-xs">
-          Swipe right to like and left to pass
-        </span>
-      </div>
-      <div className="h-4/5 relative">
+    <div className="h-[85vh] pb-5 px-5 justify-center    flex flex-col gap-10">
+      <div className="h-4/6 relative">
         {profiles.map((profile, index) => (
-          <TinderCard
-            ref={childRefs[index]}
-            key={profile.id}
-            className="px-5  inset-0 absolute  "
-            onSwipe={onSwipe}
-            onCardLeftScreen={() => onCardLeftScreen(profile.id)}
-            preventSwipe={["up", "down"]}
-          >
-            <img
-              src={profile.profilePhoto1}
-              loading="lazy"
-              alt={profile.name}
-              className="size-full object-cover rounded-4xl"
-            />
-          </TinderCard>
+          <div key={profile.id} className="inset-0 absolute  px-5">
+            <TinderCard
+              ref={childRefs[index]}
+              onSwipe={onSwipe}
+              className="h-full"
+              onCardLeftScreen={() => onCardLeftScreen(profile.id)}
+              preventSwipe={["up", "down"]}
+            >
+              <img
+                src={profile.profilePhoto1}
+                loading="lazy"
+                alt={profile.name}
+                className="size-full object-cover rounded-4xl"
+              />
+              <div className="flex justify-center bg-black/15 flex-col gap-1 px-5 absolute bottom-0 rounded-b-4xl  h-24 backdrop-blur-md left-0 right-0">
+                <span className=" text-white  text-3xl font-semibold">
+                  {profile.name}
+                </span>
+                <span>{profile.bio}</span>
+              </div>
+            </TinderCard>
+          </div>
         ))}
       </div>
       <div className="flex   w-full items-center justify-evenly  h-1/5">
