@@ -25,6 +25,7 @@ import conversationRoutes from "./routes/conversationRoutes";
 import { protect } from "./middleware/authMiddleware";
 import uploadRoutes from "./routes/uploadRoutes";
 import photoRoutes from "./routes/photoRoutes";
+import messageRoutes from "./routes/messagesRoutes";
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -99,6 +100,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/users", protect, userRoutes);
 app.use("/api/matches", protect, matchRoutes);
 app.use("/api/conversations", protect, conversationRoutes);
+app.use("/api/messages", protect, messageRoutes);
 app.use("/api/uploads", uploadRoutes);
 app.use("/api/users", photoRoutes);
 

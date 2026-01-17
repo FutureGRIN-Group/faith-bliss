@@ -33,6 +33,16 @@ export interface ConversationSummary {
   };
 }
 
+export interface ChatMessage {
+  conversationId: string;
+  senderId: string;
+  receiverId: string;
+  text: string;
+  isRead: boolean;
+  createdAt: Timestamp;
+  editedAt?: Timestamp;
+}
+
 export interface Message {
   id: string;
   matchId: string;

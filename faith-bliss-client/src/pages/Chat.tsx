@@ -8,6 +8,8 @@ export default function Chat() {
   const params = useParams<{ conversationId: string }>();
   const conversationId = params.conversationId;
   const [input, setInput] = useState("");
+  // TODO: Create Messages Table
+
   return (
     <div className="min-h-screen bg-linear-to-br from-gray-900 via-gray-900 to-gray-800 flex flex-col">
       <ChatHeader />

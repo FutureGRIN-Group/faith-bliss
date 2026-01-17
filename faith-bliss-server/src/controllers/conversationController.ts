@@ -174,8 +174,6 @@ export const getConversationsForUser = async (req: Request, res: Response) => {
         .get()
     ).docs.map((doc) => doc.data());
 
-    console.log(conversations);
-
     res.status(200).json({
       status: "success",
       message: "Conversations fetched successfully",

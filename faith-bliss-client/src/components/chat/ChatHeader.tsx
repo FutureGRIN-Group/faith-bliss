@@ -7,7 +7,7 @@ export default function ChatHeader() {
   return (
     <div className=" h-[11vh] border-b border-gray-700 p-5 shadow-lg flex justify-between items-center">
       <div className="flex items-center gap-7">
-        <div onClick={() => navigate("/dashboard")}>
+        <div onClick={() => navigate("/messages")}>
           <ChevronLeft size={27} />
         </div>
         <Avatar className="size-14">

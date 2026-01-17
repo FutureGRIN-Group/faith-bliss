@@ -22,6 +22,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useQuery } from "@tanstack/react-query";
 import api from "@/services/axios";
 import { getAuth } from "firebase/auth";
+import { convertFirestoreTimestampToDate } from "@/lib/helpers";
 
 // Define the Session and Image props interfaces
 interface SessionData {
@@ -79,8 +80,6 @@ const MessagesContent = () => {
   const conversations = response?.data.data
     .conversations as ConversationSummary[];
 
-  console.log(conversations);
-
   // Handle error state
   if (error) {
     return (
@@ -122,8 +121,8 @@ const MessagesContent = () => {
   }
 
   return (
-    <div className="px-7 py-3 bg-linear-to-br from-gray-900 flex flex-col gap-10 via-gray-900 to-gray-800 text-white overflow-x-hidden pb-20 no-horizontal-scroll dashboard-main">
-      <div className="flex items-center gap-5">
+    <div className=" py-3 bg-linear-to-br from-gray-900 flex flex-col gap-10 via-gray-900 to-gray-800 text-white overflow-x-hidden pb-20 no-horizontal-scroll dashboard-main">
+      <div className="flex items-center gap-5 px-3">
         <div
           className="cursor-pointer text-gray-400"
           onClick={() => navigate(-1)}
@@ -137,8 +136,8 @@ const MessagesContent = () => {
           </InputGroupAddon>
         </InputGroup>
       </div>
-      <div className="flex flex-col gap-7">
-        <h3 className="text-xl font-semibold text-gray-400  tracking-wider">
+      <div className="flex flex-col gap-7 pl-3">
+        <h3 className="text-xl px-3 font-semibold text-gray-400  tracking-wider">
           Activities
         </h3>
         <div className=" flex gap-3 overflow-x-auto">
@@ -153,8 +152,8 @@ const MessagesContent = () => {
           ))}
         </div>
       </div>
-      <div className="flex flex-col gap-7">
-        <h3 className="text-xl font-semibold text-gray-400  tracking-wider">
+      <div className="flex flex-col gap-7 px-2">
+        <h3 className="text-xl px-3 font-semibold text-gray-400  tracking-wider">
           Messages
         </h3>
         <div className="flex flex-col gap-5">
@@ -162,13 +161,26 @@ const MessagesContent = () => {
             const otherUser = conv.participants.find(
               (user) => user !== currentUser
             ) as string;
+
+            // Convert Firestore timestamp to Date object
+            const lastReadAtTime = convertFirestoreTimestampToDate(
+              conv.readState?.[otherUser]?.lastReadAt
+            ).getTime();
+
+            const lastReadAtDiff = Date.now() - lastReadAtTime;
+
+            // Convert Diff in Mill secs to hours
+            const lastReadAtDiffHours = Math.round(
+              lastReadAtDiff / (1000 * 60 * 60)
+            );
+
             return (
               <Link
                 key={index}
                 to={`/messages/conversation/${conv.membersKey}`}
               >
                 <div
-                  className="rounded-xl  hover:bg-white/10 transition-colors duration-300 min-h-20 items-center flex gap-2"
+                  className="rounded-xl px-3 hover:bg-white/10 transition-colors duration-300 min-h-20 items-center flex gap-2"
                   key={index}
                 >
                   <Avatar className="size-16">
@@ -186,20 +198,15 @@ const MessagesContent = () => {
                       <h4 className="font-semibold text-lg">
                         {conv.readState?.[otherUser]?.name || otherUser}
                       </h4>
-                      {/* <span className="text-xs text-gray-400">
-                      {conv.lastMessage?.createdAt
-                        ? formatDistanceToNow(
-                            new Date(conv.lastMessage?.createdAt),
-                            {
-                              addSuffix: true,
-                            }
-                          )
-                        : "No messages yet"}
-                    </span> */}
+                      <span className="text-xs text-gray-400">
+                        {lastReadAtDiffHours === 0
+                          ? "Just now"
+                          : `${lastReadAtDiffHours} hours ago`}{" "}
+                      </span>
                     </div>
                     <div className="flex justify-between items-center">
                       <p className="text-base text-gray-300">
-                        {conv.lastMessage.text || "No messages yet"}
+                        {conv.lastMessage.text || "Say Hello 👋"}
                       </p>
                       <div className="rounded-full text-xs bg-accent-400 size-6 grid place-items-center">
                         2

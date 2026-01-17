@@ -18,6 +18,14 @@ export default function ChatInput({
       <InputGroup className="h-full">
         <InputGroupTextarea
           value={input}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              handleInput(input);
+              setInput("");
+            }
+          }}
+          className="text-gray-300"
           onChange={(e) => setInput(e.target.value)}
           placeholder="Your message"
         />
