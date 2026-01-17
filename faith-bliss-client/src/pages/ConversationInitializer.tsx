@@ -12,10 +12,14 @@ export default function ConversationInitializer() {
   const params = useParams<{ profileId: string }>();
   const profileId = params.profileId;
   const [errorShowed, setErrorShowed] = useState(false);
-  const [newConversationId, setNewConversationId] = useState("");
+  const [isCreated, setIsCreated] = useState(false);
 
   //  Try to retrieve Conversation Id using profileId
-  const { data: conversationId, isLoading } = useQuery({
+  const {
+    data: conversationId,
+    isLoading,
+    refetch,
+  } = useQuery({
     queryKey: ["conversation-by-profileId"],
     queryFn: async () =>
       await getConversationId(profileId ?? "", errorShowed, (val) =>
@@ -29,8 +33,8 @@ export default function ConversationInitializer() {
       await api.post("/api/conversations", {
         profileId,
       }),
-    onSuccess: (data) => {
-      setNewConversationId(data.data.conversationId);
+    onSuccess: () => {
+      refetch();
     },
   });
 
@@ -38,10 +42,14 @@ export default function ConversationInitializer() {
     return <HeartBeatLoader message="Loading Chat..." />;
   }
 
-  if (!conversationId) {
+  if (!conversationId && !isCreated) {
     // Create a new conversation
     createConversation();
-    return <Navigate to={`/messages/conversation/${newConversationId}`} />;
+    setIsCreated(true);
   }
-  return <Navigate to={`/messages/conversation/${conversationId}`} />;
+  return conversationId ? (
+    <Navigate to={`/messages/conversation/${conversationId}`} />
+  ) : (
+    <HeartBeatLoader message="Loading Chat..." />
+  );
 }

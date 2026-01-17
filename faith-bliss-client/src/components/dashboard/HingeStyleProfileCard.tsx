@@ -27,7 +27,7 @@ export const HingeStyleProfileCard = ({
       Array(profiles.length)
         .fill(0)
         .map((item) => createRef()),
-    [profiles.length]
+    [profiles.length],
   ) as Ref<any>[];
 
   const onSwipe = (direction: string) => {
@@ -85,7 +85,7 @@ export const HingeStyleProfileCard = ({
               />
               <div className="flex justify-center bg-black/15 flex-col gap-1 px-5 absolute bottom-0 rounded-b-4xl  h-24 backdrop-blur-md left-0 right-0">
                 <span className=" text-white  text-3xl font-semibold">
-                  {profile.name}
+                  {profile.name.split(" ").slice(0, 2).join(" ")}
                 </span>
                 <span>{profile.bio}</span>
               </div>

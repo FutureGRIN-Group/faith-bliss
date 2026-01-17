@@ -28,7 +28,9 @@ export default function ChatHeader({
           </AvatarFallback>
         </Avatar>
         <div className="flex flex-col">
-          <span className="text-xl font-semibold">{name}</span>
+          <span className="text-xl font-semibold">
+            {name.split(" ").slice(0, 2).join(" ")}
+          </span>
           <span className="text-sm text-gray-500">Online</span>
         </div>
       </div>

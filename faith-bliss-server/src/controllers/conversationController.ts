@@ -38,10 +38,11 @@ export const createConversation = async (req: Request, res: Response) => {
         data: { conversationId: null },
       });
     }
+    const membersKey = [userId, otherUserId].sort().join("-");
 
     const conversationData: ConversationSummary = {
       participants: [userId, otherUserId],
-      membersKey: `${userId}-${otherUserId}`,
+      membersKey,
       type: "direct",
       createdAt: Timestamp.now(),
       updatedAt: Timestamp.now(),
@@ -92,7 +93,7 @@ export const createConversation = async (req: Request, res: Response) => {
 // Get Conversation ID By Profile Id
 export const getConversationIdByProfileId = async (
   req: Request,
-  res: Response
+  res: Response,
 ) => {
   try {
     const userId = getUserIdFromRequest(req);
@@ -126,10 +127,11 @@ export const getConversationIdByProfileId = async (
     }
 
     // If both users Exist, check if they have chatted before by retrieving conversation Id
+    const membersKey = [userDoc.id, otherUserDoc.id].sort().join("-");
 
     const queryResult = await db
       .collection("conversations")
-      .where("membersKey", "==", `${userDoc.id}-${otherUserDoc.id}`)
+      .where("membersKey", "==", membersKey)
       .get();
 
     if (queryResult.empty) {
@@ -325,7 +327,7 @@ export const getAllConversations = async (req: Request, res: Response) => {
  */
 export const getConversationMessages = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<Response> => {
   const { matchId } = req.params;
   const page = parseInt(req.query.page as string) || 1;
@@ -354,8 +356,8 @@ export const getConversationMessages = async (
     // 2️⃣ Fetch all user info for participants
     const userDocs = await Promise.all(
       matchData.users.map((uid: string) =>
-        db.collection("users").doc(uid).get()
-      )
+        db.collection("users").doc(uid).get(),
+      ),
     );
 
     const userMap: Record<

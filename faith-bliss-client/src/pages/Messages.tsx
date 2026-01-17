@@ -121,7 +121,7 @@ const MessagesContent = () => {
   }
 
   return (
-    <div className=" py-3 bg-linear-to-br from-gray-900 flex flex-col gap-10 via-gray-900 to-gray-800 text-white overflow-x-hidden pb-20 no-horizontal-scroll dashboard-main">
+    <div className=" py-3 bg-linear-to-br min-h-[85vh] from-gray-900 flex flex-col gap-10 via-gray-900 to-gray-800 text-white overflow-x-hidden pb-20 no-horizontal-scroll dashboard-main">
       <div className="flex items-center gap-5 px-3">
         <div
           className="cursor-pointer text-gray-400"

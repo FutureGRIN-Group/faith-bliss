@@ -61,6 +61,17 @@ export interface ConversationSummary {
   };
 }
 
+export interface ChatMessage {
+  id: string;
+  conversationId: string;
+  senderId: string;
+  receiverId: string;
+  text: string;
+  isRead: boolean;
+  createdAt: Timestamp;
+  editedAt?: Timestamp;
+}
+
 /**
  * Interface for a summary of a conversation (used in the sidebar list).
  */
