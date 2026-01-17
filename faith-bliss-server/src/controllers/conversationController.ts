@@ -6,7 +6,7 @@ import { ConversationSummary, Message } from "../types/chat";
 import { Timestamp } from "firebase-admin/firestore";
 
 // Helper function to get the authenticated user ID
-const getUserIdFromRequest = (req: Request): string => {
+export const getUserIdFromRequest = (req: Request): string => {
   return (req as any).user.uid;
 };
 
@@ -90,7 +90,6 @@ export const createConversation = async (req: Request, res: Response) => {
 };
 
 // Get Conversation ID By Profile Id
-
 export const getConversationIdByProfileId = async (
   req: Request,
   res: Response
@@ -136,7 +135,7 @@ export const getConversationIdByProfileId = async (
     if (queryResult.empty) {
       return res.status(404).json({
         status: "error",
-        message: `Creating a new conversation with ${
+        message: `Creating a new chat with ${
           otherUserDoc.data()?.name || "Unknown"
         }`,
         data: {
@@ -160,9 +159,35 @@ export const getConversationIdByProfileId = async (
   }
 };
 
-// Get all chats for a user
+// Get Conversation by conversationId
+export const getConversationById = async (req: Request, res: Response) => {
+  const { conversationId } = req.params as { conversationId: string };
 
-export const getConversationsForUser = async (req: Request, res: Response) => {
+  // Fetch Conversation
+  const conversationDoc = await db
+    .collection("conversations")
+    .doc(conversationId)
+    .get();
+  if (!conversationDoc.exists) {
+    return res.status(404).json({
+      status: "error",
+      message: "Conversation not found",
+      data: { conversation: null },
+    });
+  }
+  const conversation = conversationDoc.data() as ConversationSummary;
+
+  res.status(200).json({
+    status: "success",
+    message: "Conversation fetched successfully",
+    data: {
+      conversation,
+    },
+  });
+};
+
+// Get all Conversation for a user
+export const getAllConversations = async (req: Request, res: Response) => {
   try {
     const userId = getUserIdFromRequest(req);
 
@@ -172,7 +197,7 @@ export const getConversationsForUser = async (req: Request, res: Response) => {
         .collection("conversations")
         .where("participants", "array-contains", userId)
         .get()
-    ).docs.map((doc) => doc.data());
+    ).docs.map((doc) => ({ ...doc.data(), id: doc.id }));
 
     res.status(200).json({
       status: "success",

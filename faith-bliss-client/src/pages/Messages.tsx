@@ -175,10 +175,7 @@ const MessagesContent = () => {
             );
 
             return (
-              <Link
-                key={index}
-                to={`/messages/conversation/${conv.membersKey}`}
-              >
+              <Link key={index} to={`/messages/conversation/${conv.id}`}>
                 <div
                   className="rounded-xl px-3 hover:bg-white/10 transition-colors duration-300 min-h-20 items-center flex gap-2"
                   key={index}

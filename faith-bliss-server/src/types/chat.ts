@@ -7,6 +7,7 @@ import { Timestamp } from "firebase-admin/firestore";
  */
 // Updated ConversationSummary interface
 export interface ConversationSummary {
+  id?: string;
   participants: string[];
   membersKey: string;
   type: "direct" | "group";

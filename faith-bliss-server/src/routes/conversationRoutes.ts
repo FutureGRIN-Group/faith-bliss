@@ -9,8 +9,9 @@ import {
 } from "../controllers/matchController"; // <-- Pulling real logic from matchController
 import {
   createConversation,
+  getAllConversations,
+  getConversationById,
   getConversationIdByProfileId,
-  getConversationsForUser,
 } from "../controllers/conversationController";
 
 const router = Router();
@@ -24,9 +25,9 @@ router.use(protect);
 
 // Route to get the list of all match conversations
 // GET /api/conversations
-router.route("/").get(getConversationsForUser);
-router.route("/:profileId").get(getConversationIdByProfileId);
-router.route("/create").post(createConversation);
+router.route("/").get(getAllConversations).post(createConversation);
+router.route("/:conversationId").get(getConversationById);
+router.route("/with-user/:profileId").get(getConversationIdByProfileId);
 
 // Route to get the unread count
 // GET /api/conversations/unread-count

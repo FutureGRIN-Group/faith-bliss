@@ -16,7 +16,7 @@ export default function ConversationInitializer() {
 
   //  Try to retrieve Conversation Id using profileId
   const { data: conversationId, isLoading } = useQuery({
-    queryKey: ["conversation"],
+    queryKey: ["conversation-by-profileId"],
     queryFn: async () =>
       await getConversationId(profileId ?? "", errorShowed, (val) =>
         setErrorShowed(val)
@@ -26,7 +26,7 @@ export default function ConversationInitializer() {
   //   Mutation Function that creates a new Conversation
   const { mutate: createConversation, isPending } = useMutation({
     mutationFn: async () =>
-      await api.post("/api/conversations/create", {
+      await api.post("/api/conversations", {
         profileId,
       }),
     onSuccess: (data) => {

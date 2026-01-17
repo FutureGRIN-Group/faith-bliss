@@ -14,7 +14,7 @@ export async function getConversationId(
   setErrorShowed: (value: boolean) => void
 ) {
   try {
-    const response = await api.get(`/api/conversations/${profileId}`);
+    const response = await api.get(`/api/conversations/with-user/${profileId}`);
     return response.data.data.conversationId;
   } catch (error) {
     const err = error as AxiosError;
