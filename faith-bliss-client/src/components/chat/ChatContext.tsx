@@ -1,5 +1,4 @@
 import { db } from "@/firebase/config";
-import { convertFirestoreTimestampToDate } from "@/lib/helpers";
 import { cn } from "@/lib/utils";
 import type { ChatMessage } from "@/types/chat";
 import {
@@ -10,16 +9,20 @@ import {
   query,
   where,
 } from "firebase/firestore";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 export default function ChatContext({
   currentUser,
   conversationId,
+  messages,
+  updateMessages,
 }: {
+  updateMessages: (docs: Array<ChatMessage>) => void;
+  messages: Array<DocumentData>;
   currentUser: string;
   conversationId: string;
 }) {
-  const [messages, setMessages] = useState<Array<DocumentData>>([]);
+  // const [messages, setMessages] = useState<Array<DocumentData>>([]);
   const containerRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (!conversationId) return;
@@ -31,7 +34,11 @@ export default function ChatContext({
     );
     // Subscribe to message Changes
     const unsubscribe = onSnapshot(q, (docs) => {
-      setMessages(docs.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+      const newMessages = docs.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      })) as Array<ChatMessage>;
+      updateMessages(newMessages);
     });
 
     return () => unsubscribe();
@@ -76,7 +83,9 @@ export default function ChatContext({
             )}
           >
             <p className="leading-normal">{message.text}</p>
-            <span className="text-[10px] self-end">{createdAt}</span>
+            <span className="text-[10px] text-gray-200 self-end">
+              {createdAt}
+            </span>
           </div>
         );
       })}

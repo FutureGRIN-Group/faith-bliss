@@ -8,7 +8,9 @@ import type { ConversationSummary } from "@/types/chat";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import type { AxiosError } from "axios";
 import { getAuth } from "firebase/auth";
+import { Timestamp, type DocumentData } from "firebase/firestore";
 import { ChevronLeft, RefreshCw } from "lucide-react";
+import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
 
@@ -17,6 +19,7 @@ export default function Chat() {
   const conversationId = params.conversationId;
   const currentUser = getAuth().currentUser?.uid;
   const navigate = useNavigate();
+  const [messages, setMessages] = useState<Array<DocumentData>>([]);
 
   // Fetch Conversation Object
   const {
@@ -84,10 +87,27 @@ export default function Chat() {
       <ChatHeader avatarUrl={avatarUrl} name={name} />
       <div className=" pr-0 pt-0 ">
         <ChatContext
+          messages={messages}
+          updateMessages={(newMessages) => setMessages(newMessages)}
           currentUser={currentUser as string}
           conversationId={conversationId as string}
         />
-        <ChatInput handleInput={(value) => sendMessage(value)} />
+        <ChatInput
+          handleInput={(value) => {
+            // Update messages array for instant feedback
+            const tempId = Math.random().toString(36);
+            const tempMessage = {
+              id: tempId,
+              text: value,
+              senderId: currentUser,
+              createdAt: Timestamp.now(),
+            };
+            setMessages((prev) => [...prev, tempMessage]);
+
+            // Then send message
+            sendMessage(value);
+          }}
+        />
       </div>
     </div>
   );
