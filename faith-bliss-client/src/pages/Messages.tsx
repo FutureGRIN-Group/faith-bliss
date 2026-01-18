@@ -159,19 +159,19 @@ const MessagesContent = () => {
         <div className="flex flex-col gap-5">
           {conversations?.map((conv, index) => {
             const otherUser = conv.participants.find(
-              (user) => user !== currentUser
+              (user) => user !== currentUser,
             ) as string;
 
             // Convert Firestore timestamp to Date object
             const lastReadAtTime = convertFirestoreTimestampToDate(
-              conv.readState?.[otherUser]?.lastReadAt
+              conv.readState?.[otherUser]?.lastReadAt,
             ).getTime();
 
             const lastReadAtDiff = Date.now() - lastReadAtTime;
 
             // Convert Diff in Mill secs to hours
             const lastReadAtDiffHours = Math.round(
-              lastReadAtDiff / (1000 * 60 * 60)
+              lastReadAtDiff / (1000 * 60 * 60),
             );
 
             return (
