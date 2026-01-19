@@ -75,7 +75,7 @@ export const TopBar = ({
             </div>
             <div>
               <h1 className="text-xl capitalize font-bold bg-linear-to-r from-white to-gray-300 bg-clip-text text-transparent">
-                {path.replace("/", "")}
+                {path === "/dashboard" ? "Discover" : path.replace("/", "")}
               </h1>
               <p className="text-sm text-gray-400 hidden md:block">
                 {title ? `Edit your profile, ${userName}` : `${userName} ✨`}

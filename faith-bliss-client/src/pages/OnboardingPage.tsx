@@ -1,26 +1,28 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import ProtectedRoute from '../components/auth/ProtectedRoute';
-import { useAuth } from '../hooks/useAuth';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import ProtectedRoute from "../components/auth/ProtectedRoute";
+import { useAuth } from "../hooks/useAuth";
 import {
   OnboardingHeader,
   OnboardingNavigation,
   OnboardingSuccessModal,
   type OnboardingData,
-} from '../components/onboarding/index';
+} from "../components/onboarding/index";
 
-import ImageUploadSlide from '../components/onboarding/ImageUploadSlide';
-import ProfileBuilderSlide from '../components/onboarding/ProfileBuilderSlide';
-import MatchingPreferencesSlide from '../components/onboarding/MatchingPreferencesSlide';
-import PartnerPreferencesSlide from '../components/onboarding/PartnerPreferencesSlide';
-import RelationshipGoalsSlide from '../components/onboarding/RelationshipGoalsSlide';
+import ImageUploadSlide from "../components/onboarding/ImageUploadSlide";
+import ProfileBuilderSlide from "../components/onboarding/ProfileBuilderSlide";
+import MatchingPreferencesSlide from "../components/onboarding/MatchingPreferencesSlide";
+import PartnerPreferencesSlide from "../components/onboarding/PartnerPreferencesSlide";
+import RelationshipGoalsSlide from "../components/onboarding/RelationshipGoalsSlide";
 
-import { uploadPhotosToCloudinary } from '../api/cloudinaryUpload';
+import { uploadPhotosToCloudinary } from "../api/cloudinaryUpload";
 
 // --- TYPE ---
-type OnboardingUpdateData = Partial<Omit<OnboardingData, 'photos' | 'customDenomination'>> & {
+type OnboardingUpdateData = Partial<
+  Omit<OnboardingData, "photos" | "customDenomination">
+> & {
   profilePhoto1?: string;
   profilePhoto2?: string;
   profilePhoto3?: string;
@@ -43,32 +45,32 @@ const OnboardingPage = () => {
 
   const [onboardingData, setOnboardingData] = useState<OnboardingData>({
     photos: [],
-    birthday: '',
-    location: '',
+    birthday: "",
+    location: "",
     latitude: undefined,
     longitude: undefined,
     faithJourney: null as any,
     churchAttendance: null as any,
-    denomination: '',
-    customDenomination: '',
-    occupation: '',
-    bio: '',
+    denomination: "",
+    customDenomination: "",
+    occupation: "",
+    bio: "",
     personality: [],
     hobbies: [],
     values: [],
-    favoriteVerse: '',
+    favoriteVerse: "",
     relationshipGoals: [],
     preferredGender: null,
     minAge: 18,
     maxAge: 35,
     maxDistance: 50,
-    phoneNumber: '',
-    countryCode: '+1',
-    education: '',
-    baptismStatus: '',
+    phoneNumber: "",
+    countryCode: "+1",
+    education: "",
+    baptismStatus: "",
     spiritualGifts: [],
     interests: [],
-    lifestyle: '',
+    lifestyle: "",
     preferredFaithJourney: null,
     preferredChurchAttendance: null,
     preferredRelationshipGoals: null,
@@ -81,7 +83,7 @@ const OnboardingPage = () => {
 
     // --- Validation per step ---
     if (currentStep === 0 && onboardingData.photos.length < 2) {
-      return setValidationError('Please upload at least 2 photos.');
+      return setValidationError("Please upload at least 2 photos.");
     }
     if (
       currentStep === 1 &&
@@ -90,13 +92,15 @@ const OnboardingPage = () => {
         !onboardingData.faithJourney ||
         !onboardingData.churchAttendance)
     ) {
-      return setValidationError('Please fill out all required profile information.');
+      return setValidationError(
+        "Please fill out all required profile information."
+      );
     }
     if (currentStep === 2 && onboardingData.relationshipGoals.length === 0) {
-      return setValidationError('Please select your relationship goal.');
+      return setValidationError("Please select your relationship goal.");
     }
     if (currentStep === 3 && !onboardingData.preferredFaithJourney) {
-      return setValidationError('Please complete your partner preferences.');
+      return setValidationError("Please complete your partner preferences.");
     }
     if (
       currentStep === 4 &&
@@ -105,7 +109,7 @@ const OnboardingPage = () => {
         !onboardingData.maxAge ||
         !onboardingData.maxDistance)
     ) {
-      return setValidationError('Please fill out all matching preferences.');
+      return setValidationError("Please fill out all matching preferences.");
     }
 
     // --- Continue or Submit ---
@@ -117,10 +121,12 @@ const OnboardingPage = () => {
     // --- Final Submission ---
     try {
       const userId = user?.uid || user?.id;
-      if (!userId) throw new Error('User not authenticated.');
+      if (!userId) throw new Error("User not authenticated.");
 
       // --- UPLOAD PHOTOS TO CLOUDINARY ---
-      const photoUrls = await uploadPhotosToCloudinary(onboardingData.photos as File[]);
+      const photoUrls = await uploadPhotosToCloudinary(
+        onboardingData.photos as File[]
+      );
 
       // Merge photo URLs with other data
       const { photos: _, customDenomination: __, ...baseData } = onboardingData;
@@ -137,7 +143,7 @@ const OnboardingPage = () => {
         if (
           value !== null &&
           value !== undefined &&
-          !(typeof value === 'string' && value.trim() === '')
+          !(typeof value === "string" && value.trim() === "")
         ) {
           (dataToSubmit as any)[key] = value;
         }
@@ -145,18 +151,20 @@ const OnboardingPage = () => {
 
       const success = await completeOnboarding({
         ...dataToSubmit,
-        birthday: dataToSubmit.birthday ? new Date(dataToSubmit.birthday) : undefined,
+        birthday: dataToSubmit.birthday
+          ? new Date(dataToSubmit.birthday)
+          : undefined,
       });
 
       if (success) {
         setShowSuccessModal(true);
-        setTimeout(() => navigate('/dashboard'), 3000);
+        setTimeout(() => navigate("/dashboard"), 3000);
       } else {
-        throw new Error('Onboarding failed. Please try again.');
+        throw new Error("Onboarding failed. Please try again.");
       }
     } catch (err: any) {
-      setValidationError(err.message || 'An error occurred.');
-      console.error('❌ Onboarding error:', err);
+      setValidationError(err.message || "An error occurred.");
+      console.error("❌ Onboarding error:", err);
     }
   };
 

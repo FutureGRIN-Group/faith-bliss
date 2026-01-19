@@ -34,7 +34,9 @@
   --color-error-50: #fff8f7;
   --color-error-500: #f44336;
 
-  --color-favorite-500: #8a2387;
+  --color-accent-400: #c438cd;
+  --color-accent-500: #8a2387;
+  --color-accent-600: #f6339a;
 }
 
 /*
@@ -450,5 +452,8 @@ body {
   }
   body {
     @apply bg-background text-foreground;
+  }
+  .gradient-effect {
+    @apply bg-linear-to-br from-gray-900 via-gray-900 to-gray-800;
   }
 }
