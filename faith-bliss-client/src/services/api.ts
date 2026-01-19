@@ -185,7 +185,8 @@ export interface UpdateProfileDto {
     | "LUTHERAN"
     | "ASSEMBLIES_OF_GOD"
     | "SEVENTH_DAY_ADVENTIST"
-    | "OTHER";
+    | "OTHER"
+    | string;
   bio?: string;
   location?: string;
   latitude?: number | null;
@@ -195,8 +196,14 @@ export interface UpdateProfileDto {
   birthday?: string; // ISO 8601 date string
   fieldOfStudy?: string;
   profession?: string;
-  faithJourney?: "GROWING" | "ESTABLISHED" | "SEEKING";
-  sundayActivity?: "WEEKLY" | "BI_WEEKLY" | "MONTHLY" | "RARELY";
+  educationLevel?: string;
+  company?: string;
+  smoking?: "YES" | "NO" | "SOMETIMES";
+  drinking?: "YES" | "NO" | "SOMETIMES";
+  kids?: string;
+  height?: number;
+  faithJourney?: "GROWING" | "ESTABLISHED" | "SEEKING" | string;
+  sundayActivity?: "WEEKLY" | "BI_WEEKLY" | "MONTHLY" | "RARELY" | string;
   lookingFor?: string[];
   hobbies?: string[];
   values?: string[];

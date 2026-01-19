@@ -1,122 +1,133 @@
-import type { ProfileData } from "@/types/profile";
+import React from 'react';
+import { useProfileStore } from '@/store/profileStore';
+import { ProfileField, ProfileTextArea, ProfileSelect } from './ProfileField';
+import { GENDER_OPTIONS, YES_NO_OPTIONS } from '@/constants/profileOptions';
 
-interface BasicInfoSectionProps {
-  profileData: ProfileData;
-  setProfileData: React.Dispatch<React.SetStateAction<ProfileData | null>>;
-}
+const BasicInfoSection: React.FC = () => {
+  const { draft, updateDraft, errors } = useProfileStore();
 
-const BasicInfoSection = ({ profileData, setProfileData }: BasicInfoSectionProps) => {
+  if (!draft) return null;
+
   return (
-    <div className="space-y-6">
-      <div className="bg-gray-800/50 rounded-3xl p-8 border border-gray-700/50">
-        <h2 className="text-2xl font-bold text-white mb-6">Basic Information</h2>
+    <div className="space-y-6 animate-in fade-in duration-500">
+      <div className="bg-gray-800/50 rounded-3xl p-6 sm:p-8 border border-gray-700/50">
+        <h2 className="text-2xl font-bold text-white mb-6">Basic Info</h2>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <label className="block text-sm font-semibold text-gray-300 mb-3">First Name</label>
-            <input
-              type="text"
-              value={profileData.name || ''}
-              onChange={(e) => setProfileData(prev => prev ? ({...prev, name: e.target.value}) : null)}
-              className="w-full p-4 bg-gray-700/50 border border-gray-600/50 rounded-2xl text-white placeholder-gray-400 focus:border-pink-500 focus:outline-hidden transition-colors"
-              placeholder="Enter your first name"
+          <ProfileField
+            label="Full Name"
+            value={draft.name}
+            onChange={(e) => updateDraft({ name: e.target.value })}
+            error={errors.name}
+          />
+          
+          <div className="grid grid-cols-2 gap-4">
+             <ProfileField
+                label="Age"
+                type="number"
+                value={draft.age}
+                onChange={(e) => updateDraft({ age: parseInt(e.target.value) || 0 })}
+                error={errors.age}
+             />
+             
+             <ProfileSelect
+                label="Gender"
+                value={draft.gender}
+                onChange={(e) => updateDraft({ gender: e.target.value as any })}
+                options={GENDER_OPTIONS}
+                error={errors.gender}
+             />
+          </div>
+
+          <div className="md:col-span-2">
+            <ProfileTextArea
+              label="Bio"
+              value={draft.bio || ''}
+              onChange={(e) => updateDraft({ bio: e.target.value })}
+              placeholder="Tell us about yourself..."
+              error={errors.bio}
+              helperText={`${(draft.bio || '').length}/500 characters`}
+              maxLength={500}
             />
           </div>
+          
+          <ProfileField
+            label="Location"
+            value={draft.location?.address || ''}
+            onChange={(e) => updateDraft({ location: { ...draft.location, address: e.target.value, latitude: null, longitude: null } })}
+            placeholder="City, Country"
+            error={errors['location.address']}
+          />
 
-          <div>
-            <label className="block text-sm font-semibold text-gray-300 mb-3">Age</label>
-            <input
-              type="number"
-              value={profileData.age}
-              onChange={(e) => setProfileData(prev => prev ? ({...prev, age: parseInt(e.target.value)}) : null)}
-              className="w-full p-4 bg-gray-700/50 border border-gray-600/50 rounded-2xl text-white placeholder-gray-400 focus:border-pink-500 focus:outline-hidden transition-colors"
-              placeholder="25"
-            />
-          </div>
+          <ProfileField
+             label="Height (cm)"
+             type="number"
+             value={draft.height || ''}
+             onChange={(e) => updateDraft({ height: parseInt(e.target.value) || undefined })}
+             error={errors.height}
+          />
 
-          <div>
-            <label className="block text-sm font-semibold text-gray-300 mb-3">Job Title</label>
-            <input
-              type="text"
-              value={profileData.profession || ''}
-              onChange={(e) => setProfileData(prev => prev ? ({...prev, profession: e.target.value}) : null)}
-              className="w-full p-4 bg-gray-700/50 border border-gray-600/50 rounded-2xl text-white placeholder-gray-400 focus:border-pink-500 focus:outline-hidden transition-colors"
-              placeholder="Product Designer"
-            />
-          </div>
-
-
-
-          <div>
-            <label className="block text-sm font-semibold text-gray-300 mb-3">Education</label>
-            <select
-              value={profileData.fieldOfStudy || ''}
-              onChange={(e) => setProfileData(prev => prev ? ({...prev, fieldOfStudy: e.target.value}) : null)}
-              className="w-full p-4 bg-gray-700/50 border border-gray-600/50 rounded-2xl text-white focus:border-pink-500 focus:outline-hidden transition-colors"
-            >
-              <option value="">Select education</option>
-              <option value="High School">High School</option>
-              <option value="Some College">Some College</option>
-              <option value="University Graduate">University Graduate</option>
-              <option value="Postgraduate">Postgraduate</option>
-            </select>
-          </div>
         </div>
+      </div>
 
-        <div className="mt-6">
-          <label className="block text-sm font-semibold text-gray-300 mb-3">Location</label>
-          <div className="relative">
-            <input
-              type="text"
-              value={profileData.location?.address || ''}
-              onChange={(e) => setProfileData(prev => prev ? ({
-                ...prev,
-                location: {
-                  ...(prev.location || { latitude: 0, longitude: 0, address: '' }),
-                  address: e.target.value
-                }
-              }) : null)}
-              className="w-full p-4 pr-12 bg-gray-700/50 border border-gray-600/50 rounded-2xl text-white placeholder-gray-400 focus:border-pink-500 focus:outline-hidden transition-colors"
-              placeholder="Lagos, Nigeria"
-            />
-            <button
-              onClick={async () => {
-                if (navigator.geolocation) {
-                  navigator.geolocation.getCurrentPosition(
-                    async (position) => {
-                      try {
-                        const { latitude, longitude } = position.coords;
-                        // Use reverse geocoding to get location name
-                        const response = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`);
-                        const data = await response.json();
-                        const address = `${data.city}, ${data.countryName}`;
-                        setProfileData(prev => prev ? ({...prev, location: { latitude, longitude, address }}) : null);
-                      } catch (error) {
-                        console.error('Error getting location:', error);
-                        alert('Unable to get your location. Please enter it manually.');
-                      }
-                    },
-                    (error) => {
-                      console.error('Geolocation error:', error);
-                      alert('Location access denied. Please enter your location manually.');
-                    }
-                  );
-                } else {
-                  alert('Geolocation is not supported by this browser.');
-                }
-              }}
-              className="absolute right-3 top-1/2 transform -translate-y-1/2 p-2 bg-pink-500/20 hover:bg-pink-500/30 text-pink-400 rounded-lg transition-colors"
-              title="Detect my location"
-            >
-              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
-              </svg>
-            </button>
+      <div className="bg-gray-800/50 rounded-3xl p-6 sm:p-8 border border-gray-700/50">
+          <h2 className="text-2xl font-bold text-white mb-6">Work & Education</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <ProfileField
+                label="Profession / Job Title"
+                value={draft.profession || ''}
+                onChange={(e) => updateDraft({ profession: e.target.value })}
+                error={errors.profession}
+              />
+               <ProfileField
+                label="Company / Employer"
+                value={draft.company || ''}
+                onChange={(e) => updateDraft({ company: e.target.value })}
+                error={errors.company}
+              />
+              <ProfileField
+                label="School / University"
+                value={draft.fieldOfStudy || ''}
+                onChange={(e) => updateDraft({ fieldOfStudy: e.target.value })}
+                error={errors.fieldOfStudy}
+              />
+              <ProfileField
+                label="Education Level"
+                value={draft.educationLevel || ''}
+                onChange={(e) => updateDraft({ educationLevel: e.target.value })}
+                error={errors.educationLevel}
+              />
           </div>
-        </div>
+      </div>
+
+      <div className="bg-gray-800/50 rounded-3xl p-6 sm:p-8 border border-gray-700/50">
+          <h2 className="text-2xl font-bold text-white mb-6">Lifestyle</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+             <ProfileSelect
+                label="Smoking"
+                value={draft.smoking || ''}
+                onChange={(e) => updateDraft({ smoking: e.target.value as any })}
+                options={YES_NO_OPTIONS}
+                error={errors.smoking}
+             />
+             <ProfileSelect
+                label="Drinking"
+                value={draft.drinking || ''}
+                onChange={(e) => updateDraft({ drinking: e.target.value as any })}
+                options={YES_NO_OPTIONS}
+                error={errors.drinking}
+             />
+             <ProfileField
+                label="Kids"
+                value={draft.kids || ''}
+                onChange={(e) => updateDraft({ kids: e.target.value })}
+                placeholder="e.g. Have them, Want them"
+                error={errors.kids}
+             />
+          </div>
       </div>
     </div>
   );
-}
+};
 
 export default BasicInfoSection;

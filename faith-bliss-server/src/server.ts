@@ -3,7 +3,7 @@
 import dotenv from "dotenv";
 dotenv.config();
 
-import express, { Request, Response } from "express";
+import express, { Request, Response, NextFunction } from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import cookieParser from "cookie-parser";
@@ -13,65 +13,57 @@ import http from "http";
 import { Server } from "socket.io";
 import { initializeSocketIO } from "./socket/socket";
 
-// 🛑 REMOVED: passport and express-session imports
-// import passport from './config/passport';
-// import session from 'express-session';
-
 import authRoutes from "./routes/authRoutes";
 import userRoutes from "./routes/userRoutes";
 import matchRoutes from "./routes/matchRoutes";
 import conversationRoutes from "./routes/conversationRoutes";
-// 💡 NEW: Import the custom Firebase authentication middleware
-import { protect } from "./middleware/authMiddleware";
+import messageRoutes from "./routes/messagesRoutes";
 import uploadRoutes from "./routes/uploadRoutes";
 import photoRoutes from "./routes/photoRoutes";
-import messageRoutes from "./routes/messagesRoutes";
+import storyRoutes from "./routes/storyRoutes";
+
+// Custom Firebase authentication middleware
+import { protect } from "./middleware/authMiddleware";
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// 👇 CHANGE 1: Define multiple allowed origins (Vite default + fallback)
+// Allowed origins for CORS & Socket.IO
 const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:5174",
   process.env.CLIENT_URL,
-].filter((origin): origin is string => !!origin); // Cleanup undefined values
+].filter((origin): origin is string => !!origin);
 
+// Create HTTP server
 const httpServer = http.createServer(app);
 
 // SOCKET.IO setup
 const io = new Server(httpServer, {
   cors: {
-    origin: allowedOrigins, // 🎯 Pass the array here
+    origin: allowedOrigins,
     methods: ["GET", "POST"],
     credentials: true,
   },
 });
 initializeSocketIO(io);
 
-// 🔑 CORS & Middleware
+// 🔑 Middleware
 app.use(
   cors({
-    origin: allowedOrigins, // 🎯 Pass the array here too
+    origin: allowedOrigins,
     credentials: true,
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
-
 app.use(express.json());
-app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 // Static files
 app.use("/uploads", express.static(path.join(__dirname, "..", "uploads")));
 
-// 🛑 REMOVED: All session and passport setup is gone
-/* app.use(session({...}));
-app.use(passport.initialize());
-app.use(passport.session());
-*/
-
-// MongoDB Connection (Remains unchanged)
+// MongoDB Connection
 const connectDB = async () => {
   try {
     await mongoose.connect(process.env.MONGO_URI!);
@@ -92,34 +84,39 @@ app.get("/api/health", (req: Request, res: Response) => {
   });
 });
 
-// 🎯 MAIN ROUTES - APPLYING THE FIREBASE AUTH MIDDLEWARE
-// Auth routes (login/register) do NOT use the middleware
-app.use("/api/auth", authRoutes);
-
-// Secure routes MUST use the 'protect' middleware
-app.use("/api/users", protect, userRoutes);
+// 🎯 Main Routes
+app.use("/api/auth", authRoutes); // Public auth routes
+app.use("/api/users", protect, userRoutes); // Protected user routes
+app.use("/api/users/photos", protect, photoRoutes); // Protected photo routes
 app.use("/api/matches", protect, matchRoutes);
 app.use("/api/conversations", protect, conversationRoutes);
 app.use("/api/messages", protect, messageRoutes);
 app.use("/api/uploads", uploadRoutes);
-app.use("/api/users", photoRoutes);
+app.use("/api/stories", protect, storyRoutes);
 
-// Central Error Handler (Remains unchanged)
-app.use((err: any, req: Request, res: Response, next: any) => {
-  if (err instanceof multer.MulterError) {
-    console.error("Multer Error:", err.message);
-    return res.status(400).json({
-      message: `File upload error: ${err.message}`,
-      code: err.code,
+// 404 Handler for unknown routes
+app.use((req: Request, res: Response) => {
+  res.status(404).json({ message: "Route not found" });
+});
+
+// Centralized Error Handler
+app.use(
+  (err: any, req: Request, res: Response, next: NextFunction) => {
+    if (err instanceof multer.MulterError) {
+      console.error("Multer Error:", err.message);
+      return res.status(400).json({
+        message: `File upload error: ${err.message}`,
+        code: err.code,
+      });
+    }
+
+    const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
+    res.status(statusCode).json({
+      message: err.message || "Internal server error",
+      stack: process.env.NODE_ENV === "production" ? "🥞" : err.stack,
     });
   }
-
-  const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
-  res.status(statusCode).json({
-    message: err.message || "Internal server error",
-    stack: process.env.NODE_ENV === "production" ? "🥞" : err.stack,
-  });
-});
+);
 
 // Start server
 connectDB().then(() => {
