@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import type { ConversationMessagesResponse } from '@/hooks/useAPI';
-import type { GetUsersResponse, UpdateProfileDto, User } from '@/services/api';
+import type { ConversationMessagesResponse } from "@/hooks/useAPI";
+import type { GetUsersResponse, UpdateProfileDto, User } from "@/services/api";
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 // Generic API request function for the client
 const apiClientRequest = async <T>(
@@ -25,24 +25,26 @@ const apiClientRequest = async <T>(
   }
 
   if (!(options.body instanceof FormData)) {
-    headers['Content-Type'] = 'application/json';
+    headers["Content-Type"] = "application/json";
   }
 
-  if (token) headers['Authorization'] = `Bearer ${token}`;
+  if (token) headers["Authorization"] = `Bearer ${token}`;
 
   const response = await fetch(url, {
     ...options,
     headers,
-    credentials: 'include',
+    credentials: "include",
   });
 
   if (response.status === 401 && token) {
-    throw new Error('Unauthorized');
+    throw new Error("Unauthorized");
   }
 
   if (!response.ok) {
     const errorData = await response.json().catch(() => ({}));
-    throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+    throw new Error(
+      errorData.message || `HTTP error! status: ${response.status}`
+    );
   }
 
   if (response.status === 204) return {} as T;
@@ -50,37 +52,89 @@ const apiClientRequest = async <T>(
   return await response.json();
 };
 
+import type { StoryGroup } from '@/types/app-stories';
+
 // Factory for API client
 export const getApiClient = (accessToken: string | null) => ({
+  Story: {
+    getStories: () =>
+      apiClientRequest<StoryGroup[]>('/api/stories', { method: 'GET' }, accessToken),
+
+    createStory: (storyData: { mediaUrl: string; mediaType: 'image' | 'video'; caption?: string }) =>
+      apiClientRequest<any>('/api/stories', { 
+        method: 'POST', 
+        body: JSON.stringify(storyData) 
+      }, accessToken),
+
+    markAsViewed: (storyId: string) =>
+      apiClientRequest<void>(`/api/stories/${storyId}/view`, { method: 'POST' }, accessToken),
+
+    deleteStory: (storyId: string) =>
+      apiClientRequest<void>(`/api/stories/${storyId}`, { method: 'DELETE' }, accessToken),
+  },
+
   Match: {
     getMatches: () =>
-      apiClientRequest<any[]>('/api/matches', { method: 'GET' }, accessToken),
+      apiClientRequest<any[]>("/api/matches", { method: "GET" }, accessToken),
 
     getMutualMatches: () =>
-      apiClientRequest<any[]>('/api/matches/mutual', { method: 'GET' }, accessToken),
+      apiClientRequest<any[]>(
+        "/api/matches/mutual",
+        { method: "GET" },
+        accessToken
+      ),
 
     getSentMatches: () =>
-      apiClientRequest<any[]>('/api/matches/sent', { method: 'GET' }, accessToken),
+      apiClientRequest<any[]>(
+        "/api/matches/sent",
+        { method: "GET" },
+        accessToken
+      ),
 
     getReceivedMatches: () =>
-      apiClientRequest<any[]>('/api/matches/received', { method: 'GET' }, accessToken),
+      apiClientRequest<any[]>(
+        "/api/matches/received",
+        { method: "GET" },
+        accessToken
+      ),
 
     getPotentialMatches: () =>
-      apiClientRequest<any[]>('/api/matches/potential', { method: 'GET' }, accessToken),
+      apiClientRequest<any[]>(
+        "/api/matches/potential",
+        { method: "GET" },
+        accessToken
+      ),
 
     likeUser: (userId: string) =>
-      apiClientRequest<any>(`/api/matches/like/${userId}`, { method: 'POST' }, accessToken),
+      apiClientRequest<any>(
+        `/api/matches/like/${userId}`,
+        { method: "POST" },
+        accessToken
+      ),
 
     passUser: (userId: string) =>
-      apiClientRequest<void>(`/api/matches/pass/${userId}`, { method: 'POST' }, accessToken),
+      apiClientRequest<void>(
+        `/api/matches/pass/${userId}`,
+        { method: "POST" },
+        accessToken
+      ),
   },
 
   User: {
-    getMe: () => apiClientRequest<User>('/api/users/me', { method: 'GET' }, accessToken),
+    getMe: () =>
+      apiClientRequest<User>("/api/users/me", { method: "GET" }, accessToken),
     getUserById: (userId: string) =>
-      apiClientRequest<User>(`/api/users/${userId}`, { method: 'GET' }, accessToken),
+      apiClientRequest<User>(
+        `/api/users/${userId}`,
+        { method: "GET" },
+        accessToken
+      ),
 
-    getAllUsers: (filters?: { page?: number; limit?: number; search?: string }) => {
+    getAllUsers: (filters?: {
+      page?: number;
+      limit?: number;
+      search?: string;
+    }) => {
       const queryParams: Record<string, string> = {};
       if (filters?.page) queryParams.page = filters.page.toString();
       if (filters?.limit) queryParams.limit = filters.limit.toString();
@@ -88,10 +142,10 @@ export const getApiClient = (accessToken: string | null) => ({
       const query =
         Object.keys(queryParams).length > 0
           ? `?${new URLSearchParams(queryParams).toString()}`
-          : '';
+          : "";
       return apiClientRequest<GetUsersResponse>(
         `/api/users${query}`,
-        { method: 'GET' },
+        { method: "GET" },
         accessToken
       );
     },
@@ -100,28 +154,41 @@ export const getApiClient = (accessToken: string | null) => ({
   Message: {
     sendMessage: (matchId: string, content: string) =>
       apiClientRequest<any>(
-        '/api/messages',
-        { method: 'POST', body: JSON.stringify({ matchId, content }) },
+        "/api/messages",
+        { method: "POST", body: JSON.stringify({ matchId, content }) },
         accessToken
       ),
-    getCreateMatchMessages: (matchId: string, otherUserId?: string, page = 1, limit = 50) =>
+    getCreateMatchMessages: (
+      matchId: string,
+      otherUserId?: string,
+      page = 1,
+      limit = 50
+    ) =>
       apiClientRequest<ConversationMessagesResponse>(
         `/api/messages/match/${matchId}?page=${page}&limit=${limit}${
-          otherUserId ? `&otherUserId=${otherUserId}` : ''
+          otherUserId ? `&otherUserId=${otherUserId}` : ""
         }`,
-        { method: 'GET' },
+        { method: "GET" },
         accessToken
       ),
     markMessageAsRead: (messageId: string) =>
-      apiClientRequest<void>(`/api/messages/${messageId}/read`, { method: 'PATCH' }, accessToken),
+      apiClientRequest<void>(
+        `/api/conversations/${messageId}/read`,
+        { method: "PATCH" },
+        accessToken
+      ),
     getUnreadCount: () =>
       apiClientRequest<{ count: number }>(
-        '/api/messages/unread-count',
-        { method: 'GET' },
+        "/api/messages/unread-count",
+        { method: "GET" },
         accessToken
       ),
     getMatchConversations: () =>
-      apiClientRequest<any[]>('/api/messages/conversations', { method: 'GET' }, accessToken),
+      apiClientRequest<any[]>(
+        "/api/conversations",
+        { method: "GET" },
+        accessToken
+      ),
   },
 });
 
@@ -131,17 +198,19 @@ export async function updateProfileClient(
 ): Promise<User> {
   const url = `${API_BASE_URL}/api/users/me`;
   const response = await fetch(url, {
-    method: 'PUT',
+    method: "PUT",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
       Authorization: `Bearer ${accessToken}`,
     },
     body: JSON.stringify(userData),
-    credentials: 'include',
+    credentials: "include",
   });
   if (!response.ok) {
     const errorData = await response.json().catch(() => null);
-    throw new Error(errorData?.message || `HTTP ${response.status}: ${response.statusText}`);
+    throw new Error(
+      errorData?.message || `HTTP ${response.status}: ${response.statusText}`
+    );
   }
   return response.json();
 }
@@ -153,10 +222,10 @@ export async function uploadSpecificPhotoClient(
 ) {
   const url = `${API_BASE_URL}/api/users/me/photo/${photoNumber}`;
   const response = await fetch(url, {
-    method: 'POST',
+    method: "POST",
     headers: { Authorization: `Bearer ${accessToken}` },
     body: photo,
-    credentials: 'include',
+    credentials: "include",
   });
   if (!response.ok) {
     const errorText = await response.text();

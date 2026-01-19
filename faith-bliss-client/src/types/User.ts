@@ -35,6 +35,14 @@ export interface User {
 
   fieldOfStudy?: string;
   profession?: string;
+  educationLevel?: string;
+  company?: string;
+  
+  smoking?: "YES" | "NO" | "SOMETIMES";
+  drinking?: "YES" | "NO" | "SOMETIMES";
+  kids?: string;
+  height?: number; // cm
+
   faithJourney?: string;
   sundayActivity?: string;
   lookingFor?: string[];

@@ -1,47 +1,54 @@
-import type { ProfileData } from '@/types/profile';
+import React from 'react';
+import { useProfileStore } from '@/store/profileStore';
+import { ChipSelector } from './ChipSelector';
+import { HOBBIES_LIST, VALUES_LIST, LOOKING_FOR_LIST } from '@/constants/profileOptions';
 
-interface PassionsSectionProps {
-  profileData: ProfileData;
-  setProfileData: React.Dispatch<React.SetStateAction<ProfileData | null>>;
-}
+const PassionsSection: React.FC = () => {
+  const { draft, updateDraft, errors } = useProfileStore();
 
-const PassionsSection = ({ profileData, setProfileData }: PassionsSectionProps) => {
-  const availablePassions = [
-    'Faith & Spirituality', 'Design & Creativity', 'Social Impact', 'Travel', 'Music & Worship',
-    'Reading', 'Fitness & Health', 'Cooking', 'Photography', 'Technology', 'Art', 'Sports',
-    'Volunteering', 'Nature & Outdoors', 'Fashion', 'Dancing', 'Movies & TV', 'Gaming'
-  ];
-
-  const togglePassion = (passion: string) => {
-    const newHobbies = (profileData.hobbies || []).includes(passion)
-      ? (profileData.hobbies || []).filter((p: string) => p !== passion)
-      : [...(profileData.hobbies || []), passion];
-    setProfileData(prev => prev ? ({...prev, hobbies: newHobbies}) : null);
-  };
+  if (!draft) return null;
 
   return (
-    <div className="space-y-6">
-      <div className="bg-gray-800/50 rounded-3xl p-8 border border-gray-700/50">
-        <div className="text-center mb-8">
-          <h2 className="text-2xl font-bold text-white mb-2">Passions</h2>
-          <p className="text-gray-400">Select up to 5 things you&apos;re passionate about</p>
-        </div>
+    <div className="space-y-6 animate-in fade-in duration-500">
+      <div className="bg-gray-800/50 rounded-3xl p-6 sm:p-8 border border-gray-700/50">
+        <h2 className="text-2xl font-bold text-white mb-2">Interests & Hobbies</h2>
+        <p className="text-gray-400 mb-6">Select up to 10 things you enjoy</p>
         
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-          {availablePassions.map(passion => (
-            <button
-              key={passion}
-              onClick={() => togglePassion(passion)}
-              className={`p-3 rounded-xl font-medium transition-all text-center border-2 ${
-                profileData.hobbies && profileData.hobbies.includes(passion)
-                  ? 'bg-linear-to-r from-pink-500 to-purple-600 text-white border-pink-400 shadow-lg'
-                  : 'bg-gray-700/50 text-gray-300 hover:bg-gray-600/50 border-transparent hover:border-gray-500/50'
-              }`}
-            >
-              {passion}
-            </button>
-          ))}
-        </div>
+        <ChipSelector
+          label=""
+          options={HOBBIES_LIST}
+          selected={draft.hobbies || []}
+          onChange={(selected) => updateDraft({ hobbies: selected })}
+          maxSelect={10}
+          error={errors.hobbies}
+        />
+      </div>
+
+      <div className="bg-gray-800/50 rounded-3xl p-6 sm:p-8 border border-gray-700/50">
+        <h2 className="text-2xl font-bold text-white mb-2">Core Values</h2>
+        <p className="text-gray-400 mb-6">What matters most to you?</p>
+        
+        <ChipSelector
+          label=""
+          options={VALUES_LIST}
+          selected={draft.values || []}
+          onChange={(selected) => updateDraft({ values: selected })}
+          maxSelect={5}
+          error={errors.values}
+        />
+      </div>
+
+      <div className="bg-gray-800/50 rounded-3xl p-6 sm:p-8 border border-gray-700/50">
+        <h2 className="text-2xl font-bold text-white mb-2">Looking For</h2>
+        <p className="text-gray-400 mb-6">What kind of connection are you seeking?</p>
+        
+        <ChipSelector
+          label=""
+          options={LOOKING_FOR_LIST}
+          selected={draft.lookingFor || []}
+          onChange={(selected) => updateDraft({ lookingFor: selected })}
+          error={errors.lookingFor}
+        />
       </div>
     </div>
   );

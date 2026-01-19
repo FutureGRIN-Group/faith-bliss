@@ -20,6 +20,12 @@ export interface ProfileData {
   birthday?: string; // ISO 8601 date string
   fieldOfStudy?: string;
   profession?: string;
+  educationLevel?: string;
+  company?: string;
+  smoking?: 'YES' | 'NO' | 'SOMETIMES';
+  drinking?: 'YES' | 'NO' | 'SOMETIMES';
+  kids?: string;
+  height?: number;
   faithJourney?: 'GROWING' | 'ESTABLISHED' | 'SEEKING';
   sundayActivity?: 'WEEKLY' | 'BI_WEEKLY' | 'MONTHLY' | 'RARELY';
   lookingFor?: string[];

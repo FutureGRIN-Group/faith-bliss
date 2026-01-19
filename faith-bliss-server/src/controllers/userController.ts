@@ -3,6 +3,42 @@
 import { Request, Response } from "express";
 import { db, usersCollection } from "../config/firebase-admin"; // Firestore Import
 import * as admin from "firebase-admin"; // Admin SDK for types
+import { z } from "zod";
+
+// Zod Validation Schema for Profile Updates
+const updateUserSchema = z.object({
+  name: z.string().optional(),
+  age: z.number().min(18).optional(),
+  gender: z.enum(["MALE", "FEMALE"]).optional(),
+  bio: z.string().max(500).optional(),
+  denomination: z.string().optional(),
+  location: z.string().optional(),
+  latitude: z.number().optional(),
+  longitude: z.number().optional(),
+  fieldOfStudy: z.string().optional(),
+  profession: z.string().optional(),
+  educationLevel: z.string().optional(),
+  company: z.string().optional(),
+  smoking: z.enum(["YES", "NO", "SOMETIMES"]).optional(),
+  drinking: z.enum(["YES", "NO", "SOMETIMES"]).optional(),
+  kids: z.string().optional(),
+  height: z.number().optional(),
+  lookingFor: z.array(z.string()).optional(),
+  hobbies: z.array(z.string()).optional(),
+  values: z.array(z.string()).optional(),
+  faithJourney: z.string().optional(),
+  sundayActivity: z.string().optional(),
+  favoriteVerse: z.string().optional(),
+  profilePhoto1: z.string().url().optional(),
+  profilePhoto2: z.string().url().optional(),
+  profilePhoto3: z.string().url().optional(),
+  profilePhoto4: z.string().url().optional(),
+  profilePhoto5: z.string().url().optional(),
+  profilePhoto6: z.string().url().optional(),
+  onboardingCompleted: z.boolean().optional(),
+  isVerified: z.boolean().optional(),
+  isActive: z.boolean().optional(),
+});
 
 // Interface for the Firestore Profile
 interface IFirestoreUser {
@@ -222,7 +258,16 @@ const updateUserProfile = async (req: Request, res: Response) => {
     const uid = (req as any).userId; // from protect middleware
     if (!uid) return res.status(401).json({ message: "Unauthorized" });
 
-    const updates = req.body;
+    // Validate request body
+    const parseResult = updateUserSchema.safeParse(req.body);
+    if (!parseResult.success) {
+        return res.status(400).json({ 
+            message: "Validation Error", 
+            errors: parseResult.error.errors 
+        });
+    }
+
+    const updates = parseResult.data; // Use validated data
     const userRef = db.collection("users").doc(uid);
 
     await userRef.update(updates);

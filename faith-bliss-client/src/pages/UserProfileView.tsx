@@ -9,18 +9,23 @@ import {
   MapPin,
   Church,
   Music,
-  Verified,
-  ChevronLeft,
-  ChevronRight,
+  Briefcase,
+  Coffee,
+  Search,
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import type { User } from "@/services/api";
+import { GalleryGrid } from "@/components/gallery/GalleryGrid";
+import { FullScreenGallery } from "@/components/gallery/FullScreenGallery";
 
 const getProfilePhotos = (user: User): string[] => {
   const photos: string[] = [];
   if (user.profilePhoto1) photos.push(user.profilePhoto1);
   if (user.profilePhoto2) photos.push(user.profilePhoto2);
   if (user.profilePhoto3) photos.push(user.profilePhoto3);
+  if (user.profilePhoto4) photos.push(user.profilePhoto4);
+  if (user.profilePhoto5) photos.push(user.profilePhoto5);
+  if (user.profilePhoto6) photos.push(user.profilePhoto6);
   return photos.filter(Boolean);
 };
 
@@ -30,8 +35,9 @@ const ProfilePage = () => {
   const { getUserProfileById, user } = useAuth();
 
   const [profile, setProfile] = useState<User | null>(null);
-  const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [isGalleryOpen, setIsGalleryOpen] = useState(false);
+  const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(0);
 
   // Fetch another user’s profile
   useEffect(() => {
@@ -66,16 +72,18 @@ const ProfilePage = () => {
     }
   };
 
-  const nextPhoto = () => {
-    if (!profile) return;
-    const photos = getProfilePhotos(profile);
-    setCurrentPhotoIndex((prev) => (prev + 1) % photos.length);
+  const openGallery = (index: number) => {
+    setSelectedPhotoIndex(index);
+    setIsGalleryOpen(true);
   };
 
-  const prevPhoto = () => {
-    if (!profile) return;
-    const photos = getProfilePhotos(profile);
-    setCurrentPhotoIndex((prev) => (prev - 1 + photos.length) % photos.length);
+  const handleLike = () => {
+    console.log("Like", profile?.name);
+    // Implement like logic
+  };
+
+  const handlePass = () => {
+    navigate(-1);
   };
 
   if (loading) return <HeartBeatLoader message="Loading profile..." />;
@@ -100,8 +108,6 @@ const ProfilePage = () => {
   }
 
   const photos = getProfilePhotos(profile);
-  const currentPhotoUrl =
-    photos[currentPhotoIndex] || photos[0] || "/default-avatar.png";
 
   return (
     <div className="min-h-screen bg-linear-to-br from-gray-900 via-gray-900 to-gray-800 text-white overflow-x-hidden">
@@ -122,53 +128,9 @@ const ProfilePage = () => {
       </div>
 
       {/* Main Content */}
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Photo Gallery */}
-        <div className="relative overflow-hidden">
-          <div className="aspect-4/5 md:aspect-16/10 relative overflow-hidden">
-            <img
-              src={currentPhotoUrl}
-              alt={`${profile.name} photo`}
-              className="object-cover w-full h-full absolute top-0 left-0"
-            />
-            {photos.length > 1 && (
-              <>
-                <button
-                  onClick={prevPhoto}
-                  className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-colors z-10"
-                >
-                  <ChevronLeft className="w-6 h-6" />
-                </button>
-                <button
-                  onClick={nextPhoto}
-                  className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-colors z-10"
-                >
-                  <ChevronRight className="w-6 h-6" />
-                </button>
-
-                <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-10">
-                  {photos.map((_, index) => (
-                    <button
-                      key={index}
-                      onClick={() => setCurrentPhotoIndex(index)}
-                      className={`w-2 h-2 rounded-full ${
-                        index === currentPhotoIndex
-                          ? "bg-white"
-                          : "bg-white/50"
-                      }`}
-                    />
-                  ))}
-                </div>
-              </>
-            )}
-
-            {profile.isVerified && (
-              <div className="absolute top-4 right-4 bg-blue-500/90 backdrop-blur-md text-white p-2 rounded-full z-10">
-                <Verified className="w-5 h-5" />
-              </div>
-            )}
-          </div>
-        </div>
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
+        {/* Photo Gallery Grid */}
+        <GalleryGrid photos={photos} onPhotoClick={openGallery} />
 
         {/* Profile Details */}
         <div className="p-6 space-y-6">
@@ -180,7 +142,11 @@ const ProfilePage = () => {
               </h1>
               <div className="flex items-center space-x-2 text-gray-300 mt-2">
                 <MapPin className="w-4 h-4" />
-                <span>{profile.location || "Not specified"}</span>
+                <span>
+                  {typeof profile.location === "string"
+                    ? profile.location
+                    : (profile.location as any)?.address || "Not specified"}
+                </span>
               </div>
             </div>
             {profile.bio && (
@@ -190,6 +156,7 @@ const ProfilePage = () => {
               </div>
             )}
           </div>
+
 
           {/* Faith & Values */}
           <div className="space-y-4">
@@ -215,8 +182,113 @@ const ProfilePage = () => {
                   <p className="text-gray-300">{profile.sundayActivity}</p>
                 </div>
               )}
+               {profile.denomination && (
+                <div className="bg-gray-800/50 rounded-xl p-4">
+                  <h4 className="font-semibold text-blue-300 mb-2">
+                    Denomination
+                  </h4>
+                  <p className="text-gray-300">{profile.denomination}</p>
+                </div>
+              )}
+              {profile.favoriteVerse && (
+                <div className="bg-gray-800/50 rounded-xl p-4 md:col-span-2">
+                  <h4 className="font-semibold text-blue-300 mb-2">
+                    Favorite Verse
+                  </h4>
+                  <p className="text-gray-300 italic">"{profile.favoriteVerse}"</p>
+                </div>
+              )}
             </div>
+             {profile.values && profile.values.length > 0 && (
+                <div className="mt-4">
+                    <h4 className="font-semibold text-blue-300 mb-2">Core Values</h4>
+                    <div className="flex flex-wrap gap-2">
+                        {profile.values.map(val => (
+                            <span key={val} className="px-3 py-1 bg-blue-500/10 text-blue-300 rounded-full text-sm border border-blue-500/20">
+                                {val}
+                            </span>
+                        ))}
+                    </div>
+                </div>
+              )}
           </div>
+
+           {/* Work & Education */}
+           <div className="space-y-4">
+             <h2 className="text-2xl font-bold flex items-center space-x-2">
+               <Briefcase className="w-6 h-6 text-green-400" />
+               <span>Work & Education</span>
+             </h2>
+             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {(profile.profession || profile.company) && (
+                    <div className="bg-gray-800/50 rounded-xl p-4">
+                        <h4 className="font-semibold text-green-300 mb-2">Work</h4>
+                        <p className="text-gray-300">
+                            {profile.profession} {profile.company && `at ${profile.company}`}
+                        </p>
+                    </div>
+                )}
+                 {(profile.educationLevel || profile.fieldOfStudy) && (
+                    <div className="bg-gray-800/50 rounded-xl p-4">
+                        <h4 className="font-semibold text-green-300 mb-2">Education</h4>
+                        <p className="text-gray-300">
+                            {profile.educationLevel} {profile.fieldOfStudy && `in ${profile.fieldOfStudy}`}
+                        </p>
+                    </div>
+                )}
+             </div>
+           </div>
+
+           {/* Lifestyle */}
+           <div className="space-y-4">
+             <h2 className="text-2xl font-bold flex items-center space-x-2">
+               <Coffee className="w-6 h-6 text-orange-400" />
+               <span>Lifestyle</span>
+             </h2>
+             <div className="bg-gray-800/50 rounded-xl p-4 grid grid-cols-2 md:grid-cols-4 gap-4">
+                 {profile.height && (
+                     <div>
+                         <h4 className="text-xs font-semibold text-orange-300 uppercase">Height</h4>
+                         <p className="text-gray-300">{profile.height} cm</p>
+                     </div>
+                 )}
+                  {profile.smoking && (
+                     <div>
+                         <h4 className="text-xs font-semibold text-orange-300 uppercase">Smoking</h4>
+                         <p className="text-gray-300 capitalize">{profile.smoking.toLowerCase()}</p>
+                     </div>
+                 )}
+                  {profile.drinking && (
+                     <div>
+                         <h4 className="text-xs font-semibold text-orange-300 uppercase">Drinking</h4>
+                         <p className="text-gray-300 capitalize">{profile.drinking.toLowerCase()}</p>
+                     </div>
+                 )}
+                  {profile.kids && (
+                     <div>
+                         <h4 className="text-xs font-semibold text-orange-300 uppercase">Kids</h4>
+                         <p className="text-gray-300">{profile.kids}</p>
+                     </div>
+                 )}
+             </div>
+           </div>
+
+           {/* Looking For */}
+           {profile.lookingFor && profile.lookingFor.length > 0 && (
+               <div className="space-y-4">
+                   <h2 className="text-2xl font-bold flex items-center space-x-2">
+                       <Search className="w-6 h-6 text-pink-400" />
+                       <span>Looking For</span>
+                   </h2>
+                   <div className="flex flex-wrap gap-2">
+                        {profile.lookingFor.map(item => (
+                            <span key={item} className="px-3 py-1 bg-pink-500/10 text-pink-300 rounded-full text-sm border border-pink-500/20">
+                                {item}
+                            </span>
+                        ))}
+                   </div>
+               </div>
+           )}
 
           {/* Hobbies */}
           {profile.hobbies && profile.hobbies.length > 0 && (
@@ -268,6 +340,18 @@ const ProfilePage = () => {
           </div>
         )}
       </div>
+
+      {/* Full Screen Gallery Modal */}
+      <FullScreenGallery
+        isOpen={isGalleryOpen}
+        initialIndex={selectedPhotoIndex}
+        photos={photos}
+        user={profile}
+        onClose={() => setIsGalleryOpen(false)}
+        onLike={handleLike}
+        onPass={handlePass}
+        onMessage={handleMessage}
+      />
     </div>
   );
 };
