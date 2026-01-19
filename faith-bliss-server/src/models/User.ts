@@ -151,6 +151,14 @@ const UserSchema: Schema = new Schema(
     // Education/Career
     fieldOfStudy: { type: String, trim: true },
     profession: { type: String, trim: true },
+    educationLevel: { type: String, trim: true },
+    company: { type: String, trim: true },
+
+    // Lifestyle
+    smoking: { type: String, enum: ["YES", "NO", "SOMETIMES"], required: false },
+    drinking: { type: String, enum: ["YES", "NO", "SOMETIMES"], required: false },
+    kids: { type: String, trim: true }, // e.g. "Have them", "Want them"
+    height: { type: Number }, // in cm
 
     // Faith/Values (Using corrected Enums)
     faithJourney: { type: String, enum: FAITH_JOURNEY_ENUM },

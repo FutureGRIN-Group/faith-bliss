@@ -50,8 +50,27 @@ const apiClientRequest = async <T>(
   return await response.json();
 };
 
+import type { StoryGroup } from '@/types/app-stories';
+
 // Factory for API client
 export const getApiClient = (accessToken: string | null) => ({
+  Story: {
+    getStories: () =>
+      apiClientRequest<StoryGroup[]>('/api/stories', { method: 'GET' }, accessToken),
+
+    createStory: (storyData: { mediaUrl: string; mediaType: 'image' | 'video'; caption?: string }) =>
+      apiClientRequest<any>('/api/stories', { 
+        method: 'POST', 
+        body: JSON.stringify(storyData) 
+      }, accessToken),
+
+    markAsViewed: (storyId: string) =>
+      apiClientRequest<void>(`/api/stories/${storyId}/view`, { method: 'POST' }, accessToken),
+
+    deleteStory: (storyId: string) =>
+      apiClientRequest<void>(`/api/stories/${storyId}`, { method: 'DELETE' }, accessToken),
+  },
+
   Match: {
     getMatches: () =>
       apiClientRequest<any[]>('/api/matches', { method: 'GET' }, accessToken),

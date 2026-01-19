@@ -25,6 +25,7 @@ import messageRoutes from "./routes/messageRoutes";
 import { protect } from "./middleware/authMiddleware";
 import uploadRoutes from "./routes/uploadRoutes";
 import photoRoutes from "./routes/photoRoutes";
+import storyRoutes from "./routes/storyRoutes";
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -101,6 +102,7 @@ app.use("/api/matches", protect, matchRoutes);
 app.use("/api/messages", protect, messageRoutes);
 app.use("/api/uploads", uploadRoutes);
 app.use("/api/users", photoRoutes);
+app.use("/api/stories", protect, storyRoutes);
 
 // Central Error Handler (Remains unchanged)
 app.use((err: any, req: Request, res: Response, next: any) => {

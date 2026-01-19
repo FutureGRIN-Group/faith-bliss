@@ -12,6 +12,7 @@ import { MobileLayout } from "@/components/dashboard/MobileLayout";
 import { ProfileDisplay } from "@/components/dashboard/ProfileDisplay";
 import { OverlayPanels } from "@/components/dashboard/OverlayPanels";
 import { insertScrollbarStyles } from "@/components/dashboard/styles";
+import StoriesRail from "@/components/stories/StoriesRail";
 import {
   usePotentialMatches,
   useMatching,
@@ -212,6 +213,7 @@ export const DashboardPage = ({ user: activeUser }: { user: User }) => {
   return (
     <div className=" bg-linear-to-br flex-1 flex flex-col  from-gray-900 via-gray-900 to-gray-800 text-white  no-horizontal-scroll  dashboard-main">
       {" "}
+      <StoriesRail />
       {isLoadingFilters && <HeartBeatLoader message="Applying filters..." />}
       {/* Desktop Layout */}{" "}
       <DesktopLayout
@@ -224,6 +226,9 @@ export const DashboardPage = ({ user: activeUser }: { user: User }) => {
         onToggleSidePanel={() => setShowSidePanel(!showSidePanel)}
       >
         {" "}
+        <div className="mb-4">
+          <StoriesRail />
+        </div>
         <ProfileDisplay
           activeProfiles={activeProfiles}
           onStartOver={() => setCurrentProfileIndex(0)}
@@ -237,6 +242,9 @@ export const DashboardPage = ({ user: activeUser }: { user: User }) => {
       </DesktopLayout>
       {/* Mobile Layout */}{" "}
       <MobileLayout>
+        <div className="mb-4">
+          <StoryFeed />
+        </div>
         <ProfileDisplay
           activeProfiles={activeProfiles}
           onStartOver={() => setCurrentProfileIndex(0)}
