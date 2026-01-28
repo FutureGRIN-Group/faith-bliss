@@ -174,6 +174,11 @@ const MessagesContent = () => {
               lastReadAtDiff / (1000 * 60 * 60),
             );
 
+            // Convert to date
+            const date = new Date(lastReadAtTime).toLocaleDateString();
+
+            const text = conv.lastMessage.text;
+
             return (
               <Link key={index} to={`/messages/conversation/${conv.id}`}>
                 <div
@@ -198,12 +203,15 @@ const MessagesContent = () => {
                       <span className="text-xs text-gray-400">
                         {lastReadAtDiffHours === 0
                           ? "Just now"
-                          : `${lastReadAtDiffHours} hours ago`}{" "}
+                          : lastReadAtDiffHours > 24
+                            ? date
+                            : `${lastReadAtDiffHours} hours ago`}{" "}
                       </span>
                     </div>
                     <div className="flex justify-between items-center">
                       <p className="text-base text-gray-300">
-                        {conv.lastMessage.text || "Say Hello 👋"}
+                        {`${text.slice(0, 28)}${text.length > 28 ? "..." : ""}` ||
+                          "Say Hello 👋"}
                       </p>
                       <div className="rounded-full text-xs bg-accent-400 size-6 grid place-items-center">
                         2

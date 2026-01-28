@@ -20,6 +20,7 @@ export default function Chat() {
   const currentUser = getAuth().currentUser?.uid;
   const navigate = useNavigate();
   const [messages, setMessages] = useState<Array<DocumentData>>([]);
+  const [lastMessage, setLastMessage] = useState("");
 
   // Fetch Conversation Object
   const {
@@ -34,9 +35,18 @@ export default function Chat() {
   // Handle Chat Message send
   const { mutate: sendMessage } = useMutation({
     mutationFn: async (text: string) => {
+      setLastMessage(text);
       await api.post("/api/messages", {
         conversationId,
         text,
+      });
+    },
+    onSuccess: async () => {
+      // Update Last Message in DB
+      await api.patch("/api/conversations", {
+        conversationId,
+        text: lastMessage,
+        senderId: currentUser,
       });
     },
     onError(err) {

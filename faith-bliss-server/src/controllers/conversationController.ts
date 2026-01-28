@@ -40,19 +40,22 @@ export const createConversation = async (req: Request, res: Response) => {
     }
     const membersKey = [userId, otherUserId].sort().join("-");
 
+    // generate auto ID (no document created)
+    const autoId = db.collection("_").doc().id;
+
     const conversationData: ConversationSummary = {
       participants: [userId, otherUserId],
       membersKey,
       type: "direct",
       createdAt: Timestamp.now(),
-      updatedAt: Timestamp.now(),
+      updatedAt: null,
       lastMessage: {
-        id: "",
+        id: autoId,
         text: "",
         senderId: "",
         createdAt: Timestamp.now(),
       },
-      lastMessageAt: Timestamp.now(),
+      lastMessageAt: null,
       readState: {
         [userId]: {
           lastReadAt: Timestamp.now(),
@@ -214,6 +217,25 @@ export const getAllConversations = async (req: Request, res: Response) => {
       .status(500)
       .json({ message: "Internal server error", status: "ERROR", data: null });
   }
+};
+
+// Update Conversation
+export const updateConversation = async (req: Request, res: Response) => {
+  const { conversationId, text, senderId } = req.body;
+  // No need to check user authentication, route is already protected
+  await db.collection("conversations").doc(conversationId).update({
+    lastMessage: {
+      text,
+      senderId,
+    },
+    lastMessageAt: Date.now(),
+    updatedAt: Timestamp.now(),
+  });
+
+  res.status(200).json({
+    status: "success",
+    message: "Conversation updated successfully...",
+  });
 };
 
 /**

@@ -12,6 +12,7 @@ import {
   getAllConversations,
   getConversationById,
   getConversationIdByProfileId,
+  updateConversation,
 } from "../controllers/conversationController";
 
 const router = Router();
@@ -25,7 +26,11 @@ router.use(protect);
 
 // Route to get the list of all match conversations
 // GET /api/conversations
-router.route("/").get(getAllConversations).post(createConversation);
+router
+  .route("/")
+  .get(getAllConversations)
+  .post(createConversation)
+  .patch(updateConversation);
 router.route("/:conversationId").get(getConversationById);
 router.route("/with-user/:profileId").get(getConversationIdByProfileId);
 

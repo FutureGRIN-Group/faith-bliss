@@ -26,7 +26,24 @@ export default function ChatInput({
             }
           }}
           className="text-gray-300"
-          onChange={(e) => setInput(e.target.value)}
+          onChange={(e) => {
+            const value = e.target.value;
+
+            if (value.length) {
+              // Capitalize first letter of first word
+              const capitalizedFirstLetter = value
+                .split(" ")
+                .at(0)
+                ?.at(0)
+                ?.toUpperCase();
+              const modifiedValue = capitalizedFirstLetter + value.slice(1);
+              console.log(modifiedValue);
+              setInput(modifiedValue);
+              return;
+            }
+
+            setInput(value);
+          }}
           placeholder="Your message"
         />
         <InputGroupAddon

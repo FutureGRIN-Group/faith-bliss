@@ -54,7 +54,7 @@ app.use(
     origin: allowedOrigins,
     credentials: true,
     allowedHeaders: ["Content-Type", "Authorization"],
-  })
+  }),
 );
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -100,23 +100,21 @@ app.use((req: Request, res: Response) => {
 });
 
 // Centralized Error Handler
-app.use(
-  (err: any, req: Request, res: Response, next: NextFunction) => {
-    if (err instanceof multer.MulterError) {
-      console.error("Multer Error:", err.message);
-      return res.status(400).json({
-        message: `File upload error: ${err.message}`,
-        code: err.code,
-      });
-    }
-
-    const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
-    res.status(statusCode).json({
-      message: err.message || "Internal server error",
-      stack: process.env.NODE_ENV === "production" ? "🥞" : err.stack,
+app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+  if (err instanceof multer.MulterError) {
+    console.error("Multer Error:", err.message);
+    return res.status(400).json({
+      message: `File upload error: ${err.message}`,
+      code: err.code,
     });
   }
-);
+
+  const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
+  res.status(statusCode).json({
+    message: err.message || "Internal server error",
+    stack: process.env.NODE_ENV === "production" ? "🥞" : err.stack,
+  });
+});
 
 // Start server
 connectDB().then(() => {

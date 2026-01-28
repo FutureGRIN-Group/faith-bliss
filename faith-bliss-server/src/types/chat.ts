@@ -13,14 +13,14 @@ export interface ConversationSummary {
   type: "direct" | "group";
 
   createdAt: Timestamp;
-  updatedAt: Timestamp;
+  updatedAt: Timestamp | null;
   lastMessage: {
     id: string;
     text: string;
     senderId: string;
     createdAt: Timestamp;
   };
-  lastMessageAt: Timestamp;
+  lastMessageAt: Date | null;
 
   readState: {
     [userId: string]: {

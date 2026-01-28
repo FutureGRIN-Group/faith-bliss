@@ -75,18 +75,16 @@ function isErrorWithMessage(error: unknown): error is { message: string } {
 // Helper to fetch the current user's profile from Firestore
 const fetchUserProfile = async (
   firebaseUid: string,
-  res: Response
+  res: Response,
 ): Promise<(IFirestoreUser & { firebaseUid: string }) | null> => {
   try {
     const userDoc = await usersCollection.doc(firebaseUid).get();
 
     if (!userDoc.exists) {
-      res
-        .status(404)
-        .json({
-          message:
-            "User profile not found in Firestore. Please complete profile creation.",
-        });
+      res.status(404).json({
+        message:
+          "User profile not found in Firestore. Please complete profile creation.",
+      });
       return null;
     }
 
@@ -261,10 +259,10 @@ const updateUserProfile = async (req: Request, res: Response) => {
     // Validate request body
     const parseResult = updateUserSchema.safeParse(req.body);
     if (!parseResult.success) {
-        return res.status(400).json({ 
-            message: "Validation Error", 
-            errors: parseResult.error.errors 
-        });
+      return res.status(400).json({
+        message: "Validation Error",
+        errors: parseResult.error.issues,
+      });
     }
 
     const updates = parseResult.data; // Use validated data
