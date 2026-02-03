@@ -1,8 +1,18 @@
 /* eslint-disable no-irregular-whitespace */
 // src/App.tsx
 
+import { getAuth } from "firebase/auth";
 import { Outlet, useLocation } from "react-router-dom";
 import { Toaster } from "sonner";
+import { realtimeDB } from "./firebase/config";
+import {
+  onDisconnect,
+  onValue,
+  ref,
+  serverTimestamp,
+  set,
+} from "firebase/database";
+import { useEffect } from "react";
 
 // Define the paths that should use the special "Auth Layout"
 const authPaths = ["/login", "/signup"];
@@ -15,6 +25,38 @@ function App() {
   const pathname = location.pathname.toLowerCase();
   const isAuthRoute = authPaths.includes(pathname);
   const isFullScreenRoute = isAuthRoute || fullScreenPaths.includes(pathname); // 🌟 GLOBAL LAYOUT BASE: Apply the dark background to the root container 🌟
+  // App wide presence tracker
+
+  // Current User
+  const currentUser = getAuth().currentUser?.uid;
+
+  const userStatusDatabaseRef = ref(realtimeDB, "status/" + currentUser);
+
+  const isOfflineForDatabase = {
+    state: "offline",
+    lastChanged: serverTimestamp(),
+  };
+
+  const isOnlineForDatabase = {
+    state: "online",
+    lastChanged: serverTimestamp(),
+  };
+
+  const connectedRef = ref(realtimeDB, ".info/connected");
+
+  useEffect(() => {
+    onValue(connectedRef, async (snapshot) => {
+      // If user isn't Connected, DO NOTHING and exit
+      if (snapshot.val() === false) {
+        return;
+      }
+
+      // If user is Connected, Register a Disconnect handler and Register Online Status
+      await onDisconnect(userStatusDatabaseRef).set(isOfflineForDatabase);
+
+      await set(userStatusDatabaseRef, isOnlineForDatabase);
+    });
+  }, []);
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-900 text-white">

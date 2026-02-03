@@ -94,7 +94,11 @@ export default function Chat() {
 
   return (
     <div className="min-h-screen bg-linear-to-br from-gray-900 via-gray-900 to-gray-800 flex flex-col">
-      <ChatHeader avatarUrl={avatarUrl} name={name} />
+      <ChatHeader
+        otherUserId={otherParticipantId as string}
+        avatarUrl={avatarUrl}
+        name={name}
+      />
       <div className=" pr-0 pt-0 ">
         <ChatContext
           messages={messages}

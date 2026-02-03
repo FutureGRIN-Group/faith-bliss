@@ -203,9 +203,7 @@ export const DashboardPage = ({ user: activeUser }: { user: User }) => {
       </DesktopLayout>
 
       <MobileLayout>
-        <div className="mb-4">
-          <StoriesRail />
-        </div>
+        {/* <StoriesRail /> */}
 
         <ProfileDisplay
           activeProfiles={activeProfiles}

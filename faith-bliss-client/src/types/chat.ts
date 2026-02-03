@@ -47,7 +47,7 @@ export interface ConversationSummary {
     senderId: string;
     createdAt: Timestamp;
   };
-  lastMessageAt: Timestamp;
+  lastMessageAt: Date;
 
   readState: {
     [userId: string]: {

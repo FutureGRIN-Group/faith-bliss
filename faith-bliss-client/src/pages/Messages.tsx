@@ -22,7 +22,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useQuery } from "@tanstack/react-query";
 import api from "@/services/axios";
 import { getAuth } from "firebase/auth";
-import { convertFirestoreTimestampToDate } from "@/lib/helpers";
+import StoriesRail from "@/components/stories/StoriesRail";
 
 // Define the Session and Image props interfaces
 interface SessionData {
@@ -141,7 +141,8 @@ const MessagesContent = () => {
           Activities
         </h3>
         <div className=" flex gap-3 overflow-x-auto">
-          {Array.from({ length: 5 }).map((_, index) => (
+          <StoriesRail />
+          {/* {Array.from({ length: 5 }).map((_, index) => (
             <div className="flex text-gray-400 flex-col gap-3 items-center">
               <Avatar className="size-20" key={index}>
                 <AvatarImage src="https://github.com/shadcn.png" />
@@ -149,7 +150,7 @@ const MessagesContent = () => {
               </Avatar>
               <span>Emma</span>
             </div>
-          ))}
+          ))} */}
         </div>
       </div>
       <div className="flex flex-col gap-7 px-2">
@@ -163,11 +164,9 @@ const MessagesContent = () => {
             ) as string;
 
             // Convert Firestore timestamp to Date object
-            const lastReadAtTime = convertFirestoreTimestampToDate(
-              conv.readState?.[otherUser]?.lastReadAt,
-            ).getTime();
+            const lastMessageAt = conv.lastMessageAt;
 
-            const lastReadAtDiff = Date.now() - lastReadAtTime;
+            const lastReadAtDiff = Date.now() - Number(lastMessageAt);
 
             // Convert Diff in Mill secs to hours
             const lastReadAtDiffHours = Math.round(
@@ -175,7 +174,7 @@ const MessagesContent = () => {
             );
 
             // Convert to date
-            const date = new Date(lastReadAtTime).toLocaleDateString();
+            const date = new Date(lastMessageAt).toLocaleDateString();
 
             const text = conv.lastMessage.text;
 
