@@ -53,7 +53,7 @@ const VALUES_ENUM = [
 // --- Interface ---
 export interface IUser extends Document {
   // Authentication & Core Fields
-  _id: Types.ObjectId | string;
+  _id: Types.ObjectId;
   // 💡 NEW: This field stores the unique Firebase UID (required for every user)
   firebaseUid: string;
   email: string;

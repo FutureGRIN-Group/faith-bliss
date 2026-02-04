@@ -20,6 +20,9 @@ if (!admin.apps.length) {
       "base64"
     ).toString("utf-8");
 
+    // DEBUG: Log the first few chars to check validity (DON'T LOG THE WHOLE KEY)
+    console.log("Decoded Credentials Snippet:", credentialsJsonString.substring(0, 20) + "...");
+
     // 2. Parse the JSON string into the ServiceAccount object
     const serviceAccount = JSON.parse(credentialsJsonString) as ServiceAccount;
 
@@ -28,18 +31,21 @@ if (!admin.apps.length) {
     });
     console.log("Firebase Admin SDK initialized successfully."); // Added log for verification
   } catch (error) {
-    console.error(
-      "❌ FATAL ERROR: Could not initialize Firebase Admin SDK. Check Base64 format."
+    console.warn(
+      "⚠️ WARNING: Could not initialize Firebase Admin SDK. Backend is running in limited mode."
     );
-    throw error;
+    console.warn("Reason:", error instanceof Error ? error.message : String(error));
+    // Mock Admin SDK for dev/preview (TEMPORARY FIX)
+    // This allows the server to start but endpoints using admin auth will fail
   }
 }
 
 // FIX: Export 'db' here.
-export const db = admin.firestore();
+// Safely export mock if admin failed
+export const db = admin.apps.length ? admin.firestore() : ({} as FirebaseFirestore.Firestore);
 
 // Firestore user profile collection reference
-export const usersCollection = db.collection("users");
+export const usersCollection = admin.apps.length ? db.collection("users") : ({} as FirebaseFirestore.CollectionReference);
 
 // Re-export admin for field values, etc.
 export { admin };

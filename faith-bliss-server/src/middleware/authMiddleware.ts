@@ -53,6 +53,17 @@ export const protect = async (
   }
 
   try {
+    // CRITICAL: Check if Admin SDK is initialized before verifying
+    if (admin.apps.length === 0) {
+      console.warn('⚠️ Firebase Admin SDK not initialized. Skipping token verification (MOCK MODE).');
+      // In a real prod env, you might want to return 503.
+      // For dev/preview without creds, we can either block or allow a mock user.
+      // Blocking is safer to avoid confusion.
+      return res.status(503).json({ 
+        message: 'Service Unavailable: Authentication service not initialized properly.' 
+      });
+    }
+
     const decodedToken: DecodedIdToken = await admin
       .auth()
       .verifyIdToken(token);
