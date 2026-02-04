@@ -17,6 +17,8 @@ import {
   onAuthStateChanged,
   setPersistence,
   browserLocalPersistence,
+  GoogleAuthProvider,
+  signInWithPopup,
 } from "firebase/auth";
 import type { User as FirebaseAuthUser } from "firebase/auth";
 // 💡 NEW FIREBASE IMPORTS FOR FIRESTORE
@@ -266,6 +268,77 @@ export function useAuth() {
     },
     [showSuccess, showError]
   );
+
+  // -----------------------------------------------------------
+  // 🚀 Google Sign-In (NEW)
+  // -----------------------------------------------------------
+  const signInWithGoogle = useCallback(async () => {
+    setIsLoggingIn(true);
+    try {
+      await setPersistence(auth, browserLocalPersistence);
+      const provider = new GoogleAuthProvider();
+      
+      console.log("A. Google Sign-In: Starting popup...");
+      const result = await signInWithPopup(auth, provider);
+      const fbUser = result.user;
+      
+      console.log("B. Google Sign-In: Firebase Auth successful", fbUser.uid);
+
+      // Check if Firestore profile exists
+      const userProfile = await fetchUserDataFromFirestore(fbUser);
+
+      if (!userProfile) {
+        console.log("C. Google Sign-In: No Firestore profile found. Creating new one...");
+        
+        // Auto-create initial profile for Google user
+        const userDocRef = doc(db, "users", fbUser.uid);
+        await setDoc(userDocRef, {
+          email: fbUser.email,
+          name: fbUser.displayName || "Google User",
+          // Default required fields
+          age: 0,
+          gender: "MALE", // Default, user can change in onboarding
+          denomination: "",
+          location: "",
+          bio: "",
+          profilePhoto1: fbUser.photoURL, // Use Google photo as initial
+          onboardingCompleted: false,
+          createdAt: serverTimestamp(),
+          updatedAt: serverTimestamp(),
+        });
+
+        // Manually update local state for the new user
+        const newUser: User = {
+          id: fbUser.uid,
+          email: fbUser.email!,
+          name: fbUser.displayName || "Google User",
+          onboardingCompleted: false,
+          age: 0,
+          gender: "MALE",
+          denomination: "",
+          bio: "",
+          location: "",
+          profilePhoto1: fbUser.photoURL || undefined,
+        };
+        setUser(newUser);
+        localStorage.setItem("user", JSON.stringify(newUser));
+        
+        showSuccess("Account created with Google!", "Welcome!");
+      } else {
+        console.log("C. Google Sign-In: Firestore profile found. Logging in...");
+        setUser(userProfile);
+        localStorage.setItem("user", JSON.stringify(userProfile));
+        showSuccess("Welcome back!", "Login Successful");
+      }
+
+    } catch (error: any) {
+      console.error("Google Sign-In Error:", error);
+      showError(error.message || "Google Sign-In failed", "Authentication Error");
+      throw error;
+    } finally {
+      setIsLoggingIn(false);
+    }
+  }, [showSuccess, showError]);
 
   // -----------------------------------------------------------
   // 📝 Direct Register (Now using Firestore Profile Creation)
@@ -574,6 +647,7 @@ export function useAuth() {
     isLoggingOut,
     isCompletingOnboarding,
     directLogin,
+    signInWithGoogle,
     directRegister,
     logout,
     refetchUser,

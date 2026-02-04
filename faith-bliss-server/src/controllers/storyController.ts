@@ -2,11 +2,27 @@ import { Request, Response } from 'express';
 import StoryModel from '../models/Story';
 import UserModel from '../models/User';
 import { Types } from 'mongoose';
+import { z } from 'zod';
+
+// Zod Schema for Create Story
+const createStorySchema = z.object({
+  mediaUrl: z.string().url({ message: 'Invalid media URL' }),
+  mediaType: z.enum(['image', 'video']).optional().default('image'),
+});
 
 // Create a new story
 export const createStory = async (req: Request, res: Response) => {
   try {
-    const { mediaUrl, mediaType } = req.body;
+    // 1. Validate Input
+    const parseResult = createStorySchema.safeParse(req.body);
+    if (!parseResult.success) {
+      return res.status(400).json({ 
+        error: 'Validation failed', 
+        details: (parseResult.error as any).errors 
+      });
+    }
+
+    const { mediaUrl, mediaType } = parseResult.data;
     const firebaseUid = req.userId; // From authMiddleware
 
     if (!firebaseUid) {

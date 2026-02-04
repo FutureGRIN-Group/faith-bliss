@@ -61,6 +61,11 @@ const CreateStoryModal: React.FC<CreateStoryModalProps> = ({ isOpen, onClose }) 
 
         {/* Content */}
         <div className="p-6 flex flex-col items-center justify-center min-h-[300px] bg-gray-50">
+          {error && (
+            <div className="mb-4 p-3 w-full bg-red-50 text-red-600 text-sm rounded-lg border border-red-100 flex items-center justify-center text-center">
+              {error}
+            </div>
+          )}
           {preview ? (
             <div className="relative w-full aspect-[9/16] bg-black rounded-lg overflow-hidden">
               <img src={preview} alt="Preview" className="w-full h-full object-contain" />

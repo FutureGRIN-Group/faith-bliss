@@ -1,7 +1,7 @@
 // src/controllers/matchController.ts (FIRESTORE REWRITE + FIXED)
 
 import { Request, Response } from 'express';
-import { admin, usersCollection } from '../config/firebase-admin';
+import { db, admin, usersCollection } from '../config/firebase-admin';
 import { DocumentData, CollectionReference, Timestamp } from 'firebase-admin/firestore';
 
 // --- FIRESTORE DATA STRUCTURES ---
@@ -36,9 +36,9 @@ interface IMessage extends DocumentData {
 }
 
 // Firestore references
-const db = admin.firestore();
-const matchesCollection: CollectionReference = db.collection('matches');
-const messagesCollection: CollectionReference = db.collection('messages');
+// Uses the exported 'db' which is either the real Firestore instance or a mock
+const matchesCollection: CollectionReference = db.collection ? db.collection('matches') : ({} as CollectionReference);
+const messagesCollection: CollectionReference = db.collection ? db.collection('messages') : ({} as CollectionReference);
 
 // Helper: safely extract message from unknown error
 function isErrorWithMessage(error: unknown): error is { message: string } {
@@ -140,7 +140,7 @@ const likeUser = async (req: Request, res: Response) => {
   const currentUser = await fetchCurrentUser(req, res);
   if (!currentUser) return;
 
-  const { userId: targetUid } = req.params;
+  const targetUid = String(req.params.userId);
   const currentUid = currentUser.id;
   console.log(`❤️ Like request from ${currentUid} → ${targetUid}`);
 
@@ -208,7 +208,7 @@ const passUser = async (req: Request, res: Response) => {
   const currentUser = await fetchCurrentUser(req, res);
   if (!currentUser) return;
 
-  const { userId: targetUid } = req.params;
+  const targetUid = String(req.params.userId);
   const currentUid = currentUser.id;
 
   if (currentUid === targetUid) {
@@ -316,7 +316,7 @@ const getMatchMessages = async (req: Request, res: Response) => {
   const currentUser = await fetchCurrentUser(req, res);
   if (!currentUser) return;
 
-  const { matchId } = req.params;
+  const matchId = String(req.params.matchId);
   const currentUid = currentUser.id;
 
   try {

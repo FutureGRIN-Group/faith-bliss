@@ -263,7 +263,7 @@ const updateUserProfile = async (req: Request, res: Response) => {
     if (!parseResult.success) {
         return res.status(400).json({ 
             message: "Validation Error", 
-            errors: parseResult.error.errors 
+            errors: (parseResult.error as any).errors 
         });
     }
 
