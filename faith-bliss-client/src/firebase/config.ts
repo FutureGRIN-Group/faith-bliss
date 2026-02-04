@@ -9,13 +9,13 @@ import { getAnalytics } from "firebase/analytics";
 // --- 1. Firebase Configuration Object ---
 // Updated with specific credentials as requested
 const firebaseConfig = {
-  apiKey: "AIzaSyBmr2NmdT0gtaWZucdBf2XNuSak2YuMvzY",
-  authDomain: "faithbliss-b4fad.firebaseapp.com",
-  projectId: "faithbliss-b4fad",
-  storageBucket: "faithbliss-b4fad.firebasestorage.app",
-  messagingSenderId: "362529226854",
-  appId: "1:362529226854:web:596b42ba2c9d6d330ceda7",
-  measurementId: "G-DEYGBTKLHQ"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
 /* 
