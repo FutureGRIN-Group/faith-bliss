@@ -39,7 +39,7 @@ importers:
         specifier: ^2.1.1
         version: 2.1.1
       firebase:
-        specifier: ^12.8.0
+        specifier: ^12.12.1
         version: 12.12.1
       framer-motion:
         specifier: ^12.23.24
