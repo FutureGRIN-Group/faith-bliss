@@ -1,6 +1,6 @@
 {
-  "installCommand": "cd faith-bliss-client && pnpm install --frozen-lockfile",
-  "buildCommand": "cd faith-bliss-client && pnpm run build",
+  "installCommand": "cd faith-bliss-client && npm ci --legacy-peer-deps",
+  "buildCommand": "cd faith-bliss-client && npm run build",
   "outputDirectory": "faith-bliss-client/dist",
   "rewrites": [
     {
