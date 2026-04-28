@@ -1,0 +1,11 @@
+{
+  "installCommand": "cd faith-bliss-client && pnpm install --frozen-lockfile",
+  "buildCommand": "cd faith-bliss-client && pnpm run build",
+  "outputDirectory": "faith-bliss-client/dist",
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
