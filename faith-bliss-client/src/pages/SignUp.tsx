@@ -73,8 +73,12 @@ export default function Signup() {
       await signInWithGoogle();
     } catch (err: any) {
       console.error("Google sign-up error:", err);
+      const message =
+        err?.code === "auth/popup-closed-by-user"
+          ? "Google sign-up popup was closed before completing sign-in."
+          : err?.message || "Failed to sign up with Google. Please try again.";
       setError(
-        err?.message || "Failed to sign up with Google. Please try again."
+        message
       );
       if (typeof window !== "undefined")
         sessionStorage.removeItem("fromSignup");
@@ -167,7 +171,7 @@ export default function Signup() {
         >
           <FcGoogle size={20} />
           <span className="text-sm sm:text-base">
-            {loading ? "Connecting..." : "Continue with Google"}
+            {loading ? "Continuing secure sign-in..." : "Continue with Google"}
           </span>
         </button>
 

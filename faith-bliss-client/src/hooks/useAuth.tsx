@@ -4,7 +4,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { useNavigate, useLocation } from "react-router-dom";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { useToast } from "@/contexts/ToastContext";
 import { useAuthContext } from "../contexts/AuthContext";
 import type { User } from "@/types/User";
@@ -19,6 +19,8 @@ import {
   browserLocalPersistence,
   GoogleAuthProvider,
   signInWithPopup,
+  signInWithRedirect,
+  getRedirectResult,
 } from "firebase/auth";
 import type { User as FirebaseAuthUser } from "firebase/auth";
 // 💡 NEW FIREBASE IMPORTS FOR FIRESTORE
@@ -161,14 +163,80 @@ export function useAuth() {
   const [isInitialSignUp, setIsInitialSignUp] = useState(false);
 
   const [accessToken, setAccessToken] = useState<string | null>(null);
+  const redirectResultCheckedRef = useRef(false);
 
   const isAuthenticated = !!(accessToken && user);
+
+  const syncGoogleUserProfile = useCallback(async (fbUser: FirebaseAuthUser) => {
+    const userProfile = await fetchUserDataFromFirestore(fbUser);
+
+    if (!userProfile) {
+      const userDocRef = doc(db, "users", fbUser.uid);
+      await setDoc(userDocRef, {
+        email: fbUser.email,
+        name: fbUser.displayName || "Google User",
+        age: 0,
+        gender: "MALE",
+        denomination: "",
+        location: "",
+        bio: "",
+        profilePhoto1: fbUser.photoURL,
+        onboardingCompleted: false,
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
+      });
+
+      const newUser: User = {
+        id: fbUser.uid,
+        email: fbUser.email!,
+        name: fbUser.displayName || "Google User",
+        onboardingCompleted: false,
+        age: 0,
+        gender: "MALE",
+        denomination: "",
+        bio: "",
+        location: "",
+        profilePhoto1: fbUser.photoURL || undefined,
+      };
+      setUser(newUser);
+      localStorage.setItem("user", JSON.stringify(newUser));
+      return { isNew: true };
+    }
+
+    setUser(userProfile);
+    localStorage.setItem("user", JSON.stringify(userProfile));
+    return { isNew: false };
+  }, []);
 
   // -----------------------------------------------------------
   // 🔄 Firebase Auth State Listener (Now using Firestore Sync)
   // -----------------------------------------------------------
 
   useEffect(() => {
+    const processRedirectResult = async () => {
+      if (redirectResultCheckedRef.current) return;
+      redirectResultCheckedRef.current = true;
+
+      try {
+        const redirectResult = await getRedirectResult(auth);
+        if (!redirectResult?.user) return;
+
+        const { isNew } = await syncGoogleUserProfile(redirectResult.user);
+        if (isNew) {
+          showSuccess("Account created with Google!", "Welcome!");
+        } else {
+          showSuccess("Welcome back!", "Login Successful");
+        }
+      } catch (error: any) {
+        console.error("Google redirect sign-in error:", error);
+        showError(
+          error?.message || "Google sign-in redirect failed.",
+          "Authentication Error"
+        );
+      }
+    };
+
+    processRedirectResult();
     setIsLoading(true);
 
     const unsubscribe = onAuthStateChanged(
@@ -234,7 +302,7 @@ export function useAuth() {
     );
 
     return () => unsubscribe(); // Cleanup the listener on unmount
-  }, [isInitialSignUp]);
+  }, [isInitialSignUp, showError, showSuccess, syncGoogleUserProfile]);
 
   // -----------------------------------------------------------
   // 🔒 Direct Login
@@ -283,62 +351,35 @@ export function useAuth() {
       const fbUser = result.user;
       
       console.log("B. Google Sign-In: Firebase Auth successful", fbUser.uid);
-
-      // Check if Firestore profile exists
-      const userProfile = await fetchUserDataFromFirestore(fbUser);
-
-      if (!userProfile) {
-        console.log("C. Google Sign-In: No Firestore profile found. Creating new one...");
-        
-        // Auto-create initial profile for Google user
-        const userDocRef = doc(db, "users", fbUser.uid);
-        await setDoc(userDocRef, {
-          email: fbUser.email,
-          name: fbUser.displayName || "Google User",
-          // Default required fields
-          age: 0,
-          gender: "MALE", // Default, user can change in onboarding
-          denomination: "",
-          location: "",
-          bio: "",
-          profilePhoto1: fbUser.photoURL, // Use Google photo as initial
-          onboardingCompleted: false,
-          createdAt: serverTimestamp(),
-          updatedAt: serverTimestamp(),
-        });
-
-        // Manually update local state for the new user
-        const newUser: User = {
-          id: fbUser.uid,
-          email: fbUser.email!,
-          name: fbUser.displayName || "Google User",
-          onboardingCompleted: false,
-          age: 0,
-          gender: "MALE",
-          denomination: "",
-          bio: "",
-          location: "",
-          profilePhoto1: fbUser.photoURL || undefined,
-        };
-        setUser(newUser);
-        localStorage.setItem("user", JSON.stringify(newUser));
-        
-        showSuccess("Account created with Google!", "Welcome!");
-      } else {
-        console.log("C. Google Sign-In: Firestore profile found. Logging in...");
-        setUser(userProfile);
-        localStorage.setItem("user", JSON.stringify(userProfile));
-        showSuccess("Welcome back!", "Login Successful");
-      }
+      const { isNew } = await syncGoogleUserProfile(fbUser);
+      showSuccess(
+        isNew ? "Account created with Google!" : "Welcome back!",
+        isNew ? "Welcome!" : "Login Successful"
+      );
 
     } catch (error: any) {
+      const code = error?.code as string | undefined;
+      const shouldFallbackToRedirect =
+        code === "auth/popup-blocked" ||
+        code === "auth/cancelled-popup-request";
+
+      if (shouldFallbackToRedirect) {
+        const provider = new GoogleAuthProvider();
+        showSuccess(
+          "Popup blocked, continuing with secure redirect...",
+          "Continuing Sign-In"
+        );
+        await signInWithRedirect(auth, provider);
+        return;
+      }
+
       console.error("Google Sign-In Error:", error);
       showError(error.message || "Google Sign-In failed", "Authentication Error");
       throw error;
     } finally {
       setIsLoggingIn(false);
     }
-  }, [showSuccess, showError]);
+  }, [showSuccess, showError, syncGoogleUserProfile]);
 
   // -----------------------------------------------------------
   // 📝 Direct Register (Now using Firestore Profile Creation)

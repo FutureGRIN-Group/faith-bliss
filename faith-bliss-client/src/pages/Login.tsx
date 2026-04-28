@@ -52,7 +52,11 @@ function LoginForm() {
     try {
       await signInWithGoogle();
     } catch (err: any) {
-      setError(err?.message || 'Google sign-in failed. Please try again.');
+      const message =
+        err?.code === "auth/popup-closed-by-user"
+          ? "Google sign-in popup was closed before completing sign-in."
+          : err?.message || "Google sign-in failed. Please try again.";
+      setError(message);
     } finally {
       setLoading(false);
     }
@@ -116,7 +120,7 @@ function LoginForm() {
           className="w-full mb-6 flex items-center justify-center gap-3 bg-gray-700/50 border border-gray-600/50 hover:border-gray-500/50 text-white py-3 px-4 sm:px-6 rounded-xl font-medium hover:bg-gray-600/50 transition-all duration-200 shadow-xs disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <FcGoogle size={20} />
-          <span className="text-sm sm:text-base">{loading ? 'Redirecting...' : 'Continue with Google'}</span>
+          <span className="text-sm sm:text-base">{loading ? 'Continuing secure sign-in...' : 'Continue with Google'}</span>
         </button>
 
         <div className="relative mb-6">
