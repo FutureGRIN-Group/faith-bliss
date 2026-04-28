@@ -261,9 +261,36 @@ faith-bliss/
 ## 🚀 Deployment
 
 ### Frontend Deployment (Vercel)
-1. Connect GitHub repository to Vercel
-2. Set environment variables in Vercel dashboard
-3. Deploy automatically on push to main branch
+
+**Projects in this repo**
+
+- **`faith-bliss-client`** — typical production app. In the Vercel dashboard, set the Git **Root Directory** to `faith-bliss-client` (or connect only that folder). SPA fallback is in [`faith-bliss-client/vercel.json`](faith-bliss-client/vercel.json).
+- **`faith-bliss`** (monorepo root) — uses root [`vercel.json`](vercel.json) (`installCommand` / `buildCommand` / `outputDirectory` + rewrites). Use this project only if the Git integration builds from the repository root.
+
+**Custom domains (`www.faithblissafrica.com`, apex)**
+
+A **Vercel `404: NOT_FOUND` on `/`** (not only on client routes like `/onboarding`) means the hostname reached Vercel but **no production deployment is serving that domain** — usually the domain is missing under **Project → Settings → Domains**, or it is attached to the **wrong** Vercel project/team. Fixing SPA `rewrites` alone does not fix that.
+
+1. In [Vercel](https://vercel.com), open the **same** project you deploy from Git (`faith-bliss-client` or root `faith-bliss`).
+2. **Settings → Domains**: add **`www.faithblissafrica.com`** and (recommended) apex **`faithblissafrica.com`**. Complete the shown DNS steps until each hostname is **Valid**.
+3. At your DNS host: for `www`, use the **CNAME** target Vercel shows (often `cname.vercel-dns.com` or a project-specific `*.vercel-dns-*.com` hostname). For apex, use Vercel’s **A** / **ALIAS** instructions. Remove conflicting older records.
+4. **Deployments**: confirm **Production** is **Ready** (not Error / Canceled).
+
+**If DNS already points to Vercel but you still see 404**
+
+Public DNS may already show a CNAME to `*.vercel-dns-*.com` while the domain is **not** assigned to your team’s project (for example it was added under another Vercel account or team). In that case: find where the domain is managed in Vercel (the account that can open **Domains** and see `www.faithblissafrica.com`), remove it from any unused project, then add it under **futuregrins-projects → `faith-bliss-client` → Settings → Domains** (or the root project, if that is what you deploy). `vercel domains add` from the CLI only succeeds when your team **owns** or has **verified** the domain.
+
+**CLI / preview URL: `DEPLOYMENT_NOT_FOUND`**
+
+Vercel returns this when a request targets a **specific deployment** that no longer exists or was never valid (wrong deployment id, typo in a `*-hash-*.vercel.app` URL, deleted preview, or CI capturing the wrong string from `vercel deploy` output). Fix: use a **current** deployment from the dashboard, the **production** alias (`<project>.vercel.app`), or a **custom domain** after it is **Valid**—not a bookmarked old preview link.
+
+**Verify the app before the custom domain works**
+
+Production URLs like `https://faith-bliss-client.vercel.app/` should return **200** for `/` and `/onboarding` when deployment protection is off.
+
+**Firebase (optional but recommended for auth)**
+
+In Firebase **Authentication → Settings → Authorized domains**, add **`faithblissafrica.com`** and **`www.faithblissafrica.com`** so redirects and OAuth work on the custom host.
 
 ### Backend Deployment
 1. Build the application: `pnpm run build`
