@@ -71,6 +71,13 @@ export default function ProtectedRoute({
     return <HeartBeatLoader message="Routing..." />;
   }
 
+  // Onboarding must be visible on desktop. The default shell below uses
+  // `lg:hidden` (mobile-only), which hid the entire onboarding tree on large
+  // screens and showed only the empty App background.
+  if (requireOnboarding) {
+    return <>{children}</>;
+  }
+
   const handleApplyFilters = async (filters: any) => {
     // setIsLoadingFilters(true);
     // try {
