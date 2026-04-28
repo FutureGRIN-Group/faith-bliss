@@ -10,7 +10,6 @@ import { Link } from "react-router-dom"; // 🌟 VITE FIX 2: Use Link from react
 import {
   X,
   User,
-  Heart,
   MessageCircle,
   Star,
   Settings,
@@ -32,6 +31,7 @@ import {
   SidebarMenu,
   SidebarMenuItem,
 } from "../ui/sidebar";
+import { FaithBlissMark } from "@/components/branding/FaithBlissLogo";
 
 interface SidePanelProps {
   userName: string;
@@ -160,8 +160,8 @@ export const SidePanel = ({
 
               <Link to="/matches" onClick={onClose}>
                 <div className="flex items-center space-x-4 p-4 hover:bg-gray-800/50 rounded-2xl transition-colors cursor-pointer group">
-                  <div className="p-2 bg-pink-500/20 rounded-xl group-hover:bg-pink-500/30 transition-colors">
-                    <Heart className="w-5 h-5 text-pink-400" />
+                  <div className="p-2 bg-pink-500/20 rounded-xl group-hover:bg-pink-500/30 transition-colors flex items-center justify-center">
+                    <FaithBlissMark className="w-5 h-5" alt="" />
                   </div>
                   <div>
                     <h4 className="text-white font-semibold">My Matches</h4>

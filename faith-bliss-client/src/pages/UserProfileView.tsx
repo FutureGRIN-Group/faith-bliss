@@ -3,7 +3,6 @@ import { useParams, useNavigate } from "react-router-dom";
 import { HeartBeatLoader } from "@/components/HeartBeatLoader";
 import {
   ArrowLeft,
-  Heart,
   X,
   MessageCircle,
   MapPin,
@@ -17,6 +16,7 @@ import { useAuth } from "@/hooks/useAuth";
 import type { User } from "@/services/api";
 import { GalleryGrid } from "@/components/gallery/GalleryGrid";
 import { FullScreenGallery } from "@/components/gallery/FullScreenGallery";
+import { FaithBlissMark } from "@/components/branding/FaithBlissLogo";
 
 const getProfilePhotos = (user: User): string[] => {
   const photos: string[] = [];
@@ -334,7 +334,7 @@ const ProfilePage = () => {
                 onClick={() => console.log("Like", profile.name)}
                 className="bg-pink-500/20 hover:bg-pink-500/30 border border-pink-500/30 text-pink-400 p-4 rounded-full transition-all hover:scale-110"
               >
-                <Heart className="w-6 h-6" />
+                <FaithBlissMark className="w-6 h-6" alt="Like" />
               </button>
             </div>
           </div>

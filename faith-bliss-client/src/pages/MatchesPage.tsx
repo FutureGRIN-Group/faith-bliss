@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState, useEffect } from "react";
+import { useState, useEffect, type ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
-import { Heart, Users, Clock } from "lucide-react";
+import { Users, Clock } from "lucide-react";
+import { FaithBlissMark } from "@/components/branding/FaithBlissLogo";
 import { motion, AnimatePresence } from "framer-motion";
 import ProtectedRoute from "../components/auth/ProtectedRoute";
 import { TopBar } from "../components/dashboard/TopBar";
@@ -69,10 +70,10 @@ const MatchesPage = () => {
     );
   }
 
-  const renderEmpty = (Icon: any, title: string, subtitle: string) => (
+  const renderEmpty = (icon: ReactNode, title: string, subtitle: string) => (
     <div className="text-center col-span-2 py-16">
       <div className="bg-linear-to-r from-pink-500/20 to-purple-600/20 backdrop-blur-xl border border-pink-500/30 rounded-3xl p-8 max-w-md mx-auto">
-        <Icon className="w-16 h-16 text-pink-400 mx-auto mb-4" />
+        <div className="flex justify-center mb-4">{icon}</div>
         <h3 className="text-xl font-semibold text-white mb-2">{title}</h3>
         <p className="text-gray-400">{subtitle}</p>
       </div>
@@ -110,19 +111,19 @@ const MatchesPage = () => {
                   key: "mutual",
                   label: "Mutual",
                   count: mutualMatches.length,
-                  icon: Heart,
+                  icon: <FaithBlissMark className="w-5 h-5" alt="" />,
                 },
                 {
                   key: "sent",
                   label: "Sent",
                   count: sentRequests.length,
-                  icon: Clock,
+                  icon: <Clock className="w-5 h-5" />,
                 },
                 {
                   key: "received",
                   label: "Received",
                   count: receivedRequests.length,
-                  icon: Users,
+                  icon: <Users className="w-5 h-5" />,
                 },
               ].map((tab) => (
                 <button
@@ -135,7 +136,7 @@ const MatchesPage = () => {
                   }`}
                 >
                   <div className="flex items-center justify-center space-x-2">
-                    <tab.icon className="w-5 h-5" />
+                    {tab.icon}
                     <span className="font-medium">{tab.label}</span>
                     <span
                       className={`px-2 py-1 rounded-full text-xs font-bold ${
@@ -168,18 +169,18 @@ const MatchesPage = () => {
                   ))
                 : activeTab === "mutual"
                 ? renderEmpty(
-                    Heart,
+                    <FaithBlissMark className="w-16 h-16" alt="" />,
                     "No mutual matches yet",
                     "Keep exploring to find your perfect match!"
                   )
                 : activeTab === "sent"
                 ? renderEmpty(
-                    Clock,
+                    <Clock className="w-16 h-16 text-pink-400" />,
                     "No sent requests yet",
                     "You haven’t sent any requests yet."
                   )
                 : renderEmpty(
-                    Users,
+                    <Users className="w-16 h-16 text-pink-400" />,
                     "No received requests yet",
                     "No one has sent you a request yet."
                   )}

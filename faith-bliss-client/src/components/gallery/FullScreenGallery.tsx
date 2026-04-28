@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { X, ChevronLeft, ChevronRight, Heart, MessageCircle, MapPin } from 'lucide-react';
+import { X, ChevronLeft, ChevronRight, MessageCircle, MapPin } from 'lucide-react';
+import { FaithBlissMark } from '@/components/branding/FaithBlissLogo';
 import { cn } from '@/lib/utils';
 import type { User } from '@/services/api';
 
@@ -177,7 +178,7 @@ export const FullScreenGallery: React.FC<FullScreenGalleryProps> = ({
                         className="p-4 bg-gray-800/80 hover:bg-gray-700 text-pink-400 rounded-full border border-pink-500/30 transition-transform hover:scale-110"
                         aria-label="Like"
                     >
-                        <Heart size={28} />
+                        <FaithBlissMark className="w-7 h-7" alt="Like" />
                     </button>
                 )}
             </div>

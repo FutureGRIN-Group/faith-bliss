@@ -1,6 +1,7 @@
 import type { Match } from "@/types/Match";
 import { motion } from "framer-motion";
-import { Heart, X } from "lucide-react";
+import { X } from "lucide-react";
+import { FaithBlissMark } from "@/components/branding/FaithBlissLogo";
 import { Separator } from "../ui/separator";
 
 export default function MatchCard({ match }: { match: Match }) {
@@ -34,8 +35,8 @@ export default function MatchCard({ match }: { match: Match }) {
           <X size={27} />
         </div>
         <Separator orientation="vertical" />
-        <div>
-          <Heart size={27} className="fill-white" />
+        <div className="flex items-center justify-center">
+          <FaithBlissMark className="w-[27px] h-[27px]" alt="" />
         </div>
       </div>
       <div>{/* <h2>{user.name || "Unknown"}</h2> */}</div>

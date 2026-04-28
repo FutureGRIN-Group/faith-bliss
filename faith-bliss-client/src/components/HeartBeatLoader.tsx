@@ -1,5 +1,5 @@
 /* eslint-disable no-irregular-whitespace */
-import { Heart } from "lucide-react";
+import { FaithBlissLogo } from "@/components/branding/FaithBlissLogo";
 
 interface HeartBeatLoaderProps {
   message?: string;
@@ -20,11 +20,13 @@ export const HeartBeatLoader = ({
             style={{ animationDelay: "0.5s" }}
           ></div>
 
-          {/* Main heart - now relying on global .heartbeat-animation class */}
-          <Heart
-            className="w-20 h-20 text-pink-500 mx-auto heartbeat-animation relative z-10"
-            fill="currentColor"
-          />
+          <div className="relative z-10 heartbeat-animation flex items-center justify-center">
+            <FaithBlissLogo
+              imgProps={{
+                className: "w-20 h-20 max-w-[5rem] object-contain",
+              }}
+            />
+          </div>
         </div>
         <div className="mt-8 space-y-2">
           <p className="text-white text-lg font-medium animate-pulse">

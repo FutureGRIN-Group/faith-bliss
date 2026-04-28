@@ -1,4 +1,5 @@
-import { Heart, Sparkles } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
+import { FaithBlissMark } from '@/components/branding/FaithBlissLogo';
 
 export const OnboardingSuccessModal = () => {
   return (
@@ -6,7 +7,7 @@ export const OnboardingSuccessModal = () => {
       <div className="bg-gray-800 rounded-3xl shadow-2xl p-8 text-center max-w-md w-full border border-gray-700">
         <div className="mb-6">
           <div className="w-20 h-20 bg-linear-to-r from-pink-500 to-blue-500 rounded-full flex items-center justify-center mx-auto mb-4 animate-pulse">
-            <Heart className="w-10 h-10 text-white" />
+            <FaithBlissMark className="w-10 h-10" alt="" />
           </div>
           <h2 className="text-3xl font-bold text-white mb-2">You&apos;re In!</h2>
           <p className="text-gray-300 leading-relaxed mb-4">

@@ -1,7 +1,7 @@
 import {
   Camera,
   User,
-  Heart,
+  Flame,
   Church,
 } from 'lucide-react';
 import React from 'react';
@@ -18,7 +18,7 @@ const ProfileTabs: React.FC<ProfileTabsProps> = ({ activeSection, setActiveSecti
   const tabs = [
     { id: 'photos', label: 'Photos', icon: Camera },
     { id: 'basics', label: 'Basic Info', icon: User },
-    { id: 'passions', label: 'Passions', icon: Heart },
+    { id: 'passions', label: 'Passions', icon: Flame },
     { id: 'faith', label: 'Faith Journey', icon: Church },
   ] as const; // 👈 ensures TypeScript keeps literal types
 

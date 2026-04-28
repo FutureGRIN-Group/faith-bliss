@@ -1,5 +1,5 @@
 /* eslint-disable no-irregular-whitespace */
-import { Heart } from "lucide-react";
+import { FaithBlissMark } from "@/components/branding/FaithBlissLogo";
 // Note: Ensure your index.css file (or equivalent) contains the .mini-heartbeat class
 
 interface HeartBeatIconProps {
@@ -18,9 +18,14 @@ export const HeartBeatIcon = ({
   };
 
   return (
-    <Heart
-      className={`${sizeClasses[size]} text-current mini-heartbeat ${className}`}
-      fill="currentColor"
-    />
+    <span
+      className={`inline-flex items-center justify-center mini-heartbeat ${className}`}
+    >
+      <FaithBlissMark
+        alt=""
+        aria-hidden
+        className={sizeClasses[size]}
+      />
+    </span>
   );
 };

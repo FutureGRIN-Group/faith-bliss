@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"; // <-- CHANGED from 'next/link'
-import { Heart, Globe, Users, Target, Shield, Handshake, BookOpen } from "lucide-react";
+import { Globe, Users, Target, Shield, Handshake, BookOpen } from "lucide-react";
 import { useState, useEffect } from "react";
 import FadeIn from "../components/FadeIn"; // <-- IMPORTED our component
 import { FaithBlissLogo } from "@/components/branding/FaithBlissLogo";
@@ -276,8 +276,10 @@ export default function Home() {
             <FadeIn delay={200}>
               <div className="group bg-gray-800/50 backdrop-blur-xs rounded-2xl p-6 border border-gray-700 hover:border-pink-500/50 transition-all duration-500 hover:transform hover:scale-105 h-full">
                 <div className="flex flex-col items-center text-center space-y-4">
-                  <div className="w-16 h-16 bg-linear-to-r from-pink-500 to-rose-500 rounded-full flex items-center justify-center">
-                    <Heart className="h-8 w-8 text-white" />
+                  <div className="w-16 h-16 bg-linear-to-r from-pink-500 to-rose-500 rounded-full flex items-center justify-center p-2">
+                    <FaithBlissLogo
+                      imgProps={{ className: "h-8 w-auto max-h-8 object-contain" }}
+                    />
                   </div>
                   <h3 className="text-lg md:text-xl font-bold text-white">Marriage, Not Casual Dating</h3>
                   <p className="text-sm md:text-base text-gray-300 leading-relaxed">

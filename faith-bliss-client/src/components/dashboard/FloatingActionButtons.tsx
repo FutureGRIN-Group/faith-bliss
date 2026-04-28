@@ -3,7 +3,8 @@
 
 // Removed: 'use client'; // 🌟 VITE FIX 1: Remove Next.js-specific directive
 
-import { ArrowLeft, X, Heart, MessageCircle } from "lucide-react";
+import { ArrowLeft, X, MessageCircle } from "lucide-react";
+import { FaithBlissMark } from "@/components/branding/FaithBlissLogo";
 
 interface FloatingActionButtonsProps {
   onGoBack: () => void;
@@ -59,7 +60,10 @@ export const FloatingActionButtons = ({
             onClick={onLike}
             className="bg-pink-500 hover:bg-pink-600 text-white p-4 rounded-full shadow-2xl transition-all duration-300 hover:scale-110"
           >
-            <Heart className="w-6 h-6 group-hover:scale-110 group-hover:fill-current transition-all duration-300" />
+            <FaithBlissMark
+              className="w-6 h-6 group-hover:scale-110 transition-transform duration-300"
+              alt="Like"
+            />
           </button>
           <div className="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
             <div className="bg-gray-900/90 text-white text-sm px-3 py-1.5 rounded-lg backdrop-blur-xs border border-gray-700/50 whitespace-nowrap">

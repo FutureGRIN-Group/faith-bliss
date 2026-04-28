@@ -3,6 +3,22 @@ import type { ImgHTMLAttributes } from "react";
 /** Vite `public/` asset; encoded for safe use with spaces in the filename. */
 export const FAITHBLISS_LOGO_PUBLIC_PATH = encodeURI("/FB LOGO TR.png");
 
+/** Plain `<img>` mark for tight layouts (buttons, overlays). */
+export function FaithBlissMark({
+  className = "",
+  alt = "FaithBliss",
+  ...rest
+}: ImgHTMLAttributes<HTMLImageElement>) {
+  return (
+    <img
+      src={FAITHBLISS_LOGO_PUBLIC_PATH}
+      alt={alt}
+      className={`object-contain ${className}`.trim()}
+      {...rest}
+    />
+  );
+}
+
 export interface FaithBlissLogoProps {
   className?: string;
   showWordmark?: boolean;

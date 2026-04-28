@@ -1,7 +1,8 @@
 /* eslint-disable no-irregular-whitespace */
 // src/components/SuccessModal.tsx (Recommended path)
 
-import { CheckCircle, Heart, Sparkles } from "lucide-react";
+import { CheckCircle, Sparkles } from "lucide-react";
+import { FaithBlissMark } from "@/components/branding/FaithBlissLogo";
 import { useEffect, useState } from "react";
 
 interface SuccessModalProps {
@@ -66,10 +67,9 @@ export const SuccessModal = ({
               <CheckCircle className="w-12 h-12 text-white" />
             </div>
 
-            {/* Floating hearts */}
-            <Heart
-              className="absolute top-0 right-0 w-6 h-6 text-pink-400 animate-bounce"
-              fill="currentColor"
+            <FaithBlissMark
+              className="absolute top-0 right-0 w-6 h-6 animate-bounce"
+              alt=""
               style={{ animationDelay: "0.2s" }}
             />
             <Sparkles

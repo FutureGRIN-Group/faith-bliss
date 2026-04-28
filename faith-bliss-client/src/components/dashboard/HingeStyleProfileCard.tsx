@@ -1,6 +1,7 @@
 import TinderCard from "react-tinder-card";
 import type { User } from "@/services/api";
-import { Heart, MessageCircle, X } from "lucide-react";
+import { MessageCircle, X } from "lucide-react";
+import { FaithBlissMark } from "@/components/branding/FaithBlissLogo";
 import { NoProfilesState } from "./NoProfilesState";
 import { createRef, useMemo, useRef, useState, type Ref } from "react";
 
@@ -104,7 +105,7 @@ export const HingeStyleProfileCard = ({
           onClick={() => handleLike("right")}
           className="bg-error-500 hover:scale-110 transition-transform duration-300 rounded-full size-28 grid place-items-center"
         >
-          <Heart size={60} className="fill-white" />
+          <FaithBlissMark className="w-14 h-14 max-w-[3.75rem]" alt="Like" />
         </div>
         <div
           onClick={handleMessage}
