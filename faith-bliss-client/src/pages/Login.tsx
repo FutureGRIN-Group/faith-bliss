@@ -7,17 +7,12 @@ import { Heart, LogIn, Mail, Lock, Eye, EyeOff } from 'lucide-react';
 import { HeartBeatLoader } from '@/components/HeartBeatLoader'; 
 import { useAuthContext } from '../contexts/AuthContext'; 
 
-// --- Configuration ---
-// Get API URL from environment variables or use a default for local development
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-// ---------------------
-
 function LoginForm() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams(); 
 
   // Assuming useAuthContext is imported from the corrected context file
-  const { directLogin, isLoggingIn, isLoading, isAuthenticated } = useAuthContext();
+  const { directLogin, signInWithGoogle, isLoggingIn, isLoading, isAuthenticated } = useAuthContext();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -50,16 +45,17 @@ function LoginForm() {
     }
   }, [searchParams, navigate]);
 
-  // Google sign-in: Redirects user to the backend OAuth initiation endpoint
+  // Google sign-in via Firebase Auth (backend OAuth routes are deprecated)
   const handleGoogleSignIn = async () => {
     setLoading(true);
     setError('');
-    
-    // Pass the desired post-login redirect path (callbackUrl) to the backend
-    const googleAuthUrl = `${API_URL}/api/auth/google?callbackUrl=${callbackUrl}`;
-    
-    // Perform browser navigation
-    window.location.href = googleAuthUrl;
+    try {
+      await signInWithGoogle();
+    } catch (err: any) {
+      setError(err?.message || 'Google sign-in failed. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   // Email (credentials) sign-in

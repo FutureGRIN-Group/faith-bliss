@@ -9,12 +9,6 @@ import { SuccessModal } from "@/components/SuccessModal";
 import { HeartBeatIcon } from "@/components/HeartBeatIcon";
 import { useAuthContext } from "../contexts/AuthContext";
 
-// --- Configuration ---
-// 🌟 FIX APPLIED: Reading VITE_API_URL for consistency with useAuth.tsx 🌟
-// Get API URL from environment variables or use a default for local development
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
-// ---------------------
-
 export default function Signup() {
   const [formData, setFormData] = useState({
     name: "",
@@ -32,7 +26,7 @@ export default function Signup() {
   const [showPopupInstruction, setShowPopupInstruction] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
-  const { directRegister, isRegistering, isAuthenticated, isLoading } =
+  const { directRegister, signInWithGoogle, isRegistering, isAuthenticated, isLoading } =
     useAuthContext();
 
   const navigate = useNavigate();
@@ -66,28 +60,17 @@ export default function Signup() {
     }
   }, [isAuthenticated, isLoading]);
 
-  // Google sign-in: Redirects user to the backend OAuth initiation endpoint
+  // Google sign-in via Firebase Auth (backend OAuth routes are deprecated)
   const handleGoogleSignIn = async () => {
     try {
       setLoading(true);
       setError("");
 
-      // 🌟 ADDED CHECK: Ensure API_URL is defined before redirecting 🌟
-      if (!API_URL) {
-        throw new Error("Backend URL (VITE_API_URL) is not configured.");
-      }
-
       if (typeof window !== "undefined") {
         // Set a flag in session storage to trigger the success modal/onboarding logic later
         sessionStorage.setItem("fromSignup", "true");
       }
-
-      // When signing up via Google, we always want to land on /onboarding
-      const callbackUrl = "/onboarding";
-      // ✅ FIX: Ensure the full API path is used to match server.ts: /api/auth
-      const googleAuthUrl = `${API_URL}/api/auth/google?callbackUrl=${callbackUrl}`;
-
-      window.location.href = googleAuthUrl;
+      await signInWithGoogle();
     } catch (err: any) {
       console.error("Google sign-up error:", err);
       setError(
