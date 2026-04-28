@@ -5,7 +5,6 @@
 import {
   Bell,
   Filter,
-  Sparkles,
   ArrowLeft,
   Settings2,
   Menu,
@@ -15,6 +14,7 @@ import { Link, useLocation } from "react-router-dom";
 // import Image from 'next/image'; // 🌟 VITE FIX 2: Replaced with standard <img>
 import { useUnreadCount } from "@/hooks/useAPI"; // Assuming this hook is non-Next.js compatible
 import { SidebarTrigger } from "../ui/sidebar";
+import { FaithBlissLogo } from "@/components/branding/FaithBlissLogo";
 
 interface TopBarProps {
   userName: string;
@@ -70,8 +70,12 @@ export const TopBar = ({
             to="/dashboard"
             className="flex items-center space-x-4 hover:opacity-80 transition-opacity cursor-pointer"
           >
-            <div className="bg-linear-to-r from-pink-500 to-purple-600 p-2 rounded-2xl">
-              <Sparkles className="w-6 h-6 text-white" />
+            <div className="bg-linear-to-r from-pink-500 to-purple-600 p-1.5 rounded-2xl flex items-center justify-center">
+              <FaithBlissLogo
+                imgProps={{
+                  className: "h-6 w-auto max-w-[5.5rem] shrink-0 object-contain",
+                }}
+              />
             </div>
             <div>
               <h1 className="text-xl capitalize font-bold bg-linear-to-r from-white to-gray-300 bg-clip-text text-transparent">

@@ -3,10 +3,11 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
-import { Eye, EyeOff, Mail, Lock, User, Heart, Sparkles } from "lucide-react";
+import { Eye, EyeOff, Mail, Lock, User, Sparkles } from "lucide-react";
 import { PopupInstruction } from "@/components/auth/PopupInstruction";
 import { SuccessModal } from "@/components/SuccessModal";
 import { HeartBeatIcon } from "@/components/HeartBeatIcon";
+import { FaithBlissLogo } from "@/components/branding/FaithBlissLogo";
 import { useAuthContext } from "../contexts/AuthContext";
 
 export default function Signup() {
@@ -145,9 +146,12 @@ export default function Signup() {
     <div className="max-w-md w-full">
       <div className="bg-gray-800/50 backdrop-blur-xl rounded-2xl p-6 sm:p-8 border border-gray-700/50">
         <div className="text-center mb-8">
-          <div className="flex items-center justify-center gap-2 mb-4">
-            <Heart className="h-8 w-8 text-pink-500" />
-            <span className="text-2xl font-bold text-white">FaithBliss</span>
+          <div className="flex justify-center mb-4">
+            <FaithBlissLogo
+              showWordmark
+              className="justify-center"
+              wordmarkClassName="text-2xl font-bold text-white"
+            />
           </div>
           <h1 className="text-2xl sm:text-3xl font-bold bg-linear-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent mb-2">
             Join FaithBliss

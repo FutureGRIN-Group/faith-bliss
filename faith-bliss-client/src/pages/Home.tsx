@@ -2,6 +2,7 @@ import { Link } from "react-router-dom"; // <-- CHANGED from 'next/link'
 import { Heart, Globe, Users, Target, Shield, Handshake, BookOpen } from "lucide-react";
 import { useState, useEffect } from "react";
 import FadeIn from "../components/FadeIn"; // <-- IMPORTED our component
+import { FaithBlissLogo } from "@/components/branding/FaithBlissLogo";
 
 // All &apos; have been replaced with '
 // All &quot; have been replaced with "
@@ -167,7 +168,9 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             <div className="flex items-center space-x-2">
-              <Heart className="h-8 w-8 text-pink-500" />
+              <FaithBlissLogo
+                imgProps={{ className: "h-8 w-auto shrink-0 object-contain" }}
+              />
               <div className="flex flex-col">
                 <span className="text-2xl font-bold text-white">FaithBliss</span>
                 <span className="text-xs text-pink-300 font-medium">Africa's Trusted Platform for<br />Christian Singles</span>
@@ -450,10 +453,18 @@ export default function Home() {
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col md:flex-row  md:justify-between items-center">
             <div className="mb-8 md:mb-0 text-center md:text-left">
-              <h3 className="text-2xl font-bold  bg-linear-to-r from-pink-400 to-blue-400 bg-clip-text text-transparent">
-                FaithBliss 
-              </h3>
-              <p className="text-gray-400 mt-2">Building faithful connections</p>
+              <div className="flex flex-col md:flex-row md:items-center gap-3">
+                <FaithBlissLogo
+                  className="justify-center md:justify-start"
+                  imgProps={{ className: "h-10 w-auto shrink-0 object-contain" }}
+                />
+                <div>
+                  <h3 className="text-2xl font-bold bg-linear-to-r from-pink-400 to-blue-400 bg-clip-text text-transparent">
+                    FaithBliss
+                  </h3>
+                  <p className="text-gray-400 mt-2">Building faithful connections</p>
+                </div>
+              </div>
             </div>
             
             <div className="flex space-x-8">
