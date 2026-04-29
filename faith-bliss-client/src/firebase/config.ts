@@ -7,7 +7,7 @@ import { getStorage } from 'firebase/storage';
 import { getAnalytics } from "firebase/analytics";
 
 // --- 1. Firebase Configuration Object ---
-// Updated with specific credentials as requested
+// Values are loaded from Vite environment variables.
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
